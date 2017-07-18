@@ -1,0 +1,9 @@
+.metadata/
+.recommenders/
+data/
+music/
+*.project
+*.DS_Store
+*.classpath
+*.settings/
+target/
