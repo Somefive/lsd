@@ -31,6 +31,8 @@ import edu.cmu.mat.lsd.components.JCursor;
 import edu.cmu.mat.lsd.hcmp.HcmpListener;
 import edu.cmu.mat.lsd.hcmp.TimeMap;
 import edu.cmu.mat.lsd.hcmp.HcmpClient;
+import edu.cmu.mat.lsd.ws.BeatMessage;
+import edu.cmu.mat.lsd.ws.DisplayServer;
 import edu.cmu.mat.scores.Arrangement;
 import edu.cmu.mat.scores.Barline;
 import edu.cmu.mat.scores.Block;
@@ -581,32 +583,44 @@ public class DisplayPanel implements Panel, HcmpListener {
 			resetTime();
 			return;
 		}
-		if (_events_index >= _playback_events.size()) {
-			PlaybackEvent end_event = _playback_events.get(_playback_events
-					.size() - 1);
-			Barline end_bar = end_event.getEnd();
-
-			Block end_block = _blocks.get(_current_block_index);
-
-			int x = (int) (end_bar.getOffset() * getJBlock(true)
-					.getImageWidth()) + getJBlock(true).getImageOffset();
-			int y = (int) (end_block.getYOffset(end_bar.getParent()) * _height)
-					+ getJBlock(true).getY();
-
-			_cursor.setPosition(x, y - 5); // y-5: keep cursor inside block
-
-		} else {
-			PlaybackEvent current_event = _playback_events.get(_events_index);
-			Barline current_bar = current_event.getStart();
-
-			Block current_block = _blocks.get(_current_block_index);
-
-			int x = (int) (current_bar.getOffset() * getJBlock(true)
-					.getImageWidth()) + getJBlock(true).getImageOffset();
-			int y = (int) (current_block.getYOffset(current_bar.getParent()) * _height)
-					+ getJBlock(true).getY();
-			_cursor.setPosition(x, y - 5); // y-5: keep cursor inside block
-		}
+		int playBackEventIndex = Math.min(_playback_events.size()-1, _events_index);
+		PlaybackEvent playbackEvent = _playback_events.get(playBackEventIndex);
+		Barline barline = _events_index < _playback_events.size() ? playbackEvent.getStart() : playbackEvent.getEnd();
+		
+		DisplayServer.broadcast(new BeatMessage(barline));
+		
+		Block block = _blocks.get(_current_block_index);
+		int x = (int) (barline.getOffset() * getJBlock(true)
+				.getImageWidth()) + getJBlock(true).getImageOffset();
+		int y = (int) (block.getYOffset(barline.getParent()) * _height)
+				+ getJBlock(true).getY();
+		_cursor.setPosition(x, y - 5); // y-5: keep cursor inside block
+//		if (_events_index >= _playback_events.size()) {
+//			PlaybackEvent end_event = _playback_events.get(_playback_events
+//					.size() - 1);
+//			Barline end_bar = end_event.getEnd();
+//
+//			Block end_block = _blocks.get(_current_block_index);
+//
+//			int x = (int) (end_bar.getOffset() * getJBlock(true)
+//					.getImageWidth()) + getJBlock(true).getImageOffset();
+//			int y = (int) (end_block.getYOffset(end_bar.getParent()) * _height)
+//					+ getJBlock(true).getY();
+//
+//			_cursor.setPosition(x, y - 5); // y-5: keep cursor inside block
+//
+//		} else {
+//			PlaybackEvent current_event = _playback_events.get(_events_index);
+//			Barline current_bar = current_event.getStart();
+//
+//			Block current_block = _blocks.get(_current_block_index);
+//
+//			int x = (int) (current_bar.getOffset() * getJBlock(true)
+//					.getImageWidth()) + getJBlock(true).getImageOffset();
+//			int y = (int) (current_block.getYOffset(current_bar.getParent()) * _height)
+//					+ getJBlock(true).getY();
+//			_cursor.setPosition(x, y - 5); // y-5: keep cursor inside block
+//		}
 		redraw();
 	}
 
