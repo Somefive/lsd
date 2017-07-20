@@ -8,3 +8,4 @@ music/
 *.classpath
 *.settings/
 target/
+*.iml
