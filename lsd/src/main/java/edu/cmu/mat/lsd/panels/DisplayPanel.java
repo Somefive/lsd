@@ -153,59 +153,15 @@ public class DisplayPanel implements Panel, HcmpListener {
 		if (arrangement.size() == 0) {
 			_arrangement.addAll(score.getSections());
 			java.lang.System.out.println(String.valueOf(_arrangement.size()));
-			final List<Page> _pages = _score.getPages();
-	
+			
 			Collections.sort(_arrangement, new Comparator<Section>() {
-  			
-				public int cmp(Page pg1, Page pg2) {
-					int id1 = _pages.indexOf(pg1), id2 = _pages.indexOf(pg2);
-					if (id1 < id2) return -1;
-					if (id1 == id2) return 0;
-					return 1;
-				}
-					
-				public int cmp(System sys1, System sys2) {
-					int loc = cmp(sys1.getParent(), sys2.getParent());
-					if (loc == 0) {
-						if (sys1.getTop() == sys2.getTop()) {
-							return 0;
-						}
-
-						if (sys1.getTop() < sys2.getTop()) {
-							return -1;
-						}
-
-						return 1;
-					}
-					return loc;
-				}
-				
-				public int cmp(Barline bar1, Barline bar2) {
-					int loc = cmp(bar1.getParent(), bar2.getParent());
-					if (loc == 0) {
-						if (bar1.getOffset() == bar2.getOffset()) {
-							return 0;
-						}
-						if (bar1.getOffset() < bar2.getOffset()) {
-							return -1;
-						}
-						return 1;
-					}
-					return loc;
-				}
-		
 				public int compare(Section sec1, Section sec2) {
 					Barline st1 = sec1.getStart(), st2 = sec2.getStart(),
 							ed1 = sec1.getEnd(), ed2 = sec2.getEnd();
-					
-					//Score s = st1.getParent().getParent().getParent();
-					java.lang.System.out.println("mid!");
-					if (_score == null) java.lang.System.out.println("Oh!");
-					int loc = cmp(st1, st2);
-					if (loc == 0) return cmp(ed1, ed2);
+					int loc = st1.compareTo(st2);
+					if (loc == 0) return ed1.compareTo(ed2);
 					else return loc;
 				}
-		
 			}); 
 
 		}
@@ -218,20 +174,11 @@ public class DisplayPanel implements Panel, HcmpListener {
 			int start_beat = start_barlines.indexOf(section.getStart()) * 4;
 			int end_beat = end_barlines.indexOf(section.getEnd()) * 4;
 			int duration = end_beat - start_beat;
-			int initial_end = end_beat;
-
 			message_parts.add( name + "," + (start_beat + offset) + ","
 					+ duration /*+ '"'*/);
-
-			if (initial_end > end_beat) {
-				message_parts.add('"' + name + "," + (end_beat + offset) + ","
-						+ (initial_end - end_beat) + '"');
-			}
 		}
 		for (int i=0; i<arrangement.size();i++)
-		{
-		java.lang.System.out.println(message_parts.get(i).toString());
-		}
+			java.lang.System.out.println(message_parts.get(i));
 		return(message_parts);
 	}
 	
@@ -252,7 +199,6 @@ public class DisplayPanel implements Panel, HcmpListener {
 				boy = boy.concat(list.get(i).toString()+" ");
 				java.lang.System.out.println(boy);
 				String[] c = boy.split(", ");
-//				java.lang.System.out.println(c.length);
 				handleNewArrangement(c);
 				handleNewPosition(0);
 			}
@@ -327,10 +273,8 @@ public class DisplayPanel implements Panel, HcmpListener {
 
 		int width = _scroller.getWidth();
 		int height = _upper_block.getHeight() + _lower_block.getHeight() ;
+		
 		//int height = _scroller.getHeight();
-		java.lang.System.out.println(height+"hauteur");
-		java.lang.System.out.println(width+"largeur");
-
 		//JPanel margin = new JPanel();
 		//margin.setPreferredSize(new Dimension(width, height/3));
 		//margin.setBackground(Color.WHITE);
@@ -512,13 +456,6 @@ public class DisplayPanel implements Panel, HcmpListener {
 							true).getImageWidth())
 							+ getJBlock(true).getImageOffset() - PAGE_LEFT;
 					
-					java.lang.System.out.println("here 1?");
-					
-					double s1 = next_jump_to.getOffset();
-					
-					java.lang.System.out.println("s 1");
-					
-					JBlock s2 = getJBlock(false);
 					java.lang.System.out.println(String.valueOf(_blocks.size()));
 					
 					int from_y = (int) (current_block.getYOffset(next_jump_from

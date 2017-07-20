@@ -29,17 +29,12 @@ public class NewRepeatTool extends Tool {
 			
 			java.lang.System.out.println("in 1");
 			
-		/*	xxx
-			
-			if (end_barline.cmp(_start_barline) == -1) {
+			if (end_barline.compareTo(_start_barline) < 0) {
 				java.lang.System.out.println("in 2");
 				end_barline = _start_barline;
 				_start_barline = tmp_barline;
 				java.lang.System.out.println("in 3");
 			}
-		*/
-		
-			
 		
 			String name = JOptionPane.showInputDialog("Repeat Name");
 			if (name != null && !name.equals("")) {

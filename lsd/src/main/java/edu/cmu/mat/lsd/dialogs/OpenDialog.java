@@ -68,7 +68,6 @@ public class OpenDialog {
 
 	public Score getSelection() {
 		int index = _scoresSelect.getSelectedIndex();
-		System.out.println(index);
 		if (_opened && index >= 0 && index < _scoresSelect.getItemCount()) {
 			return _scoresSelect.getItemAt(index);
 		}

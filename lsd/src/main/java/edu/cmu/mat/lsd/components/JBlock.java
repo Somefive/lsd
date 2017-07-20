@@ -40,14 +40,11 @@ public class JBlock extends JPanel implements ImageObserver {
 	}
 
 	public int getImageWidth() {
-		int i= _image.getWidth();
-		//java.lang.System.out.println(i);
-      return i;
+		return _image.getWidth();
 	}
 
 	public int getImageOffset() {
 		return _width / 2 - _image.getWidth() / 2;
-//        return _width / 2 - 536 / 2;
 	}
 
 	@Override

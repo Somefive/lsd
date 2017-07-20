@@ -45,13 +45,8 @@ public class Repeat {
 		_score = score;
 		_name = other._name;
 		
-		//java.lang.System.out.println(_name);
-		
 		_start_index = other._start_index;
 		_end_index = other._end_index;
-		
-		//java.lang.System.out.println(_start_index);
-		//java.lang.System.out.println(_end_index);
 
 		List<Barline> start_barlines = _score.getStartBarlines();
 		List<Barline> end_barlines = _score.getEndBarlines();
