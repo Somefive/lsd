@@ -342,7 +342,6 @@ public class Score implements ScoreObject {
 
 	public List<Barline> getEndBarlines() {
 		List<Barline> barlines = new LinkedList<Barline>();
-		barlines.add(null);
 
 		List<Page> pages = getPages();
 		for (int page = 0; page < pages.size(); page++) {
