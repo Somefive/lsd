@@ -37,7 +37,7 @@ public class Block {
 
 		if (systems.size() > 0) {
 			_start_system = systems.get(0);
-			_end_system = systems.get(systems.size()-1);
+			_end_system = systems.get(systems.size() - 1);
 		}
 	}
 
@@ -107,7 +107,6 @@ public class Block {
 	}
 
 	public BufferedImage getImage(int pageHeight) {
-		//java.lang.System.out.println("appel fonction");
 		List<Page> pages = _start_system.getParent().getParent().getPages();
 		int startIndex = pages.indexOf(_start_system.getParent());
 		int endIndex = pages.indexOf(_end_system.getParent());
@@ -142,9 +141,7 @@ public class Block {
 			if (i == endIndex) {
 				endSystemIndex = systems.indexOf(_end_system);
 			}
-			java.lang.System.out.println(Instant.now()+"début affichage blocs");
-			java.lang.System.out.println(startSystemIndex+"start index ");
-			java.lang.System.out.println(endSystemIndex+"end index ");
+
 			for (int j = startSystemIndex; j <= endSystemIndex; j++) {
 				System system = systems.get(j);
 
@@ -157,7 +154,6 @@ public class Block {
 
 				dy1 = dy2;
 			}
-			java.lang.System.out.println(Instant.now()+"fin affichage blocs");
 		}
 
 		return image;
@@ -185,7 +181,6 @@ public class Block {
 			BufferedImage image = pages.get(i).getImage().getImage();
 			double scale = ((double) pageHeight) / image.getHeight();
 			maxWidth = Math.max(maxWidth, (int) (image.getWidth() * scale));
-			//maxWidth = (int) (image.getWidth()*scale);
 		}
 		return maxWidth;
 	}
@@ -211,11 +206,9 @@ public class Block {
 			}
 
 			for (int j = startSystemIndex; j <= endSystemIndex; j++) {
-				//if (totalHeight<pageHeight){
 				System system = systems.get(j);
 				totalHeight += (system.getBottom() - system.getTop())
-						 *pageHeight;
-				//}
+						* pageHeight;
 			}
 		}
 		return totalHeight;

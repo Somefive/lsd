@@ -24,6 +24,7 @@ import edu.cmu.mat.scores.Page;
 import edu.cmu.mat.scores.System;
 import edu.cmu.mat.scores.events.Event;
 import edu.cmu.mat.scores.events.SectionStartEvent;
+import edu.cmu.mat.scores.events.RepeatStartEvent;
 
 public class JPage extends JPanel {
 	private static final long serialVersionUID = 4193873080878056943L;
@@ -117,7 +118,16 @@ public class JPage extends JPanel {
 					case SECTION_END:
 						label = ")";
 						break;
-
+					
+					case REPEAT_START:
+						RepeatStartEvent repeatStart = ((RepeatStartEvent) event);
+						label = repeatStart.getRepeat().getName() + " |:";
+						break;
+					
+					case REPEAT_END:
+						label = ":|";
+						break;
+						
 					default:
 						break;
 					}

@@ -174,4 +174,26 @@ public class System implements ScoreObject {
 	public Page getParent() {
 		return _parent;
 	}
+	
+	public int cmp(System x) {
+		java.lang.System.out.println("System 1");
+		int loc = (this.getParent()).cmp(x.getParent());
+
+		java.lang.System.out.println("System 2");
+		if (loc == 0) {
+			if (this.getTop() == x.getTop()) {
+				return 0;
+			}
+			if (this.getTop() < x.getTop()) {
+				return -1;
+			}
+			return 1;
+		}
+		return loc;
+	}
+	
+	public int print() {
+		java.lang.System.out.println("xx");
+		return 1;
+	}
 }

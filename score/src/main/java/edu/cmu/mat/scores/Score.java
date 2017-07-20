@@ -37,28 +37,29 @@ public class Score implements ScoreObject {
 
 	@Expose
 	private Set<Section> _sections;
+	@Expose 
+	private Set<Repeat> _repeats;
 	@Expose
 	private List<Page> _pages;
 	@Expose
 	private Arrangement _arrangement = new Arrangement(this);
 
-	public Score(File root, String name, Set<Section> sections, List<Page> pages) {
+	public Score(File root, String name, Set<Section> sections, Set<Repeat> repeats, List<Page> pages) {
 		_root = root;
 		_name = name;
 		_sections = sections;
+		_repeats = repeats;
 		_pages = pages;
 	}
 
 	public Score(File root, String name) {
-		this(root, name, new HashSet<Section>(), new ArrayList<Page>());
+		this(root, name, new HashSet<Section>(), new HashSet<Repeat>(), new ArrayList<Page>());
 	}
 
 	public Score(File root, String name, List<Image> images) {
 		this(root, name);
 		for (Image image : images) {
-			java.lang.System.out.println(Instant.now()+"début chargement 1 page");
 			_pages.add(new Page(this, image));
-			java.lang.System.out.println(Instant.now()+"fin chargement 1 image");
 		}
 	}
 
@@ -70,6 +71,10 @@ public class Score implements ScoreObject {
 
 		for (Section section : other._sections) {
 			_sections.add(new Section(this, section));
+		}
+		
+		for (Repeat repeat : other._repeats) {
+			_repeats.add(new Repeat(this, repeat));
 		}
 
 		// Initializing arrangements has to come after initializing the pages
@@ -98,9 +103,26 @@ public class Score implements ScoreObject {
 		_sections.add(newSection);
 		return newSection;
 	}
+	
+	public Repeat addRepeat(Barline start, Barline end) {
+		
+		java.lang.System.out.println("xxx");
+		
+		if (start == null || end == null) {
+			return null;
+		}
+		
+		Repeat newRepeat = new Repeat(this, start, end);
+		_repeats.add(newRepeat);
+		return newRepeat;
+	}
 
 	public Set<Section> getSections() {
 		return _sections;
+	}
+	
+	public Set<Repeat> getRepeats() {
+		return _repeats;
 	}
 
 	public Section getSectionByName(String name) {
@@ -113,6 +135,16 @@ public class Score implements ScoreObject {
 		return null;
 	}
 
+	public Repeat getRepeatByName(String name) {
+		for (Repeat repeat : _repeats) {
+			java.lang.System.out.println(name+" "+repeat.getName()+" "+ repeat.getName().equals(name));
+			if (repeat.getName().equals(name)) {
+				return repeat;
+			}
+		}
+		return null;
+	}
+	
 	public void removeSection(Section section) {
 		if (section == null) {
 			return;
@@ -130,6 +162,24 @@ public class Score implements ScoreObject {
 		}
 	}
 
+	public void removeRepeat(Repeat repeat) {
+		if (repeat == null) {
+			return;
+		}
+		
+		_repeats.remove(repeat);
+		Event startEvent = repeat.getStartEvent();
+		Event endEvent = repeat.getEndEvent();
+		
+		if (startEvent != null) {
+			startEvent.getParent().deleteChild(startEvent);
+		}
+		
+		if (endEvent != null) {
+			endEvent.getParent().deleteChild(endEvent);
+		}
+	}
+	
 	public void addPage(Page page) {
 		_pages.add(page);
 	}
@@ -137,7 +187,7 @@ public class Score implements ScoreObject {
 	public void addPages(File[] images) throws IOException {
 		File imagesDir = new File(_root, "images");
 		int num = _pages.size();
-		java.lang.System.out.println(Instant.now()+"début ajout image");
+
 		for (int i = 0; i < images.length; i++) {
 			String fromString = images[i].toString();
 			String ext = fromString.substring(fromString.lastIndexOf('.'));
@@ -145,7 +195,6 @@ public class Score implements ScoreObject {
 			Files.copy(images[i].toPath(), to.toPath());
 			_pages.add(new Page(this, new Image(ImageIO.read(to))));
 		}
-		java.lang.System.out.println(Instant.now()+"fin ajout image");
 	}
 
 	public int getNumberPages() {
@@ -239,11 +288,16 @@ public class Score implements ScoreObject {
 		_arrangement.save(string);
 	}
 
-	private int compareLocation(Page page1, Page page2) {
-		return _pages.indexOf(page1) - _pages.indexOf(page2);
+	public int compareLocation(Page page1, Page page2) {
+		java.lang.System.out.println("s4");
+		int id1 = _pages.indexOf(page1), id2 = _pages.indexOf(page2);
+		if (id1 < id2) return -1;
+		if (id1 == id2) return 0;
+		return 1;
+		//return _pages.indexOf(page1) - _pages.indexOf(page2);
 	}
 
-	private int compareLocation(System sys1, System sys2) {
+	public int compareLocation(System sys1, System sys2) {
 		int loc = compareLocation(sys1.getParent(), sys2.getParent());
 		if (loc == 0) {
 			if (sys1.getTop() == sys2.getTop()) {
@@ -259,7 +313,7 @@ public class Score implements ScoreObject {
 		return loc;
 	}
 
-	private int compareLocation(Barline bar1, Barline bar2) {
+	public int compareLocation(Barline bar1, Barline bar2) {
 		int loc = compareLocation(bar1.getParent(), bar2.getParent());
 		if (loc == 0) {
 			if (bar1.getOffset() == bar2.getOffset()) {
@@ -294,14 +348,22 @@ public class Score implements ScoreObject {
 		for (Section section : _sections) {
 			section.normalize();
 		}
+		
+		for (Repeat repeat : _repeats) {
+			repeat.normalize();
+		}
 	}
 
 	public void delete() {
-		// TODO: Allow removal of score.
+		for (Page page : _pages) {
+			page.delete();
+		}
 	}
 
 	public void deleteChild(ScoreObject child) {
-		// TODO: Remove page.
+		if (_pages.remove(child)) {
+			child.delete();
+		}
 	}
 
 	public List<Barline> getStartBarlines() {
@@ -339,6 +401,24 @@ public class Score implements ScoreObject {
 		return barlines;
 	}
 
+	private List<PlaybackEvent> add(Section _section, List<Barline> start_barlines, List<Barline> end_barlines) {
+		Barline start_barline = _section.getStart();
+		Barline end_barline = _section.getEnd();
+		int start = start_barlines.indexOf(start_barline);
+		int end = end_barlines.indexOf(end_barline);
+		
+		List<PlaybackEvent> section_events = new ArrayList<PlaybackEvent>();
+		int duration = 4;
+		boolean is_first = true;
+		for (int i = start; i < end; i++) {
+			section_events.add(new PlaybackEvent(_section,
+					start_barlines.get(i), end_barlines.get(i),
+					duration, is_first));
+			is_first = false;
+		}
+		return section_events;
+	}
+	
 	public List<PlaybackEvent> createPlaybackEvents(String[] arrangement_string) {
 		try {
 			List<PlaybackEvent> events = new LinkedList<PlaybackEvent>();
@@ -346,6 +426,17 @@ public class Score implements ScoreObject {
 			List<Barline> start_barlines = getStartBarlines();
 			List<Barline> end_barlines = getEndBarlines();
 
+			java.lang.System.out.println("Playback start");
+
+			if (arrangement_string.length == 0) {
+				for (Section section : _sections) {
+					
+					List<PlaybackEvent> section_events = add(section, start_barlines, end_barlines);
+
+					events.addAll(section_events);
+				}
+			}
+			else 
 			for (String section_string : arrangement_string) {
 				String[] parts = section_string.split(",");
 				String name = parts[0];
@@ -360,21 +451,8 @@ public class Score implements ScoreObject {
 									+ name);
 					continue;
 				}
-
-				Barline start_barline = section.getStart();
-				Barline end_barline = section.getEnd();
-				int start = start_barlines.indexOf(start_barline);
-				int end = end_barlines.indexOf(end_barline);
-
-				List<PlaybackEvent> section_events = new ArrayList<PlaybackEvent>();
-				int duration = 4;
-				boolean is_first = true;
-				for (int i = start; i < end; i++) {
-					section_events.add(new PlaybackEvent(section,
-							start_barlines.get(i), end_barlines.get(i + 1),
-							duration, is_first));
-					is_first = false;
-				}
+				
+				List<PlaybackEvent> section_events = add(section, start_barlines, end_barlines);
 
 				events.addAll(section_events);
 			}
@@ -402,8 +480,7 @@ public class Score implements ScoreObject {
 		return null;
 	}
 
-	private Block createCurrentBlock(List<Block> blocks, System first,
-			double block_height) {
+	private Block createCurrentBlock(System first, double block_height) {
 		List<System> systems = new ArrayList<System>();
 		System previous = null;
 		System current = first;
@@ -412,7 +489,7 @@ public class Score implements ScoreObject {
 		while (current != null && current_height <= block_height) {
 
 			previous = current;
-			current = getNextSystemInScore(current);
+			current = getNextSystemInScore(previous);
 
 			if (current != null) {
 				current_height += current.getBottom() - current.getTop();
@@ -486,7 +563,7 @@ public class Score implements ScoreObject {
 		PlaybackEvent current_event = events.get(event_start_index);
 		System next_block_start = current_event.getStart().getParent();
 		while (next_block_start != null) {
-			Block block = createCurrentBlock(blocks, next_block_start,
+			Block block = createCurrentBlock(next_block_start,
 					block_height);
 			blocks.add(block);
 
@@ -502,6 +579,4 @@ public class Score implements ScoreObject {
 		}
 		return blocks;
 	}
-	
-	
 }

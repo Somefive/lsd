@@ -104,5 +104,16 @@ public class Page implements ScoreObject {
 	public void setInactive() {
 		// Does nothing.
 	}
+	
+	public int cmp(Page x) {
+		java.lang.System.out.println("Page 1");
+		int index1 = 0, index2 = 0;
+		Score sc1 = this.getParent(), sc2 = x.getParent();
+		index1 = sc1.getPages().indexOf(this); 
+		index2 = sc2.getPages().indexOf(x);
+		if (index1 < index2) return -1;
+		if (index1 == index2) return 0;
+		return 1;
+	}
 
 }

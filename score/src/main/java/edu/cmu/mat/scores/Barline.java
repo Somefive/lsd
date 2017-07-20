@@ -100,4 +100,20 @@ public class Barline implements ScoreObject {
 	public boolean isRight(double x) {
 		return x < _offset;
 	}
+	
+	public int cmp(Barline x) {
+		java.lang.System.out.println("Barline 1");
+		int loc = (this.getParent()).cmp(x.getParent());
+		java.lang.System.out.println("Barline 2");
+		if (loc == 0) {
+			if (this.getOffset() == x.getOffset()) {
+				return 0;
+			}
+			if (this.getOffset() < x.getOffset()) {
+				return -1;
+			}
+			return 1;
+		}
+		return loc;
+	}
 }
