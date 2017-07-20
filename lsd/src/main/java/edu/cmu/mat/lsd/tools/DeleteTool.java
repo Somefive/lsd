@@ -4,7 +4,11 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 
 import edu.cmu.mat.lsd.Model;
+import edu.cmu.mat.scores.Score;
 import edu.cmu.mat.scores.Page;
+import edu.cmu.mat.scores.System;
+import edu.cmu.mat.scores.Section;
+import edu.cmu.mat.scores.Barline;
 import edu.cmu.mat.scores.ScoreObject;
 
 public class DeleteTool extends Tool {
@@ -19,9 +23,24 @@ public class DeleteTool extends Tool {
 
 	@Override
 	public boolean mouseClicked(Page page, MouseEvent event) {
+		
+		java.lang.System.out.println(String.valueOf(_scoreObject == null));
+		
+		//java.lang.System.out.println(String.valueOf(_scoreObject.getParent() == null));
+		
+		//java.lang.System.out.println(String.valueOf(_scoreObject instanceof System));
+		
+		if (_scoreObject == null){
+			java.lang.System.out.println("xxx");
+			java.lang.System.out.println(String.valueOf(_page == null));
+			_model.deleteChild(_page.getParent(), _page);
+			_page = null;
+		}
+		else
 		if (_scoreObject != null && _scoreObject.getParent() != null) {
 			_model.deleteChild(_scoreObject.getParent(), _scoreObject);
 		}
+		
 		return true;
 	}
 

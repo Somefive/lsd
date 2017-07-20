@@ -26,12 +26,15 @@ import edu.cmu.mat.lsd.ControllerListener;
 import edu.cmu.mat.lsd.Model;
 import edu.cmu.mat.scores.Score;
 import edu.cmu.mat.scores.Section;
+import edu.cmu.mat.scores.Repeat;
 
 public class NotationToolbar implements Toolbar, ControllerListener {
 	private Model _model;
 	private JToolBar _toolbar = new JToolBar("NotationTools");
 	JTextArea _sections;
+	JTextArea _repeats;
 	JTextArea _arrangement;
+    JTextArea _page;
 
 	public NotationToolbar(Model model) {
 		_model = model;
@@ -42,11 +45,13 @@ public class NotationToolbar implements Toolbar, ControllerListener {
 		JButton moveButton = new JButton("Move");
 		JButton deleteButton = new JButton("Delete");
 		JButton noneButton = new JButton("None");
+		JButton swapButton = new JButton("Swap");
 
 		_toolbar.add(newButton);
 		_toolbar.add(moveButton);
 		_toolbar.add(deleteButton);
 		_toolbar.add(noneButton);
+		_toolbar.add(swapButton);
 
 		_toolbar.addSeparator();
 
@@ -56,7 +61,7 @@ public class NotationToolbar implements Toolbar, ControllerListener {
 		_toolbar.add(section_label);
 		_toolbar.addSeparator(new Dimension(8, 0));
 		_toolbar.add(_sections);
-
+		
 		_toolbar.addSeparator();
 
 		JLabel arrangement_label = new JLabel("Arrangement:");
@@ -69,6 +74,15 @@ public class NotationToolbar implements Toolbar, ControllerListener {
 
 		JButton saveArrangementButton = new JButton("Save Arrangement");
 		_toolbar.add(saveArrangementButton);
+		
+		_toolbar.addSeparator();
+
+		JLabel repeat_label = new JLabel("Repeats:");
+		_repeats = new JTextArea();
+		_repeats.setEditable(false);
+		_toolbar.add(repeat_label);
+		_toolbar.addSeparator(new Dimension(8, 0));
+		_toolbar.add(_repeats);
 
 		onUpdateScore();
 
@@ -97,6 +111,14 @@ public class NotationToolbar implements Toolbar, ControllerListener {
 				_model.setCurrentTool(_model.NEW_SECTION_TOOL);
 			}
 		}));
+		
+		newPopupMenu.add(new JMenuItem(new AbstractAction("Repeat") {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent event) {
+				_model.setCurrentTool(_model.NEW_REPEAT_TOOL);
+			}
+		}));
 
 		newButton.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent event) {
@@ -117,6 +139,12 @@ public class NotationToolbar implements Toolbar, ControllerListener {
 			}
 		});
 
+		swapButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				_model.setCurrentTool(_model.SWAP_TOOL);
+			}
+		});
+		
 		noneButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				_model.setCurrentTool(null);

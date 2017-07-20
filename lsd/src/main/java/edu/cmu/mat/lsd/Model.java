@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
@@ -22,9 +21,11 @@ import edu.cmu.mat.lsd.cache.ImageCache;
 import edu.cmu.mat.lsd.hcmp.HcmpClient;
 import edu.cmu.mat.lsd.menus.listeners.DisplayMenuListener;
 import edu.cmu.mat.lsd.tools.DeleteTool;
+import edu.cmu.mat.lsd.tools.SwapTool;
 import edu.cmu.mat.lsd.tools.MoveTool;
 import edu.cmu.mat.lsd.tools.NewBarlineTool;
 import edu.cmu.mat.lsd.tools.NewSectionTool;
+import edu.cmu.mat.lsd.tools.NewRepeatTool;
 import edu.cmu.mat.lsd.tools.NewSystemTool;
 import edu.cmu.mat.lsd.tools.Tool;
 import edu.cmu.mat.parsers.exceptions.CompilerException;
@@ -32,6 +33,7 @@ import edu.cmu.mat.scores.Barline;
 import edu.cmu.mat.scores.Score;
 import edu.cmu.mat.scores.ScoreObject;
 import edu.cmu.mat.scores.Section;
+import edu.cmu.mat.scores.Repeat;
 
 public class Model implements DisplayMenuListener {
 	private Controller _controller;
@@ -75,8 +77,10 @@ public class Model implements DisplayMenuListener {
 	public final Tool NEW_SYSTEM_TOOL = new NewSystemTool();
 	public final Tool NEW_BARLINE_TOOL = new NewBarlineTool();
 	public final Tool NEW_SECTION_TOOL = new NewSectionTool(this);
+	public final Tool NEW_REPEAT_TOOL = new NewRepeatTool(this);
 	public final Tool MOVE_TOOL = new MoveTool();
 	public final Tool DELETE_TOOL = new DeleteTool(this);
+	public final Tool SWAP_TOOL = new SwapTool(this);
 
 	public final static int VIEW_NOTATION = 0;
 	public final static int VIEW_DISPLAY = 1;
@@ -341,7 +345,6 @@ public class Model implements DisplayMenuListener {
 		if (scores == null) {
 			return;
 		}
-		java.lang.System.out.println(Instant.now()+"début chargement score");
 		for (File score : scores) {
 			try {
 				Score newScore = Score.fromDirectory(score);
@@ -353,7 +356,6 @@ public class Model implements DisplayMenuListener {
 				e.printStackTrace();
 			}
 		}
-		java.lang.System.out.println(Instant.now()+"fin chargement score");
 	}
 
 	public void sendArrangement() {
@@ -367,13 +369,26 @@ public class Model implements DisplayMenuListener {
 			list_model.addElement(section.getName());
 		}
 	}
+	
+	public void loadRepeats(DefaultListModel<String> list_model) {
+		list_model.removeAllElements();
+		Score score = getCurrentScore();
+		for (Repeat repeat : score.getRepeats()) {
+			list_model.addElement(repeat.getName());
+		}
+	}
 
 	public void addSection(String name, Barline start_barline,
 			Barline end_barline) {
 		getCurrentScore().addSection(start_barline, end_barline).setName(name);
 		_controller.modelUpdated();
 	}
-
+	
+	public void addRepeat(String name, Barline start_barline, Barline end_barline) {
+		getCurrentScore().addRepeat(start_barline, end_barline).setName(name);
+		_controller.modelUpdated();
+	}
+	
 	public HcmpClient getHcmp() {
 		return _hcmp;
 	}
@@ -408,5 +423,8 @@ public class Model implements DisplayMenuListener {
 	public void deleteChild(ScoreObject parent, ScoreObject child) {
 		parent.deleteChild(child);
 		_controller.scoreUpdated();
+	}
+	
+	public void swapChild(ScoreObject parent) {
 	}
 }

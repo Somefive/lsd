@@ -595,9 +595,9 @@ public class DisplayPanel implements Panel, HcmpListener {
 		int playBackEventIndex = Math.min(_playback_events.size()-1, _events_index);
 		PlaybackEvent playbackEvent = _playback_events.get(playBackEventIndex);
 		Barline barline = _events_index < _playback_events.size() ? playbackEvent.getStart() : playbackEvent.getEnd();
-		
+
 		DisplayServer.broadcast(new BeatMessage(barline));
-		
+
 		Block block = _blocks.get(_current_block_index);
 		int x = (int) (barline.getOffset() * getJBlock(true)
 				.getImageWidth()) + getJBlock(true).getImageOffset();

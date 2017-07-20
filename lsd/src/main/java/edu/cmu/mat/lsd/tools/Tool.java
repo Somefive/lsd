@@ -11,9 +11,11 @@ import edu.cmu.mat.scores.Barline;
 import edu.cmu.mat.scores.Page;
 import edu.cmu.mat.scores.ScoreObject;
 import edu.cmu.mat.scores.Section;
+import edu.cmu.mat.scores.Repeat;
 import edu.cmu.mat.scores.System;
 import edu.cmu.mat.scores.events.Event;
 import edu.cmu.mat.scores.events.SectionStartEvent;
+import edu.cmu.mat.scores.events.RepeatStartEvent;
 
 public abstract class Tool {
 
@@ -136,11 +138,13 @@ public abstract class Tool {
 						break;
 
 					case SECTION_END:
-						text = ")";
+						text = ") ";
 						break;
 
 					case REPEAT_START:
-						text = "|:";
+						Repeat repeat = ((RepeatStartEvent) barline_event)
+								.getRepeat();
+						text = repeat.getName() + "|:";
 						break;
 
 					case REPEAT_END:
