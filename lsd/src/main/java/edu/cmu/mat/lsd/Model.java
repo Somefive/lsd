@@ -36,6 +36,9 @@ import edu.cmu.mat.scores.Section;
 import edu.cmu.mat.scores.Repeat;
 
 public class Model implements DisplayMenuListener {
+	
+	public static Model Instance;
+	
 	private Controller _controller;
 	private Gson _gson;
 

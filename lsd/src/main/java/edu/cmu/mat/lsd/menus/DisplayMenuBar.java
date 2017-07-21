@@ -230,7 +230,6 @@ public class DisplayMenuBar extends JMenuBar implements ControllerListener {
 	}
 
 	public void onUpdateLibraryPath() {
-		System.out.println("onUpdateLibPath");
 		_open.removeAll();
 		List<Score> scores = _model.getScoreList();
 		ButtonGroup group = new ButtonGroup();

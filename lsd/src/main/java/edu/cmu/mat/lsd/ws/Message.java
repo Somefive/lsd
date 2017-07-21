@@ -7,8 +7,8 @@ import java.util.Date;
 @SuppressWarnings("ALL")
 public class Message {
 	private static Gson gson = new Gson();
-	private String type;
-	private Long timestamp;
+	public String type;
+	public Long timestamp;
 	public Message(String _type) {
 		type = _type;
 	}
