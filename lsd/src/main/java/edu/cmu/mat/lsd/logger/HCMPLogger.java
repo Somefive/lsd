@@ -48,10 +48,11 @@ public class HCMPLogger {
 	
 	public static void setup() {
 		logger = Logger.getLogger("HCMP");
-		logger.setLevel(Level.FINE);
+		logger.setLevel(Level.FINEST);
 		logger.setUseParentHandlers(false);
 		handler = new HCMPHandler();
 		handler.setFormatter(formatter);
+		handler.setLevel(Level.ALL);
 		logger.addHandler(handler);
 	}
 	

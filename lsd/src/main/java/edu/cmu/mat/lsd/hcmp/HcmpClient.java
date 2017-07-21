@@ -44,7 +44,7 @@ public class HcmpClient implements HcmpMessenger {
 	}
 
 	public void start(String ipAddress, String portPull, String portPublish) {
-		HCMPLogger.info("[ZMQ] starting on: " + ipAddress + " " + portPull
+		HCMPLogger.fine("[ZMQ] starting on: " + ipAddress + " " + portPull
 				+ " " + portPublish);
 		connect(ipAddress, portPull, portPublish);
 
@@ -60,7 +60,7 @@ public class HcmpClient implements HcmpMessenger {
 				if (byte_message != null) {
 					String message = new String(byte_message);
 
-					HCMPLogger.info("[ZMQ] message received: " + message
+					HCMPLogger.fine("[ZMQ] message received: " + message
 							+ ", counter = " + counter.get());
 
 					try {
@@ -190,7 +190,7 @@ public class HcmpClient implements HcmpMessenger {
 		disconnect();
 
 		if (timer != null) {
-			HCMPLogger.info("[ZMQ] stopping");
+			HCMPLogger.fine("[ZMQ] stopping");
 			timer.stop();
 			timer = null;
 		}
