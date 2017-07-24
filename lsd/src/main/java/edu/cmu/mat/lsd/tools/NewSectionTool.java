@@ -29,12 +29,7 @@ public class NewSectionTool extends Tool {
 		Barline tmp_barline = end_barline;
 		if (end_barline != _start_barline && end_barline != null) {
 			
-			java.lang.System.out.println("in 1");
-			
-			
-		
-			if (end_barline.cmp(_start_barline) == -1) {
-				java.lang.System.out.println("in 2");
+			if (end_barline.compareTo(_start_barline) < 0) {
 				end_barline = _start_barline;
 				_start_barline = tmp_barline;
 				java.lang.System.out.println("in 3");
@@ -49,8 +44,6 @@ public class NewSectionTool extends Tool {
 				
 				_start_barline = _barlines.get(_barlines.indexOf(_start_barline) - 1);
 			}
-		
-			end_barline.getParent().print();
 		
 			String name = JOptionPane.showInputDialog("Section Name");
 			if (name != null && !name.equals("")) {

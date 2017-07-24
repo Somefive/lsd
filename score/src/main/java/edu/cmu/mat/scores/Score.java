@@ -4,15 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.time.Instant;
+import java.util.*;
 
 import javax.imageio.ImageIO;
 
@@ -83,6 +76,8 @@ public class Score implements ScoreObject {
 			_sections.add(new Section(this, section));
 		}
 		
+		if (other._repeats == null)
+			other._repeats = new HashSet<>();
 		for (Repeat repeat : other._repeats) {
 			_repeats.add(new Repeat(this, repeat));
 		}
@@ -116,8 +111,6 @@ public class Score implements ScoreObject {
 	
 	public Repeat addRepeat(Barline barline, Type type) {
 		
-		java.lang.System.out.println("xxx");
-		
 		if (barline == null || type == null) {
 			return null;
 		}
@@ -137,7 +130,6 @@ public class Score implements ScoreObject {
 
 	public Section getSectionByName(String name) {
 		for (Section section : _sections) {
-//			java.lang.System.out.println(name+" "+section.getName()+" "+section.getName().equals(name));
 			if (section.getName().equals(name)) {
 				return section;
 			}
@@ -294,47 +286,8 @@ public class Score implements ScoreObject {
 		return _arrangement.getList();
 	}
 
-	public void saveArrangment(String string) {
+	public void saveArrangement(String string) {
 		_arrangement.save(string);
-	}
-
-	public int compareLocation(Page page1, Page page2) {
-		java.lang.System.out.println("s4");
-		int id1 = _pages.indexOf(page1), id2 = _pages.indexOf(page2);
-		if (id1 < id2) return -1;
-		if (id1 == id2) return 0;
-		return 1;
-		//return _pages.indexOf(page1) - _pages.indexOf(page2);
-	}
-
-	public int compareLocation(System sys1, System sys2) {
-		int loc = compareLocation(sys1.getParent(), sys2.getParent());
-		if (loc == 0) {
-			if (sys1.getTop() == sys2.getTop()) {
-				return 0;
-			}
-
-			if (sys1.getTop() < sys2.getTop()) {
-				return -1;
-			}
-
-			return 1;
-		}
-		return loc;
-	}
-
-	public int compareLocation(Barline bar1, Barline bar2) {
-		int loc = compareLocation(bar1.getParent(), bar2.getParent());
-		if (loc == 0) {
-			if (bar1.getOffset() == bar2.getOffset()) {
-				return 0;
-			}
-			if (bar1.getOffset() < bar2.getOffset()) {
-				return -1;
-			}
-			return 1;
-		}
-		return loc;
 	}
 
 	public ScoreObject move(Point distance, ScoreObject intersect) {
@@ -395,7 +348,6 @@ public class Score implements ScoreObject {
 
 	public List<Barline> getEndBarlines() {
 		List<Barline> barlines = new LinkedList<Barline>();
-		//barlines.add(null);
 
 		List<Page> pages = getPages();
 		for (int page = 0; page < pages.size(); page++) {
@@ -642,12 +594,7 @@ public class Score implements ScoreObject {
 	public boolean outOfBlock(Block block, Barline start) {
 		System block_start = block.getStartSystem();
 		System block_end = block.getEndSystem();
-
-		if (compareLocation(start.getParent(), block_start) < 0
-				|| compareLocation(start.getParent(), block_end) > 0) {
-			return true;
-		}
-		return false;
+		return start.getParent().compareTo(block_start) < 0 || start.getParent().compareTo(block_end) > 0;
 	}
 
 	private boolean isJump(Barline curr, Barline next) {

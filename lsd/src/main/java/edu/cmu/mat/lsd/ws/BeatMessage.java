@@ -5,10 +5,11 @@ import edu.cmu.mat.scores.Page;
 import edu.cmu.mat.scores.Score;
 import edu.cmu.mat.scores.System;
 
+@SuppressWarnings("ALL")
 public class BeatMessage extends Message {
-	private int barlineNumber;
-	private int systemNumber;
-	private int pageNumber;
+	public int barlineNumber;
+	public int systemNumber;
+	public int pageNumber;
 	public BeatMessage(Barline barline) {
 		super("beat");
 		System system = barline.getParent();

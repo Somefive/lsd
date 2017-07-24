@@ -38,6 +38,9 @@ import edu.cmu.mat.scores.events.Event;
 import edu.cmu.mat.scores.events.Event.Type;
 
 public class Model implements DisplayMenuListener {
+	
+	public static Model Instance;
+	
 	private Controller _controller;
 	private Gson _gson;
 

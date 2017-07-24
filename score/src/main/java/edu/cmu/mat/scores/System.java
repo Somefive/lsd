@@ -9,7 +9,7 @@ import com.google.gson.annotations.Expose;
 
 import edu.cmu.mat.geom.Point;
 
-public class System implements ScoreObject {
+public class System implements ScoreObject, Comparable<System> {
 	private Page _parent;
 	@Expose
 	private double _top;
@@ -175,25 +175,9 @@ public class System implements ScoreObject {
 		return _parent;
 	}
 	
-	public int cmp(System x) {
-		java.lang.System.out.println("System 1");
-		int loc = (this.getParent()).cmp(x.getParent());
-
-		java.lang.System.out.println("System 2");
-		if (loc == 0) {
-			if (this.getTop() == x.getTop()) {
-				return 0;
-			}
-			if (this.getTop() < x.getTop()) {
-				return -1;
-			}
-			return 1;
-		}
-		return loc;
-	}
-	
-	public int print() {
-		java.lang.System.out.println("xx");
-		return 1;
+	@Override
+	public int compareTo(System o) {
+		int loc = this.getParent().compareTo(o.getParent());
+		return loc == 0 ? Double.compare(this.getTop(), o.getTop()) : loc;
 	}
 }

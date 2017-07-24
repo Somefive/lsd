@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.Timer;
 
+import edu.cmu.mat.lsd.logger.HCMPLogger;
 import org.zeromq.ZMQ;
 
 import com.google.common.base.Joiner;
@@ -43,7 +44,7 @@ public class HcmpClient implements HcmpMessenger {
 	}
 
 	public void start(String ipAddress, String portPull, String portPublish) {
-		System.out.println("ZMQ starting on: " + ipAddress + " " + portPull
+		HCMPLogger.fine("[ZMQ] starting on: " + ipAddress + " " + portPull
 				+ " " + portPublish);
 		connect(ipAddress, portPull, portPublish);
 
@@ -59,7 +60,7 @@ public class HcmpClient implements HcmpMessenger {
 				if (byte_message != null) {
 					String message = new String(byte_message);
 
-					System.out.println("message received: " + message
+					HCMPLogger.fine("[ZMQ] message received: " + message
 							+ ", counter = " + counter.get());
 
 					try {
@@ -189,7 +190,7 @@ public class HcmpClient implements HcmpMessenger {
 		disconnect();
 
 		if (timer != null) {
-			System.out.println("ZMQ stopping");
+			HCMPLogger.fine("[ZMQ] stopping");
 			timer.stop();
 			timer = null;
 		}
@@ -261,7 +262,7 @@ public class HcmpClient implements HcmpMessenger {
 	}
 
 	private void sendMessage(String message) {
-		System.out.println("sending message: " + message);
+		HCMPLogger.info("[HCMPClient] sending message: " + message);
 		// XXX: This uses the platform's default charset. UTF-8?
 		publish.send(message.getBytes(), 0);
 	}

@@ -56,8 +56,6 @@ public class Repeat {
 		_name = other._name;
 		_type = other._type;
 		
-		//java.lang.System.out.println(_name);
-		
 		
 		_barline_index = other._barline_index;
 		

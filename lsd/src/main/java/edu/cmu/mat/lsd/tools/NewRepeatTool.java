@@ -37,7 +37,12 @@ public class NewRepeatTool extends Tool {
 			
 			java.lang.System.out.println("in 1");
 			
+<<<<<<< HEAD
 			if (end_barline.cmp(_start_barline) == -1) {
+=======
+			if (end_barline.compareTo(_start_barline) < 0) {
+				java.lang.System.out.println("in 2");
+>>>>>>> 2844bf60b2f04d59063092f172bc2be88bbd2d86
 				end_barline = _start_barline;
 				_start_barline = tmp_barline;
 				

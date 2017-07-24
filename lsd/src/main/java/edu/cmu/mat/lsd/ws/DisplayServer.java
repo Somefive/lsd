@@ -1,5 +1,6 @@
 package edu.cmu.mat.lsd.ws;
 
+import edu.cmu.mat.lsd.logger.HCMPLogger;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.websocket.server.WebSocketHandler;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
@@ -29,6 +30,7 @@ public class DisplayServer extends Server {
 	}
 	
 	public static void broadcast(Message message) {
+		HCMPLogger.info("[DisplayServer] sending message " + message.type);
 		DisplayServerHandler.Sessions.removeIf(session -> !session.isOpen());
 		DisplayServerHandler.Sessions.forEach(session -> session.getRemote().sendStringByFuture(message.toJson()));
 	}

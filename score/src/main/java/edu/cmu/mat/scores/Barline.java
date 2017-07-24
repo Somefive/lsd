@@ -8,7 +8,7 @@ import com.google.gson.annotations.Expose;
 import edu.cmu.mat.geom.Point;
 import edu.cmu.mat.scores.events.Event;
 
-public class Barline implements ScoreObject {
+public class Barline implements ScoreObject, Comparable<Barline> {
 	private System _parent;
 	private int _state = NOT_ACTIVE;
 	@Expose
@@ -103,19 +103,9 @@ public class Barline implements ScoreObject {
 		return x < _offset;
 	}
 	
-	public int cmp(Barline x) {
-		java.lang.System.out.println("Barline 1");
-		int loc = (this.getParent()).cmp(x.getParent());
-		java.lang.System.out.println("Barline 2");
-		if (loc == 0) {
-			if (this.getOffset() == x.getOffset()) {
-				return 0;
-			}
-			if (this.getOffset() < x.getOffset()) {
-				return -1;
-			}
-			return 1;
-		}
-		return loc;
+	@Override
+	public int compareTo(Barline o) {
+		int loc = this.getParent().compareTo(o.getParent());
+		return loc == 0 ? Double.compare(this.getOffset(), o.getOffset()) : loc;
 	}
 }

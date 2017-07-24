@@ -9,7 +9,7 @@ import com.google.gson.annotations.Expose;
 
 import edu.cmu.mat.geom.Point;
 
-public class Page implements ScoreObject {
+public class Page implements ScoreObject, Comparable<Page> {
 	private Score _parent;
 	private Image _image;
 	@Expose
@@ -105,15 +105,9 @@ public class Page implements ScoreObject {
 		// Does nothing.
 	}
 	
-	public int cmp(Page x) {
-		java.lang.System.out.println("Page 1");
-		int index1 = 0, index2 = 0;
-		Score sc1 = this.getParent(), sc2 = x.getParent();
-		index1 = sc1.getPages().indexOf(this); 
-		index2 = sc2.getPages().indexOf(x);
-		if (index1 < index2) return -1;
-		if (index1 == index2) return 0;
-		return 1;
+	@Override
+	public int compareTo(Page o) {
+		List<Page> pages = getParent().getPages();
+		return Integer.compare(pages.indexOf(this), pages.indexOf(o));
 	}
-
 }

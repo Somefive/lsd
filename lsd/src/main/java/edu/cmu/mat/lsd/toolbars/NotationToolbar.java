@@ -24,9 +24,9 @@ import com.google.common.base.Joiner;
 
 import edu.cmu.mat.lsd.ControllerListener;
 import edu.cmu.mat.lsd.Model;
+import edu.cmu.mat.scores.Repeat;
 import edu.cmu.mat.scores.Score;
 import edu.cmu.mat.scores.Section;
-import edu.cmu.mat.scores.Repeat;
 
 public class NotationToolbar implements Toolbar, ControllerListener {
 	private Model _model;
@@ -269,7 +269,7 @@ public class NotationToolbar implements Toolbar, ControllerListener {
 			public void keyReleased(KeyEvent e) {
 				Score score = _model.getCurrentScore();
 				if (score != null) {
-					score.saveArrangment(_arrangement.getText());
+					score.saveArrangement(_arrangement.getText());
 				}
 			}
 
