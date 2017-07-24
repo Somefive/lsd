@@ -1,0 +1,1295 @@
+Count closuer = 1398
+ shift: I0->s2  , {
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s18  , block
+> Stage: 0 2 | 18
+> TreeS: { block
+
+reduce: I18->r19  , E -> block 
+size of stack = 2 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->r9s17  , |:
+> Stage: 0 2 16 | 17
+> TreeS: { E |:
+
+ shift: I17->s61  , block
+> Stage: 0 2 16 17 | 61
+> TreeS: { E |: block
+
+reduce: I61->r19  , E -> block 
+size of stack = 4 -> 3
+> Stage: 0 2 16 | 17
+> TreeS: { E |:
+
+ shift: I17->s59  , E
+> Stage: 0 2 16 17 | 59
+> TreeS: { E |: E
+
+ shift: I59->s110  , :|
+> Stage: 0 2 16 17 59 | 110
+> TreeS: { E |: E :|
+
+reduce: I110->r15  , E -> |: E :| 
+size of stack = 5 -> 2
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->s58  , E
+> Stage: 0 2 16 | 58
+> TreeS: { E E
+
+ shift: I58->r16s18  , block
+> Stage: 0 2 16 58 | 18
+> TreeS: { E E block
+
+reduce: I18->r19  , E -> block 
+size of stack = 4 -> 3
+> Stage: 0 2 16 | 58
+> TreeS: { E E
+
+ shift: I58->s58  , E
+> Stage: 0 2 16 58 | 58
+> TreeS: { E E E
+
+reduce: I58->r16  , E -> E E 
+size of stack = 4 -> 2
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->s58  , E
+> Stage: 0 2 16 | 58
+> TreeS: { E E
+
+reduce: I58->r16  , E -> E E 
+size of stack = 3 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+reduce: I16->r9  , L -> { E 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s1  , L
+> Stage: 0 | 1
+> TreeS: L
+
+ shift: I1->s4  , }
+> Stage: 0 1 | 4
+> TreeS: L }
+
+reduce: I4->r0  , S -> L } 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s2  , {
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s18  , block
+> Stage: 0 2 | 18
+> TreeS: { block
+
+reduce: I18->r19  , E -> block 
+size of stack = 2 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->r9s18  , block
+> Stage: 0 2 16 | 18
+> TreeS: { E block
+
+reduce: I18->r19  , E -> block 
+size of stack = 3 -> 2
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->s58  , E
+> Stage: 0 2 16 | 58
+> TreeS: { E E
+
+reduce: I58->r16  , E -> E E 
+size of stack = 3 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+reduce: I16->r9  , L -> { E 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s1  , L
+> Stage: 0 | 1
+> TreeS: L
+
+ shift: I1->s10  , :|
+> Stage: 0 1 | 10
+> TreeS: L :|
+
+ shift: I10->r10s24  , block
+> Stage: 0 1 10 | 24
+> TreeS: L :| block
+
+reduce: I24->r19  , E -> block 
+size of stack = 3 -> 2
+> Stage: 0 1 | 10
+> TreeS: L :|
+
+ shift: I10->s49  , E
+> Stage: 0 1 10 | 49
+> TreeS: L :| E
+
+reduce: I49->r8  , L -> L :| E 
+size of stack = 3 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s1  , L
+> Stage: 0 | 1
+> TreeS: L
+
+ shift: I1->s4  , }
+> Stage: 0 1 | 4
+> TreeS: L }
+
+reduce: I4->r0  , S -> L } 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s2  , {
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s18  , block
+> Stage: 0 2 | 18
+> TreeS: { block
+
+reduce: I18->r19  , E -> block 
+size of stack = 2 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->r9s17  , |:
+> Stage: 0 2 16 | 17
+> TreeS: { E |:
+
+ shift: I17->s61  , block
+> Stage: 0 2 16 17 | 61
+> TreeS: { E |: block
+
+reduce: I61->r19  , E -> block 
+size of stack = 4 -> 3
+> Stage: 0 2 16 | 17
+> TreeS: { E |:
+
+ shift: I17->s59  , E
+> Stage: 0 2 16 17 | 59
+> TreeS: { E |: E
+
+ shift: I59->s110  , :|
+> Stage: 0 2 16 17 59 | 110
+> TreeS: { E |: E :|
+
+reduce: I110->r15  , E -> |: E :| 
+size of stack = 5 -> 2
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->s58  , E
+> Stage: 0 2 16 | 58
+> TreeS: { E E
+
+ shift: I58->r16s18  , block
+> Stage: 0 2 16 58 | 18
+> TreeS: { E E block
+
+reduce: I18->r19  , E -> block 
+size of stack = 4 -> 3
+> Stage: 0 2 16 | 58
+> TreeS: { E E
+
+ shift: I58->s58  , E
+> Stage: 0 2 16 58 | 58
+> TreeS: { E E E
+
+ shift: I58->r16s17  , |:
+> Stage: 0 2 16 58 58 | 17
+> TreeS: { E E E |:
+
+ shift: I17->s61  , block
+> Stage: 0 2 16 58 58 17 | 61
+> TreeS: { E E E |: block
+
+reduce: I61->r19  , E -> block 
+size of stack = 6 -> 5
+> Stage: 0 2 16 58 58 | 17
+> TreeS: { E E E |:
+
+ shift: I17->s59  , E
+> Stage: 0 2 16 58 58 17 | 59
+> TreeS: { E E E |: E
+
+ shift: I59->s110  , :|
+> Stage: 0 2 16 58 58 17 59 | 110
+> TreeS: { E E E |: E :|
+
+reduce: I110->r15  , E -> |: E :| 
+size of stack = 7 -> 4
+> Stage: 0 2 16 58 | 58
+> TreeS: { E E E
+
+ shift: I58->s58  , E
+> Stage: 0 2 16 58 58 | 58
+> TreeS: { E E E E
+
+reduce: I58->r16  , E -> E E 
+size of stack = 5 -> 3
+> Stage: 0 2 16 | 58
+> TreeS: { E E
+
+ shift: I58->s58  , E
+> Stage: 0 2 16 58 | 58
+> TreeS: { E E E
+
+reduce: I58->r16  , E -> E E 
+size of stack = 4 -> 2
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->s58  , E
+> Stage: 0 2 16 | 58
+> TreeS: { E E
+
+reduce: I58->r16  , E -> E E 
+size of stack = 3 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+reduce: I16->r9  , L -> { E 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s1  , L
+> Stage: 0 | 1
+> TreeS: L
+
+ shift: I1->s4  , }
+> Stage: 0 1 | 4
+> TreeS: L }
+
+reduce: I4->r0  , S -> L } 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s2  , {
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s18  , block
+> Stage: 0 2 | 18
+> TreeS: { block
+
+reduce: I18->r19  , E -> block 
+size of stack = 2 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->r9s18  , block
+> Stage: 0 2 16 | 18
+> TreeS: { E block
+
+reduce: I18->r19  , E -> block 
+size of stack = 3 -> 2
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->s58  , E
+> Stage: 0 2 16 | 58
+> TreeS: { E E
+
+reduce: I58->r16  , E -> E E 
+size of stack = 3 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+reduce: I16->r9  , L -> { E 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s1  , L
+> Stage: 0 | 1
+> TreeS: L
+
+ shift: I1->s10  , :|
+> Stage: 0 1 | 10
+> TreeS: L :|
+
+ shift: I10->r10s24  , block
+> Stage: 0 1 10 | 24
+> TreeS: L :| block
+
+reduce: I24->r19  , E -> block 
+size of stack = 3 -> 2
+> Stage: 0 1 | 10
+> TreeS: L :|
+
+ shift: I10->s49  , E
+> Stage: 0 1 10 | 49
+> TreeS: L :| E
+
+ shift: I49->r8s23  , |:
+> Stage: 0 1 10 49 | 23
+> TreeS: L :| E |:
+
+ shift: I23->s61  , block
+> Stage: 0 1 10 49 23 | 61
+> TreeS: L :| E |: block
+
+reduce: I61->r19  , E -> block 
+size of stack = 5 -> 4
+> Stage: 0 1 10 49 | 23
+> TreeS: L :| E |:
+
+ shift: I23->s67  , E
+> Stage: 0 1 10 49 23 | 67
+> TreeS: L :| E |: E
+
+ shift: I67->s115  , :|
+> Stage: 0 1 10 49 23 67 | 115
+> TreeS: L :| E |: E :|
+
+reduce: I115->r15  , E -> |: E :| 
+size of stack = 6 -> 3
+> Stage: 0 1 10 | 49
+> TreeS: L :| E
+
+ shift: I49->s66  , E
+> Stage: 0 1 10 49 | 66
+> TreeS: L :| E E
+
+reduce: I66->r16  , E -> E E 
+size of stack = 4 -> 2
+> Stage: 0 1 | 10
+> TreeS: L :|
+
+ shift: I10->s49  , E
+> Stage: 0 1 10 | 49
+> TreeS: L :| E
+
+reduce: I49->r8  , L -> L :| E 
+size of stack = 3 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s1  , L
+> Stage: 0 | 1
+> TreeS: L
+
+ shift: I1->s4  , }
+> Stage: 0 1 | 4
+> TreeS: L }
+
+reduce: I4->r0  , S -> L } 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s2  , {
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s18  , block
+> Stage: 0 2 | 18
+> TreeS: { block
+
+reduce: I18->r19  , E -> block 
+size of stack = 2 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->r9s18  , block
+> Stage: 0 2 16 | 18
+> TreeS: { E block
+
+reduce: I18->r19  , E -> block 
+size of stack = 3 -> 2
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->s58  , E
+> Stage: 0 2 16 | 58
+> TreeS: { E E
+
+reduce: I58->r16  , E -> E E 
+size of stack = 3 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+reduce: I16->r9  , L -> { E 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s1  , L
+> Stage: 0 | 1
+> TreeS: L
+
+ shift: I1->s10  , :|
+> Stage: 0 1 | 10
+> TreeS: L :|
+
+ shift: I10->r10s24  , block
+> Stage: 0 1 10 | 24
+> TreeS: L :| block
+
+reduce: I24->r19  , E -> block 
+size of stack = 3 -> 2
+> Stage: 0 1 | 10
+> TreeS: L :|
+
+ shift: I10->s49  , E
+> Stage: 0 1 10 | 49
+> TreeS: L :| E
+
+ shift: I49->r8s24  , block
+> Stage: 0 1 10 49 | 24
+> TreeS: L :| E block
+
+reduce: I24->r19  , E -> block 
+size of stack = 4 -> 3
+> Stage: 0 1 10 | 49
+> TreeS: L :| E
+
+ shift: I49->s66  , E
+> Stage: 0 1 10 49 | 66
+> TreeS: L :| E E
+
+reduce: I66->r16  , E -> E E 
+size of stack = 4 -> 2
+> Stage: 0 1 | 10
+> TreeS: L :|
+
+ shift: I10->s49  , E
+> Stage: 0 1 10 | 49
+> TreeS: L :| E
+
+reduce: I49->r8  , L -> L :| E 
+size of stack = 3 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s1  , L
+> Stage: 0 | 1
+> TreeS: L
+
+ shift: I1->s10  , :|
+> Stage: 0 1 | 10
+> TreeS: L :|
+
+reduce: I10->r10  , L -> L :| 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s1  , L
+> Stage: 0 | 1
+> TreeS: L
+
+ shift: I1->s4  , }
+> Stage: 0 1 | 4
+> TreeS: L }
+
+reduce: I4->r0  , S -> L } 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s2  , {
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s18  , block
+> Stage: 0 2 | 18
+> TreeS: { block
+
+reduce: I18->r19  , E -> block 
+size of stack = 2 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->r9s17  , |:
+> Stage: 0 2 16 | 17
+> TreeS: { E |:
+
+ shift: I17->s61  , block
+> Stage: 0 2 16 17 | 61
+> TreeS: { E |: block
+
+reduce: I61->r19  , E -> block 
+size of stack = 4 -> 3
+> Stage: 0 2 16 | 17
+> TreeS: { E |:
+
+ shift: I17->s59  , E
+> Stage: 0 2 16 17 | 59
+> TreeS: { E |: E
+
+ shift: I59->s110  , :|
+> Stage: 0 2 16 17 59 | 110
+> TreeS: { E |: E :|
+
+reduce: I110->r15  , E -> |: E :| 
+size of stack = 5 -> 2
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->s58  , E
+> Stage: 0 2 16 | 58
+> TreeS: { E E
+
+ shift: I58->r16s18  , block
+> Stage: 0 2 16 58 | 18
+> TreeS: { E E block
+
+reduce: I18->r19  , E -> block 
+size of stack = 4 -> 3
+> Stage: 0 2 16 | 58
+> TreeS: { E E
+
+ shift: I58->s58  , E
+> Stage: 0 2 16 58 | 58
+> TreeS: { E E E
+
+ shift: I58->r16s18  , block
+> Stage: 0 2 16 58 58 | 18
+> TreeS: { E E E block
+
+reduce: I18->r19  , E -> block 
+size of stack = 5 -> 4
+> Stage: 0 2 16 58 | 58
+> TreeS: { E E E
+
+ shift: I58->s58  , E
+> Stage: 0 2 16 58 58 | 58
+> TreeS: { E E E E
+
+reduce: I58->r16  , E -> E E 
+size of stack = 5 -> 3
+> Stage: 0 2 16 | 58
+> TreeS: { E E
+
+ shift: I58->s58  , E
+> Stage: 0 2 16 58 | 58
+> TreeS: { E E E
+
+reduce: I58->r16  , E -> E E 
+size of stack = 4 -> 2
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->s58  , E
+> Stage: 0 2 16 | 58
+> TreeS: { E E
+
+reduce: I58->r16  , E -> E E 
+size of stack = 3 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+reduce: I16->r9  , L -> { E 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s1  , L
+> Stage: 0 | 1
+> TreeS: L
+
+ shift: I1->s10  , :|
+> Stage: 0 1 | 10
+> TreeS: L :|
+
+reduce: I10->r10  , L -> L :| 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s1  , L
+> Stage: 0 | 1
+> TreeS: L
+
+ shift: I1->s4  , }
+> Stage: 0 1 | 4
+> TreeS: L }
+
+reduce: I4->r0  , S -> L } 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s2  , {
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s18  , block
+> Stage: 0 2 | 18
+> TreeS: { block
+
+reduce: I18->r19  , E -> block 
+size of stack = 2 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->r9s17  , |:
+> Stage: 0 2 16 | 17
+> TreeS: { E |:
+
+ shift: I17->s61  , block
+> Stage: 0 2 16 17 | 61
+> TreeS: { E |: block
+
+reduce: I61->r19  , E -> block 
+size of stack = 4 -> 3
+> Stage: 0 2 16 | 17
+> TreeS: { E |:
+
+ shift: I17->s59  , E
+> Stage: 0 2 16 17 | 59
+> TreeS: { E |: E
+
+ shift: I59->s60  , |:
+> Stage: 0 2 16 17 59 | 60
+> TreeS: { E |: E |:
+
+ shift: I60->s61  , block
+> Stage: 0 2 16 17 59 60 | 61
+> TreeS: { E |: E |: block
+
+reduce: I61->r19  , E -> block 
+size of stack = 6 -> 5
+> Stage: 0 2 16 17 59 | 60
+> TreeS: { E |: E |:
+
+ shift: I60->s113  , E
+> Stage: 0 2 16 17 59 60 | 113
+> TreeS: { E |: E |: E
+
+ shift: I113->s165  , :|
+> Stage: 0 2 16 17 59 60 113 | 165
+> TreeS: { E |: E |: E :|
+
+reduce: I165->r15  , E -> |: E :| 
+size of stack = 7 -> 4
+> Stage: 0 2 16 17 | 59
+> TreeS: { E |: E
+
+ shift: I59->s112  , E
+> Stage: 0 2 16 17 59 | 112
+> TreeS: { E |: E E
+
+ shift: I112->r16s61  , block
+> Stage: 0 2 16 17 59 112 | 61
+> TreeS: { E |: E E block
+
+reduce: I61->r19  , E -> block 
+size of stack = 6 -> 5
+> Stage: 0 2 16 17 59 | 112
+> TreeS: { E |: E E
+
+ shift: I112->s112  , E
+> Stage: 0 2 16 17 59 112 | 112
+> TreeS: { E |: E E E
+
+ shift: I112->r16s61  , block
+> Stage: 0 2 16 17 59 112 112 | 61
+> TreeS: { E |: E E E block
+
+reduce: I61->r19  , E -> block 
+size of stack = 7 -> 6
+> Stage: 0 2 16 17 59 112 | 112
+> TreeS: { E |: E E E
+
+ shift: I112->s112  , E
+> Stage: 0 2 16 17 59 112 112 | 112
+> TreeS: { E |: E E E E
+
+reduce: I112->r16  , E -> E E 
+size of stack = 7 -> 5
+> Stage: 0 2 16 17 59 | 112
+> TreeS: { E |: E E
+
+ shift: I112->s112  , E
+> Stage: 0 2 16 17 59 112 | 112
+> TreeS: { E |: E E E
+
+reduce: I112->r16  , E -> E E 
+size of stack = 6 -> 4
+> Stage: 0 2 16 17 | 59
+> TreeS: { E |: E
+
+ shift: I59->s112  , E
+> Stage: 0 2 16 17 59 | 112
+> TreeS: { E |: E E
+
+reduce: I112->r16  , E -> E E 
+size of stack = 5 -> 3
+> Stage: 0 2 16 | 17
+> TreeS: { E |:
+
+ shift: I17->s59  , E
+> Stage: 0 2 16 17 | 59
+> TreeS: { E |: E
+
+ shift: I59->s110  , :|
+> Stage: 0 2 16 17 59 | 110
+> TreeS: { E |: E :|
+
+reduce: I110->r15  , E -> |: E :| 
+size of stack = 5 -> 2
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->s58  , E
+> Stage: 0 2 16 | 58
+> TreeS: { E E
+
+reduce: I58->r16  , E -> E E 
+size of stack = 3 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+reduce: I16->r9  , L -> { E 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s1  , L
+> Stage: 0 | 1
+> TreeS: L
+
+ shift: I1->s4  , }
+> Stage: 0 1 | 4
+> TreeS: L }
+
+reduce: I4->r0  , S -> L } 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s2  , {
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s18  , block
+> Stage: 0 2 | 18
+> TreeS: { block
+
+reduce: I18->r19  , E -> block 
+size of stack = 2 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->r9s17  , |:
+> Stage: 0 2 16 | 17
+> TreeS: { E |:
+
+ shift: I17->s61  , block
+> Stage: 0 2 16 17 | 61
+> TreeS: { E |: block
+
+reduce: I61->r19  , E -> block 
+size of stack = 4 -> 3
+> Stage: 0 2 16 | 17
+> TreeS: { E |:
+
+ shift: I17->s59  , E
+> Stage: 0 2 16 17 | 59
+> TreeS: { E |: E
+
+ shift: I59->s60  , |:
+> Stage: 0 2 16 17 59 | 60
+> TreeS: { E |: E |:
+
+ shift: I60->s61  , block
+> Stage: 0 2 16 17 59 60 | 61
+> TreeS: { E |: E |: block
+
+reduce: I61->r19  , E -> block 
+size of stack = 6 -> 5
+> Stage: 0 2 16 17 59 | 60
+> TreeS: { E |: E |:
+
+ shift: I60->s113  , E
+> Stage: 0 2 16 17 59 60 | 113
+> TreeS: { E |: E |: E
+
+ shift: I113->s166  , [
+> Stage: 0 2 16 17 59 60 113 | 166
+> TreeS: { E |: E |: E [
+
+ shift: I166->s61  , block
+> Stage: 0 2 16 17 59 60 113 166 | 61
+> TreeS: { E |: E |: E [ block
+
+reduce: I61->r19  , E -> block 
+size of stack = 8 -> 7
+> Stage: 0 2 16 17 59 60 113 | 166
+> TreeS: { E |: E |: E [
+
+ shift: I166->s229  , E
+> Stage: 0 2 16 17 59 60 113 166 | 229
+> TreeS: { E |: E |: E [ E
+
+ shift: I229->s276  , :|
+> Stage: 0 2 16 17 59 60 113 166 229 | 276
+> TreeS: { E |: E |: E [ E :|
+
+ shift: I276->s335  , [
+> Stage: 0 2 16 17 59 60 113 166 229 276 | 335
+> TreeS: { E |: E |: E [ E :| [
+
+ shift: I335->s415  , block
+> Stage: 0 2 16 17 59 60 113 166 229 276 335 | 415
+> TreeS: { E |: E |: E [ E :| [ block
+
+reduce: I415->r19  , E -> block 
+size of stack = 11 -> 10
+> Stage: 0 2 16 17 59 60 113 166 229 276 | 335
+> TreeS: { E |: E |: E [ E :| [
+
+ shift: I335->s413  , E
+> Stage: 0 2 16 17 59 60 113 166 229 276 335 | 413
+> TreeS: { E |: E |: E [ E :| [ E
+
+ shift: I413->s518  , ]
+> Stage: 0 2 16 17 59 60 113 166 229 276 335 413 | 518
+> TreeS: { E |: E |: E [ E :| [ E ]
+
+reduce: I518->r17  , E -> |: E [ E :| [ E ] 
+size of stack = 12 -> 4
+> Stage: 0 2 16 17 | 59
+> TreeS: { E |: E
+
+ shift: I59->s112  , E
+> Stage: 0 2 16 17 59 | 112
+> TreeS: { E |: E E
+
+ shift: I112->r16s61  , block
+> Stage: 0 2 16 17 59 112 | 61
+> TreeS: { E |: E E block
+
+reduce: I61->r19  , E -> block 
+size of stack = 6 -> 5
+> Stage: 0 2 16 17 59 | 112
+> TreeS: { E |: E E
+
+ shift: I112->s112  , E
+> Stage: 0 2 16 17 59 112 | 112
+> TreeS: { E |: E E E
+
+reduce: I112->r16  , E -> E E 
+size of stack = 6 -> 4
+> Stage: 0 2 16 17 | 59
+> TreeS: { E |: E
+
+ shift: I59->s112  , E
+> Stage: 0 2 16 17 59 | 112
+> TreeS: { E |: E E
+
+reduce: I112->r16  , E -> E E 
+size of stack = 5 -> 3
+> Stage: 0 2 16 | 17
+> TreeS: { E |:
+
+ shift: I17->s59  , E
+> Stage: 0 2 16 17 | 59
+> TreeS: { E |: E
+
+ shift: I59->s110  , :|
+> Stage: 0 2 16 17 59 | 110
+> TreeS: { E |: E :|
+
+reduce: I110->r15  , E -> |: E :| 
+size of stack = 5 -> 2
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->s58  , E
+> Stage: 0 2 16 | 58
+> TreeS: { E E
+
+reduce: I58->r16  , E -> E E 
+size of stack = 3 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+reduce: I16->r9  , L -> { E 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s1  , L
+> Stage: 0 | 1
+> TreeS: L
+
+ shift: I1->s4  , }
+> Stage: 0 1 | 4
+> TreeS: L }
+
+reduce: I4->r0  , S -> L } 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s2  , {
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s18  , block
+> Stage: 0 2 | 18
+> TreeS: { block
+
+reduce: I18->r19  , E -> block 
+size of stack = 2 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->r9s17  , |:
+> Stage: 0 2 16 | 17
+> TreeS: { E |:
+
+ shift: I17->s61  , block
+> Stage: 0 2 16 17 | 61
+> TreeS: { E |: block
+
+reduce: I61->r19  , E -> block 
+size of stack = 4 -> 3
+> Stage: 0 2 16 | 17
+> TreeS: { E |:
+
+ shift: I17->s59  , E
+> Stage: 0 2 16 17 | 59
+> TreeS: { E |: E
+
+ shift: I59->s111  , [
+> Stage: 0 2 16 17 59 | 111
+> TreeS: { E |: E [
+
+ shift: I111->s60  , |:
+> Stage: 0 2 16 17 59 111 | 60
+> TreeS: { E |: E [ |:
+
+ shift: I60->s61  , block
+> Stage: 0 2 16 17 59 111 60 | 61
+> TreeS: { E |: E [ |: block
+
+reduce: I61->r19  , E -> block 
+size of stack = 7 -> 6
+> Stage: 0 2 16 17 59 111 | 60
+> TreeS: { E |: E [ |:
+
+ shift: I60->s113  , E
+> Stage: 0 2 16 17 59 111 60 | 113
+> TreeS: { E |: E [ |: E
+
+ shift: I113->s165  , :|
+> Stage: 0 2 16 17 59 111 60 113 | 165
+> TreeS: { E |: E [ |: E :|
+
+reduce: I165->r15  , E -> |: E :| 
+size of stack = 8 -> 5
+> Stage: 0 2 16 17 59 | 111
+> TreeS: { E |: E [
+
+ shift: I111->s164  , E
+> Stage: 0 2 16 17 59 111 | 164
+> TreeS: { E |: E [ E
+
+ shift: I164->s228  , :|
+> Stage: 0 2 16 17 59 111 164 | 228
+> TreeS: { E |: E [ E :|
+
+ shift: I228->s275  , [
+> Stage: 0 2 16 17 59 111 164 228 | 275
+> TreeS: { E |: E [ E :| [
+
+ shift: I275->s331  , block
+> Stage: 0 2 16 17 59 111 164 228 275 | 331
+> TreeS: { E |: E [ E :| [ block
+
+reduce: I331->r19  , E -> block 
+size of stack = 9 -> 8
+> Stage: 0 2 16 17 59 111 164 228 | 275
+> TreeS: { E |: E [ E :| [
+
+ shift: I275->s329  , E
+> Stage: 0 2 16 17 59 111 164 228 275 | 329
+> TreeS: { E |: E [ E :| [ E
+
+ shift: I329->s403  , ]
+> Stage: 0 2 16 17 59 111 164 228 275 329 | 403
+> TreeS: { E |: E [ E :| [ E ]
+
+reduce: I403->r17  , E -> |: E [ E :| [ E ] 
+size of stack = 10 -> 2
+> Stage: 0 2 | 16
+> TreeS: { E
+
+ shift: I16->s58  , E
+> Stage: 0 2 16 | 58
+> TreeS: { E E
+
+reduce: I58->r16  , E -> E E 
+size of stack = 3 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+reduce: I16->r9  , L -> { E 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s1  , L
+> Stage: 0 | 1
+> TreeS: L
+
+ shift: I1->s4  , }
+> Stage: 0 1 | 4
+> TreeS: L }
+
+reduce: I4->r0  , S -> L } 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+{
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+reduce: I16->r9  , L -> { E 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s1  , L
+> Stage: 0 | 1
+> TreeS: L
+
+ shift: I1->s4  , }
+> Stage: 0 1 | 4
+> TreeS: L }
+
+reduce: I4->r0  , S -> L } 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+> pre: init counter = 1
+USE LOOP = 0
+
+ shift: I0->s2  , {
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s18  , block
+> Stage: 0 2 | 18
+> TreeS: { block
+
+reduce: I18->r19  , E -> block 
+size of stack = 2 -> 1
+> Stage: 0 | 2
+> TreeS: {
+
+ shift: I2->s16  , E
+> Stage: 0 2 | 16
+> TreeS: { E
+
+reduce: I16->r9  , L -> { E 
+size of stack = 2 -> 0
+> Stage: | 0
+> TreeS:
+
+ shift: I0->s1  , L
+> Stage: 0 | 1
+> TreeS: L
+
+ shift: I1->s7  , ToCoda
+> Stage: 0 1 | 7
+> TreeS: L ToCoda
+
+ shift: I7->s32  , |:
+> Stage: 0 1 7 | 32
+> TreeS: L ToCoda |:
+
+ shift: I32->s75  , block
+> Stage: 0 1 7 32 | 75
+> TreeS: L ToCoda |: block
+
+reduce: I75->r19  , E -> block 
+size of stack = 4 -> 3
+> Stage: 0 1 7 | 32
+> TreeS: L ToCoda |:
+
+ shift: I32->s73  , E
+> Stage: 0 1 7 32 | 73
+> TreeS: L ToCoda |: E
+
+ shift: I73->s125  , [
+> Stage: 0 1 7 32 73 | 125
+> TreeS: L ToCoda |: E [
+
+ shift: I125->s188  , |:
+> Stage: 0 1 7 32 73 125 | 188
+> TreeS: L ToCoda |: E [ |:
+
+ shift: I188->s189  , block
+> Stage: 0 1 7 32 73 125 188 | 189
+> TreeS: L ToCoda |: E [ |: block
+
+reduce: I189->r19  , E -> block 
+size of stack = 7 -> 6
+> Stage: 0 1 7 32 73 125 | 188
+> TreeS: L ToCoda |: E [ |:
+
+ shift: I188->s282  , E
+> Stage: 0 1 7 32 73 125 188 | 282
+> TreeS: L ToCoda |: E [ |: E
+
+ shift: I282->s381  , :|
+> Stage: 0 1 7 32 73 125 188 282 | 381
+> TreeS: L ToCoda |: E [ |: E :|
+
+reduce: I381->r14  , E -> |: E :| 
+size of stack = 8 -> 5
+> Stage: 0 1 7 32 73 | 125
+> TreeS: L ToCoda |: E [
+
+ shift: I125->s187  , E
+> Stage: 0 1 7 32 73 125 | 187
+> TreeS: L ToCoda |: E [ E
+
+ shift: I187->s280  , :|
+> Stage: 0 1 7 32 73 125 187 | 280
+> TreeS: L ToCoda |: E [ E :|
+
+reduce: I280->r18  , ND -> [ E :| 
+size of stack = 7 -> 4
+> Stage: 0 1 7 32 | 73
+> TreeS: L ToCoda |: E
+
+ shift: I73->s123  , ND
+> Stage: 0 1 7 32 73 | 123
+> TreeS: L ToCoda |: E ND
+
+ shift: I123->s186  , [
+> Stage: 0 1 7 32 73 123 | 186
+> TreeS: L ToCoda |: E ND [
+
+ shift: I186->s276  , block
+> Stage: 0 1 7 32 73 123 186 | 276
+> TreeS: L ToCoda |: E ND [ block
+
+reduce: I276->r19  , E -> block 
+size of stack = 7 -> 6
+> Stage: 0 1 7 32 73 123 | 186
+> TreeS: L ToCoda |: E ND [
+
+ shift: I186->s274  , E
+> Stage: 0 1 7 32 73 123 186 | 274
+> TreeS: L ToCoda |: E ND [ E
+
+ shift: I274->s371  , ]
+> Stage: 0 1 7 32 73 123 186 274 | 371
+> TreeS: L ToCoda |: E ND [ E ]
+
+UNDEFINED state: (:|) on I371
+[org.zark.wfn.parser.ParseTreeNode@5e481248, org.zark.wfn.parser.ParseTreeNode@66d3c617, org.zark.wfn.parser.ParseTreeNode@63947c6b, org.zark.wfn.parser.ParseTreeNode@2b193f2d, org.zark.wfn.parser.ParseTreeNode@355da254, org.zark.wfn.parser.ParseTreeNode@4dc63996, org.zark.wfn.parser.ParseTreeNode@d716361, org.zark.wfn.parser.ParseTreeNode@6ff3c5b5]
+Exception in thread "main" java.lang.NullPointerException
+	at org.zark.wfn.unwind.WFNUnwinder.parseStructure(WFNUnwinder.java:44)
+	at org.zark.wfn.unwind.WFNUnwinder.unwind(WFNUnwinder.java:20)
+	at org.zark.wfn.FlatCompilerTester.test(FlatCompilerTester.java:58)
+	at org.zark.wfn.FlatCompilerTester.testBoth(FlatCompilerTester.java:75)
+	at org.zark.wfn.FlatCompilerTester.main(FlatCompilerTester.java:114)

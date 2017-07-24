@@ -15,6 +15,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.Arrays;
 import java.time.Instant;
 
@@ -187,24 +188,39 @@ public class DisplayPanel implements Panel, HcmpListener {
 	
 
 	public void onUpdateView() {
-		if (_model.getCurrentView() == Model.VIEW_DISPLAY) {
+		if (_model.getCurrentView() == Model.VIEW_DISPLAY 
+				||
+			_model.getCurrentView() == Model.VIEW_REPEAT) {
 			if (_scroller.getHeight() > 300) {
-				String boy = "";
-				List<String> list = ConvertArrangement(_model.getCurrentScore());
-				int i=0;
-				for (i=0; i<list.size()-1;i++)
-				{
-					boy = boy.concat(list.get(i).toString()+","+" ");
+				if (_model.getCurrentView() == Model.VIEW_DISPLAY) {
+					String boy = "";
+					List<String> list = ConvertArrangement(_model.getCurrentScore());
+					int i=0;
+					for (i=0; i<list.size()-1;i++)
+					{
+						boy = boy.concat(list.get(i).toString()+","+" ");
+					}
+					i=list.size()-1;
+					boy = boy.concat(list.get(i).toString()+" ");
+					java.lang.System.out.println(boy);
+					String[] c = boy.split(", ");
+//				java.lang.System.out.println(c.length);
+					handleNewArrangement(c);
 				}
-				i=list.size()-1;
-				boy = boy.concat(list.get(i).toString()+" ");
-				java.lang.System.out.println(boy);
-				String[] c = boy.split(", ");
-				handleNewArrangement(c);
+				else handleNewRepeat();
 				handleNewPosition(0);
 			}
 				_scroller.revalidate();
 				_scroller.repaint();
+			/*	
+				java.lang.System.out.println("test");
+				
+				Set<Section> sections =  _score.getSections();
+				for (Section section: sections) {
+					if (section.getName() == null)
+						_score.removeSection(section);
+				}
+				*/
 			}
 			else {
 				handleStop();
@@ -253,11 +269,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 		return true;
 	}
 
-	@Override
-	public Boolean handleNewArrangement(String[] arrangement_string) {
-		List<PlaybackEvent> new_events = _score
-				.createPlaybackEvents(arrangement_string);
-
+	public Boolean handleWork(List<PlaybackEvent> new_events) {
 		if (new_events == null) {
 			java.lang.System.err.println("Could not parse new arrangement!");
 			return false;
@@ -299,6 +311,22 @@ public class DisplayPanel implements Panel, HcmpListener {
 			restart();
 		}
 		return true;
+	}
+	
+	@Override 
+	public Boolean handleNewRepeat() {
+		List<PlaybackEvent> new_events = _score
+				.creatRepeatPlaybackEvents();
+		
+		return handleWork(new_events);
+	}
+	
+	@Override
+	public Boolean handleNewArrangement(String[] arrangement_string) {
+		List<PlaybackEvent> new_events = _score
+				.createPlaybackEvents(arrangement_string);
+
+		return handleWork(new_events);
 	}
 
 	public void zoomIn() {
@@ -550,32 +578,6 @@ public class DisplayPanel implements Panel, HcmpListener {
 		int y = (int) (block.getYOffset(barline.getParent()) * _height)
 				+ getJBlock(true).getY();
 		_cursor.setPosition(x, y - 5); // y-5: keep cursor inside block
-//		if (_events_index >= _playback_events.size()) {
-//			PlaybackEvent end_event = _playback_events.get(_playback_events
-//					.size() - 1);
-//			Barline end_bar = end_event.getEnd();
-//
-//			Block end_block = _blocks.get(_current_block_index);
-//
-//			int x = (int) (end_bar.getOffset() * getJBlock(true)
-//					.getImageWidth()) + getJBlock(true).getImageOffset();
-//			int y = (int) (end_block.getYOffset(end_bar.getParent()) * _height)
-//					+ getJBlock(true).getY();
-//
-//			_cursor.setPosition(x, y - 5); // y-5: keep cursor inside block
-//
-//		} else {
-//			PlaybackEvent current_event = _playback_events.get(_events_index);
-//			Barline current_bar = current_event.getStart();
-//
-//			Block current_block = _blocks.get(_current_block_index);
-//
-//			int x = (int) (current_bar.getOffset() * getJBlock(true)
-//					.getImageWidth()) + getJBlock(true).getImageOffset();
-//			int y = (int) (current_block.getYOffset(current_bar.getParent()) * _height)
-//					+ getJBlock(true).getY();
-//			_cursor.setPosition(x, y - 5); // y-5: keep cursor inside block
-//		}
 		redraw();
 	}
 

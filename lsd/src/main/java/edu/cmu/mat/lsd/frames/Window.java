@@ -26,6 +26,7 @@ public class Window implements ControllerListener {
 	private Controller _controller;
 	private Panel _notation = null;
 	private Panel _display = null;
+	private Panel _repeat = null;
 	private Toolbar _toolbar = null;
 	private JFrame _frame = new JFrame();
 	private int _previous_view = -1;
@@ -44,8 +45,10 @@ public class Window implements ControllerListener {
 
 		_notation = new NotationPanel(model);
 		_display = new DisplayPanel(model);
+		_repeat = new DisplayPanel(model);
 		_controller.addListener(_notation);
 		_controller.addListener(_display);
+		_controller.addListener(_repeat);
 
 		_frame.add(_notation.getContainer());
 
@@ -92,11 +95,18 @@ public class Window implements ControllerListener {
 				_toolbar = new NotationToolbar(_model);
 				_controller.addListener((NotationToolbar) _toolbar);
 				_frame.remove(_display.getContainer());
+				_frame.remove(_repeat.getContainer());
 				_frame.add(_notation.getContainer());
 			} else if (view == Model.VIEW_DISPLAY) {
 				_toolbar = new DisplayToolbar(_model, (DisplayPanel) _display);
 				_frame.remove(_notation.getContainer());
+				_frame.remove(_repeat.getContainer());
 				_frame.add(_display.getContainer());
+			} else if (view == Model.VIEW_REPEAT) {
+				_toolbar = new DisplayToolbar(_model, (DisplayPanel) _repeat);
+				_frame.remove(_display.getContainer());
+				_frame.remove(_notation.getContainer());
+				_frame.add(_repeat.getContainer());
 			}
 		}
 

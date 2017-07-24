@@ -23,8 +23,11 @@ import edu.cmu.mat.scores.Image;
 import edu.cmu.mat.scores.Page;
 import edu.cmu.mat.scores.System;
 import edu.cmu.mat.scores.events.Event;
+import edu.cmu.mat.scores.events.RepeatEndEvent;
 import edu.cmu.mat.scores.events.SectionStartEvent;
 import edu.cmu.mat.scores.events.RepeatStartEvent;
+import edu.cmu.mat.scores.events.RepeatEvent;
+import edu.cmu.mat.scores.events.SectionEndEvent;
 
 public class JPage extends JPanel {
 	private static final long serialVersionUID = 4193873080878056943L;
@@ -108,30 +111,26 @@ public class JPage extends JPanel {
 
 				for (Event event : events) {
 					String label = "";
-
+					String name = "x";
+					
 					switch (event.getType()) {
 					case SECTION_START:
 						SectionStartEvent sectionStart = ((SectionStartEvent) event);
-						label = sectionStart.getSection().getName() + " (";
+						name = sectionStart.getSection().getName();
+						label = name + " (";
 						break;
 
 					case SECTION_END:
+						SectionEndEvent sectionEnd = ((SectionEndEvent) event);
+						name = sectionEnd.getSection().getName();
 						label = ")";
 						break;
-					
-					case REPEAT_START:
-						RepeatStartEvent repeatStart = ((RepeatStartEvent) event);
-						label = repeatStart.getRepeat().getName() + " |:";
-						break;
-					
-					case REPEAT_END:
-						label = ":|";
-						break;
-						
+
 					default:
+						label = event.getType().getString();
 						break;
 					}
-
+					if (name != "")
 					offset = drawEvent(graphics, system, barline, label,
 							event.isActive(), offset);
 				}

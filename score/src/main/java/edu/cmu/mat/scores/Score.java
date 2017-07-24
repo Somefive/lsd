@@ -8,6 +8,11 @@ import java.util.*;
 
 import javax.imageio.ImageIO;
 
+import org.zark.wfn.lex.LexToken;
+import org.zark.wfn.lex.LexicalAnalyzer;
+import org.zark.wfn.parser.CompileErrorException;
+import org.zark.wfn.parser.WFNCompiler;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
@@ -16,7 +21,10 @@ import edu.cmu.mat.geom.Point;
 import edu.cmu.mat.parsers.JsonParser;
 import edu.cmu.mat.parsers.exceptions.CompilerException;
 import edu.cmu.mat.scores.events.Event;
+import edu.cmu.mat.scores.events.Event.Type;
 import edu.cmu.mat.scores.events.EventTypeAdapter;
+import edu.cmu.mat.scores.events.SectionEndEvent;
+import edu.cmu.mat.scores.events.SectionStartEvent;
 
 public class Score implements ScoreObject {
 	private static JsonParser PARSER = new JsonParser();
@@ -100,13 +108,13 @@ public class Score implements ScoreObject {
 		return newSection;
 	}
 	
-	public Repeat addRepeat(Barline start, Barline end) {
+	public Repeat addRepeat(Barline barline, Type type) {
 		
-		if (start == null || end == null) {
+		if (barline == null || type == null) {
 			return null;
 		}
 		
-		Repeat newRepeat = new Repeat(this, start, end);
+		Repeat newRepeat = new Repeat(this, barline, type);
 		_repeats.add(newRepeat);
 		return newRepeat;
 	}
@@ -363,13 +371,142 @@ public class Score implements ScoreObject {
 		List<PlaybackEvent> section_events = new ArrayList<PlaybackEvent>();
 		int duration = 4;
 		boolean is_first = true;
-		for (int i = start; i < end; i++) {
+//		java.lang.System.out.println("----");
+//		java.lang.System.out.println(start);
+//		java.lang.System.out.println(end);
+//		java.lang.System.out.println("----");
+		for (int i = start; i <= end; i++) {
 			section_events.add(new PlaybackEvent(_section,
 					start_barlines.get(i), end_barlines.get(i),
 					duration, is_first));
 			is_first = false;
 		}
 		return section_events;
+	}
+	
+	private int get(Map<Event.Type, Integer> map, Event.Type type) {
+		 if (map.containsKey(type)) return map.get(type);
+		 return 0;
+	}
+	
+	public List<PlaybackEvent> creatRepeatPlaybackEvents() {
+		try{
+			List<PlaybackEvent> events = new LinkedList<PlaybackEvent>();
+			
+			List<Barline> start_barlines = getStartBarlines();
+			List<Barline> end_barlines = getEndBarlines();
+			List<Section> sections = new ArrayList<Section>();
+			String tmpstr = "{";
+			int cnt = 0;
+			int tot = start_barlines.size();
+			Barline last = start_barlines.get(0);
+			for (int i = 0; i < tot; i++) {
+				
+				Barline barline = end_barlines.get(i);
+
+				List<Event> barline_events = barline.getEvents();
+				Map<Event.Type, Integer> map = new HashMap<Event.Type, Integer>();
+				for (Event event : barline_events) {
+					
+					Type type = event.getType();
+					int tmp = 0; 
+					if (map.containsKey(type)) {
+						tmp = map.get(type);
+						map.remove(type);
+					}
+					tmp += 1;
+					map.put(type, tmp);
+				}
+				int tmp = 0;
+				Type[] allType = Event.Type.values();
+				for (Type type : allType) {
+//					java.lang.System.out.println("------ in");
+//					java.lang.System.out.println(type.name());
+//					java.lang.System.out.println(type.ordinal());
+//					java.lang.System.out.println(type.getString());
+//					java.lang.System.out.println(String.valueOf(get(map, type)));
+//					java.lang.System.out.println("------ out");
+					if (type.ordinal() >= 3) tmp += get(map, type);
+				}
+			
+//				int RS = get(map, Event.Type.REPEAT_START);// if (map.containsKey(Event.Type.REPEAT_START)) RS = map.get(Event.Type.REPEAT_START);
+//				int RE = get(map, Event.Type.REPEAT_END);
+//				int CODA = get(map, Event.Type.CODA);
+//				int DC_CODA = get(map, Event.Type.DC_CODA);
+//				int DC = get(map, Event.Type.DC);
+//				
+//				tmp = RS + RE;
+				if (tmp > 0 || i == tot - 1) {
+					
+					Section section = new Section(this, last, barline);
+					sections.add(section);
+					tmpstr += " (block," + String.valueOf(cnt) + ")";
+					cnt++;
+					last = barline;
+					
+//					for (int j = 0; j < RE; j++) tmpstr += " :|";
+//					for (int j = 0; j < RS; j++) tmpstr += " |:";
+					
+					for (Type type : allType) 
+						if (type.ordinal() >= 3){
+						int c = get(map, type);
+						
+						for (int j = 0; j < c; j++) tmpstr += " " + type.getString();
+					}
+				}
+			}
+			
+			tmpstr += " }";
+			
+			java.lang.System.out.println(tmpstr);
+			
+			LexicalAnalyzer analyzer = new LexicalAnalyzer();
+			//analyzer.loadLexFile("/Users/AladeenSun/Desktop/Summer/lsd/SCompiler/wfnDefault.l");
+			//WFNCompiler compiler = new WFNCompiler(analyzer, "/Users/AladeenSun/Desktop/Summer/lsd/SCompiler/wfnflat.g");
+			analyzer.loadLexFile("../SCompiler/wfnDefault.l");
+			WFNCompiler compiler = new WFNCompiler(analyzer, "../SCompiler/wfnflat.g");
+			ArrayList<LexToken> tokens = compiler.compilerString(tmpstr);
+			
+			if (tokens == null) {
+				for (CompileErrorException errorException : compiler.getError()) {
+					java.lang.System.err.println(errorException.getMessage(analyzer));
+				}
+			}
+			else {
+				analyzer.printAll(tokens);
+			}
+			for (LexToken token : tokens) {
+				for (int a = 0; a < token.parameters.length; ++a) {
+					java.lang.System.out.println(token.parameters[a]);
+				}
+				
+			}
+			
+			for (LexToken token : tokens) {
+				for (int a = 0; a < token.parameters.length; ++a) {
+					//java.lang.System.out.println(token.parameters[a]);
+					Section section = sections.get(token.parameters[a]);
+					
+					List<PlaybackEvent> section_events = add(section, start_barlines, end_barlines);
+					events.addAll(section_events);
+				}
+				
+			}
+		/*	
+			for (int i = 0; i < res.size(); i++) {
+				int idx = res.get(i);
+				Section section = sections.get(idx);
+				
+				List<PlaybackEvent> section_events = add(section, start_barlines, end_barlines);
+				events.addAll(section_events);
+			}
+			*/
+			return events;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public List<PlaybackEvent> createPlaybackEvents(String[] arrangement_string) {
