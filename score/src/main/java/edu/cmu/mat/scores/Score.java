@@ -462,8 +462,10 @@ public class Score implements ScoreObject {
 			java.lang.System.out.println(tmpstr);
 			
 			LexicalAnalyzer analyzer = new LexicalAnalyzer();
-			analyzer.loadLexFile("/Users/AladeenSun/Desktop/Summer/lsd/SCompiler/wfnDefault.l");
-			WFNCompiler compiler = new WFNCompiler(analyzer, "/Users/AladeenSun/Desktop/Summer/lsd/SCompiler/wfnflat.g");
+			//analyzer.loadLexFile("/Users/AladeenSun/Desktop/Summer/lsd/SCompiler/wfnDefault.l");
+			//WFNCompiler compiler = new WFNCompiler(analyzer, "/Users/AladeenSun/Desktop/Summer/lsd/SCompiler/wfnflat.g");
+			analyzer.loadLexFile("../SCompiler/wfnDefault.l");
+			WFNCompiler compiler = new WFNCompiler(analyzer, "../SCompiler/wfnflat.g");
 			ArrayList<LexToken> tokens = compiler.compilerString(tmpstr);
 			
 			if (tokens == null) {
