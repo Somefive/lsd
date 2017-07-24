@@ -16,6 +16,7 @@ import edu.cmu.mat.scores.System;
 import edu.cmu.mat.scores.events.Event;
 import edu.cmu.mat.scores.events.SectionStartEvent;
 import edu.cmu.mat.scores.events.RepeatStartEvent;
+import edu.cmu.mat.scores.events.RepeatEvent;
 
 public abstract class Tool {
 
@@ -129,7 +130,7 @@ public abstract class Tool {
 
 				for (Event barline_event : barline.getEvents()) {
 					String text = "";
-
+					java.lang.System.out.println("Tool");
 					switch (barline_event.getType()) {
 					case SECTION_START:
 						Section section = ((SectionStartEvent) barline_event)
@@ -141,18 +142,9 @@ public abstract class Tool {
 						text = ") ";
 						break;
 
-					case REPEAT_START:
-						Repeat repeat = ((RepeatStartEvent) barline_event)
-								.getRepeat();
-						text = repeat.getName() + "|:";
-						break;
-
-					case REPEAT_END:
-						text = ":|";
-						break;
-
 					default:
-						continue;
+						text = barline_event.getType().getString();
+						break;
 					}
 
 					FontMetrics metrics = JPage.FONT_METRICS;

@@ -34,6 +34,8 @@ import edu.cmu.mat.scores.Score;
 import edu.cmu.mat.scores.ScoreObject;
 import edu.cmu.mat.scores.Section;
 import edu.cmu.mat.scores.Repeat;
+import edu.cmu.mat.scores.events.Event;
+import edu.cmu.mat.scores.events.Event.Type;
 
 public class Model implements DisplayMenuListener {
 	private Controller _controller;
@@ -77,13 +79,27 @@ public class Model implements DisplayMenuListener {
 	public final Tool NEW_SYSTEM_TOOL = new NewSystemTool();
 	public final Tool NEW_BARLINE_TOOL = new NewBarlineTool();
 	public final Tool NEW_SECTION_TOOL = new NewSectionTool(this);
-	public final Tool NEW_REPEAT_TOOL = new NewRepeatTool(this);
+	public final Tool NEW_REPEAT_START_TOOL = new NewRepeatTool(this, Event.Type.REPEAT_START);
+	public final Tool NEW_REPEAT_END_TOOL = new NewRepeatTool(this, Event.Type.REPEAT_END);
+	public final Tool NEW_ENDING_BEGINNING_TOOL = new NewRepeatTool(this, Event.Type.ENDING_BEGINNING);
+	public final Tool NEW_ENDING_ENDPOINT_TOOL = new NewRepeatTool(this, Event.Type.ENDING_ENDPOINT);
+	public final Tool NEW_SEGNO_TOOL = new NewRepeatTool(this, Event.Type.SEGNO);
+	public final Tool NEW_DS_TOOL = new NewRepeatTool(this, Event.Type.DS);
+	public final Tool NEW_DC_TOOL = new NewRepeatTool(this, Event.Type.DC);
+	public final Tool NEW_TOCODA_TOOL = new NewRepeatTool(this, Event.Type.TOCODA);
+	public final Tool NEW_DC_CODA_TOOL = new NewRepeatTool(this, Event.Type.DC_CODA);
+	public final Tool NEW_DS_CODA_TOOL = new NewRepeatTool(this, Event.Type.DS_CODA);
+	public final Tool NEW_CODA_TOOL = new NewRepeatTool(this, Event.Type.CODA);
+	public final Tool NEW_FINE_TOOL = new NewRepeatTool(this, Event.Type.FINE);
+	public final Tool NEW_DS_FINE_TOOL = new NewRepeatTool(this, Event.Type.DS_FINE);
+	public final Tool NEW_DC_FINE_TOOL = new NewRepeatTool(this, Event.Type.DC_FINE);
 	public final Tool MOVE_TOOL = new MoveTool();
 	public final Tool DELETE_TOOL = new DeleteTool(this);
 	public final Tool SWAP_TOOL = new SwapTool(this);
 
 	public final static int VIEW_NOTATION = 0;
 	public final static int VIEW_DISPLAY = 1;
+	public final static int VIEW_REPEAT = 2;
 
 	public Model() {
 		// This is required for Gson to properly initiate variables during
@@ -258,6 +274,7 @@ public class Model implements DisplayMenuListener {
 		_imgCache = new ImageCache(_library);
 		_init_file = new File(_library.getAbsolutePath() + File.separator
 				+ "init.json");
+		java.lang.System.out.println(path.getPath());
 		load();
 		loadScores();
 
@@ -384,8 +401,8 @@ public class Model implements DisplayMenuListener {
 		_controller.modelUpdated();
 	}
 	
-	public void addRepeat(String name, Barline start_barline, Barline end_barline) {
-		getCurrentScore().addRepeat(start_barline, end_barline).setName(name);
+	public void addRepeat(String name, Barline barline, Type type) {
+		getCurrentScore().addRepeat(barline, type).setName(name);
 		_controller.modelUpdated();
 	}
 	

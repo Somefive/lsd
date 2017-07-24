@@ -112,14 +112,117 @@ public class NotationToolbar implements Toolbar, ControllerListener {
 			}
 		}));
 		
-		newPopupMenu.add(new JMenuItem(new AbstractAction("Repeat") {
+		newPopupMenu.add(new JMenuItem(new AbstractAction("Repeat End") {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent event) {
-				_model.setCurrentTool(_model.NEW_REPEAT_TOOL);
+				_model.setCurrentTool(_model.NEW_REPEAT_END_TOOL);
 			}
 		}));
+		
+		newPopupMenu.add(new JMenuItem(new AbstractAction("Repeat Start") {
+			private static final long serialVersionUID = 1L;
 
+			public void actionPerformed(ActionEvent event) {
+				_model.setCurrentTool(_model.NEW_REPEAT_START_TOOL);
+			}
+		}));
+		
+		newPopupMenu.add(new JMenuItem(new AbstractAction("Ending Beginning") {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent event) {
+				_model.setCurrentTool(_model.NEW_ENDING_BEGINNING_TOOL);
+			}
+		}));
+		
+		newPopupMenu.add(new JMenuItem(new AbstractAction("Ending Endpoint") {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent event) {
+				_model.setCurrentTool(_model.NEW_ENDING_ENDPOINT_TOOL);
+			}
+		}));
+		
+		newPopupMenu.add(new JMenuItem(new AbstractAction("Segno") {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent event) {
+				_model.setCurrentTool(_model.NEW_SEGNO_TOOL);
+			}
+		}));
+		
+		newPopupMenu.add(new JMenuItem(new AbstractAction("DS") {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent event) {
+				_model.setCurrentTool(_model.NEW_DS_TOOL);
+			}
+		}));
+		
+		newPopupMenu.add(new JMenuItem(new AbstractAction("DC") {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent event) {
+				_model.setCurrentTool(_model.NEW_DC_TOOL);
+			}
+		}));
+		
+		newPopupMenu.add(new JMenuItem(new AbstractAction("ToCoda") {
+			private static final long serialVersionUID = 1L;
+			public void actionPerformed(ActionEvent event) {
+				_model.setCurrentTool(_model.NEW_TOCODA_TOOL);
+			}
+		}));
+		
+		newPopupMenu.add(new JMenuItem(new AbstractAction("DC.Coda") {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent event) {
+				_model.setCurrentTool(_model.NEW_DC_CODA_TOOL);
+			}
+		}));
+		
+		newPopupMenu.add(new JMenuItem(new AbstractAction("DS.Coda") {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent event) {
+				_model.setCurrentTool(_model.NEW_DS_CODA_TOOL);
+			}
+		}));
+		
+		newPopupMenu.add(new JMenuItem(new AbstractAction("Coda") {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent event) {
+				_model.setCurrentTool(_model.NEW_CODA_TOOL);
+			}
+		}));
+		
+		newPopupMenu.add(new JMenuItem(new AbstractAction("Fine") {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent event) {
+				_model.setCurrentTool(_model.NEW_FINE_TOOL);
+			}
+		}));
+		
+		newPopupMenu.add(new JMenuItem(new AbstractAction("DS.Fine") {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent event) {
+				_model.setCurrentTool(_model.NEW_DS_FINE_TOOL);
+			}
+		}));
+		
+		newPopupMenu.add(new JMenuItem(new AbstractAction("DC.Fine") {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent event) {
+				_model.setCurrentTool(_model.NEW_DC_FINE_TOOL);
+			}
+		}));
+		
 		newButton.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent event) {
 				newPopupMenu.show(event.getComponent(), event.getX(),
@@ -212,6 +315,13 @@ public class NotationToolbar implements Toolbar, ControllerListener {
 			arrangement_names.add(section.getName());
 		}
 		_arrangement.setText(joiner.join(arrangement_names));
+		
+		Set<Repeat> repeats = score.getRepeats();
+		List<String> repeat_names = new ArrayList<String>(repeats.size());
+		for (Repeat repeat : repeats) {
+			repeat_names.add(repeat.getName());
+		}
+		_repeats.setText(joiner.join(repeat_names));
 	}
 
 	@Override

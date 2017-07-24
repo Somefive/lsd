@@ -1,23 +1,31 @@
 package edu.cmu.mat.lsd.tools;
 
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import edu.cmu.mat.lsd.Model;
 import edu.cmu.mat.scores.Barline;
 import edu.cmu.mat.scores.Page;
+import edu.cmu.mat.scores.System;
+import edu.cmu.mat.scores.events.Event.Type;
 
 public class NewRepeatTool extends Tool {
 	private Model _model = null;
+	private Type _type = null;
 	private Barline _barline = null;
 	private Barline _start_barline = null;
 
-	public NewRepeatTool(Model model) {
+	public NewRepeatTool(Model model, Type type) {
 		_model = model;
+		_type = type;
 	}
 
 	public boolean mouseClicked(Page page, MouseEvent event) {
+		Barline _start_barline = Tool.GetIntersectedBarline(page, event);
+		String name = "";
+	/*	
 		if (_start_barline == null) {
 			_start_barline = Tool.GetLeftBarline(page, event);
 			return true;
@@ -29,26 +37,32 @@ public class NewRepeatTool extends Tool {
 			
 			java.lang.System.out.println("in 1");
 			
-		/*	xxx
-			
 			if (end_barline.cmp(_start_barline) == -1) {
-				java.lang.System.out.println("in 2");
 				end_barline = _start_barline;
 				_start_barline = tmp_barline;
-				java.lang.System.out.println("in 3");
+				
+				System _system = end_barline.getParent();
+				List<Barline> _barlines = _system.getBarlines();
+				
+				end_barline = _barlines.get(_barlines.indexOf(end_barline) + 1);
+				
+				_system = _start_barline.getParent();
+				_barlines = _system.getBarlines();
+				
+				_start_barline = _barlines.get(_barlines.indexOf(_start_barline) - 1);
 			}
-		*/
-		
-			
 		
 			String name = JOptionPane.showInputDialog("Repeat Name");
-			if (name != null && !name.equals("")) {
-				_model.addRepeat(name, _start_barline, end_barline);
-			}
-			end_barline.setInactive();
+		*/
+		//	if (name != null && !name.equals("")) {
+		java.lang.System.out.println("Eh!");
+		
+		if (_start_barline != null) {
+			java.lang.System.out.println("Oh!");
+			_model.addRepeat(name, _start_barline, _type);
 			_start_barline.setInactive();
 			_start_barline = null;
-	
+
 			if (_barline != null) {
 				_barline.setInactive();
 				_barline = null;
@@ -56,6 +70,11 @@ public class NewRepeatTool extends Tool {
 			
 			return true;
 		}
+		
+		//	end_barline.setInactive();
+		//	_start_barline.setInactive();
+		//	_start_barline = null;
+	
 		return false;
 	}
 

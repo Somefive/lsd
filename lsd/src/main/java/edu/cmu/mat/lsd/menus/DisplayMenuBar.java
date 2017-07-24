@@ -32,6 +32,7 @@ public class DisplayMenuBar extends JMenuBar implements ControllerListener {
 	private JMenu _open;
 	private JRadioButtonMenuItem _notation;
 	private JRadioButtonMenuItem _display;
+	private JRadioButtonMenuItem _repeat;
 
 	public DisplayMenuBar(Model model) {
 		_model = model;
@@ -172,14 +173,17 @@ public class DisplayMenuBar extends JMenuBar implements ControllerListener {
 		ButtonGroup group = new ButtonGroup();
 		_notation = new JRadioButtonMenuItem("Notation");
 		_display = new JRadioButtonMenuItem("Display");
+		_repeat = new JRadioButtonMenuItem("Repeat");
 		group.add(_notation);
 		group.add(_display);
+		group.add(_repeat);
 
 		score.add(rename);
 		score.add(add_images);
 		score.add(new JSeparator());
 		score.add(_notation);
 		score.add(_display);
+		score.add(_repeat);
 
 		rename.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -225,7 +229,14 @@ public class DisplayMenuBar extends JMenuBar implements ControllerListener {
 				_model.setCurrentView(Model.VIEW_DISPLAY);
 			}
 		});
+		
 
+		_repeat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				_model.setCurrentView(Model.VIEW_REPEAT);
+			}
+		});
+		
 		return score;
 	}
 
@@ -264,6 +275,9 @@ public class DisplayMenuBar extends JMenuBar implements ControllerListener {
 			_notation.setSelected(true);
 		} else if (view == Model.VIEW_DISPLAY) {
 			_display.setSelected(true);
+		}
+		else if (view == Model.VIEW_REPEAT) {
+			_repeat.setSelected(true);
 		}
 	}
 

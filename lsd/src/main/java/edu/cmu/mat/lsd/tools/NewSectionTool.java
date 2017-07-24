@@ -1,12 +1,14 @@
 package edu.cmu.mat.lsd.tools;
 
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import edu.cmu.mat.lsd.Model;
 import edu.cmu.mat.scores.Barline;
 import edu.cmu.mat.scores.Page;
+import edu.cmu.mat.scores.System;
 
 public class NewSectionTool extends Tool {
 	private Model _model = null;
@@ -36,6 +38,16 @@ public class NewSectionTool extends Tool {
 				end_barline = _start_barline;
 				_start_barline = tmp_barline;
 				java.lang.System.out.println("in 3");
+				
+				System _system = end_barline.getParent();
+				List<Barline> _barlines = _system.getBarlines();
+				
+				end_barline = _barlines.get(_barlines.indexOf(end_barline) + 1);
+				
+				_system = _start_barline.getParent();
+				_barlines = _system.getBarlines();
+				
+				_start_barline = _barlines.get(_barlines.indexOf(_start_barline) - 1);
 			}
 		
 			end_barline.getParent().print();
