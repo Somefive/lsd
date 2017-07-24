@@ -4,12 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.imageio.ImageIO;
 
@@ -72,6 +67,8 @@ public class Score implements ScoreObject {
 			_sections.add(new Section(this, section));
 		}
 		
+		if (other._repeats == null)
+			other._repeats = new HashSet<>();
 		for (Repeat repeat : other._repeats) {
 			_repeats.add(new Repeat(this, repeat));
 		}
