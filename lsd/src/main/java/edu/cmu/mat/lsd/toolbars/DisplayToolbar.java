@@ -10,6 +10,7 @@ import javax.swing.JToolBar;
 
 import edu.cmu.mat.lsd.Model;
 import edu.cmu.mat.lsd.hcmp.TimeMap;
+import edu.cmu.mat.lsd.logger.HCMPLogger;
 import edu.cmu.mat.lsd.panels.DisplayPanel;
 
 public class DisplayToolbar implements Toolbar {

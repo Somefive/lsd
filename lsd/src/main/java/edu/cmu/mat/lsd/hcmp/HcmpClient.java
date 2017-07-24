@@ -262,7 +262,7 @@ public class HcmpClient implements HcmpMessenger {
 	}
 
 	private void sendMessage(String message) {
-		HCMPLogger.info("[HCMPClient] sending message: " + message);
+//		HCMPLogger.info("[HCMPClient] sending message: " + message);
 		// XXX: This uses the platform's default charset. UTF-8?
 		publish.send(message.getBytes(), 0);
 	}

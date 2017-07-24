@@ -33,6 +33,7 @@ import edu.cmu.mat.lsd.components.JCursor;
 import edu.cmu.mat.lsd.hcmp.HcmpListener;
 import edu.cmu.mat.lsd.hcmp.TimeMap;
 import edu.cmu.mat.lsd.hcmp.HcmpClient;
+import edu.cmu.mat.lsd.logger.HCMPLogger;
 import edu.cmu.mat.lsd.ws.BeatMessage;
 import edu.cmu.mat.lsd.ws.DisplayServer;
 import edu.cmu.mat.scores.Arrangement;
@@ -359,6 +360,17 @@ public class DisplayPanel implements Panel, HcmpListener {
 					updateBlock();
 				drawArrow();
 				moveCursor();
+				
+				int playBackEventIndex = Math.min(_playback_events.size()-1, _events_index);
+				PlaybackEvent playbackEvent = _playback_events.get(playBackEventIndex);
+				Barline barline = _events_index < _playback_events.size() ? playbackEvent.getStart() : playbackEvent.getEnd();
+				int nextPlayBackEventIndex = Math.min(_playback_events.size()-1, _events_index+1);
+				PlaybackEvent nextPlaybackEvent = _playback_events.get(nextPlayBackEventIndex);
+				Barline nextBarline = (_events_index+1) < _playback_events.size() ?
+						nextPlaybackEvent.getStart() : nextPlaybackEvent.getEnd();
+				DisplayServer.broadcast(new BeatMessage(barline, nextBarline));
+				
+				
 				if (_events_index < _playback_events.size()) {
 					fireNextEvent(id);
 				}
@@ -532,9 +544,6 @@ public class DisplayPanel implements Panel, HcmpListener {
 		int playBackEventIndex = Math.min(_playback_events.size()-1, _events_index);
 		PlaybackEvent playbackEvent = _playback_events.get(playBackEventIndex);
 		Barline barline = _events_index < _playback_events.size() ? playbackEvent.getStart() : playbackEvent.getEnd();
-
-		DisplayServer.broadcast(new BeatMessage(barline));
-
 		Block block = _blocks.get(_current_block_index);
 		int x = (int) (barline.getOffset() * getJBlock(true)
 				.getImageWidth()) + getJBlock(true).getImageOffset();
