@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.System;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +30,7 @@ import edu.cmu.mat.lsd.tools.NewRepeatTool;
 import edu.cmu.mat.lsd.tools.NewSystemTool;
 import edu.cmu.mat.lsd.tools.Tool;
 import edu.cmu.mat.parsers.exceptions.CompilerException;
-import edu.cmu.mat.scores.Barline;
-import edu.cmu.mat.scores.Score;
-import edu.cmu.mat.scores.ScoreObject;
-import edu.cmu.mat.scores.Section;
-import edu.cmu.mat.scores.Repeat;
+import edu.cmu.mat.scores.*;
 import edu.cmu.mat.scores.events.Event;
 import edu.cmu.mat.scores.events.Event.Type;
 
@@ -103,6 +100,8 @@ public class Model implements DisplayMenuListener {
 	public final static int VIEW_NOTATION = 0;
 	public final static int VIEW_DISPLAY = 1;
 	public final static int VIEW_REPEAT = 2;
+	
+	public List<PlaybackEvent> CurrentPlaybackEvents;
 
 	public Model() {
 		// This is required for Gson to properly initiate variables during

@@ -36,6 +36,7 @@ import edu.cmu.mat.lsd.hcmp.TimeMap;
 import edu.cmu.mat.lsd.hcmp.HcmpClient;
 import edu.cmu.mat.lsd.logger.HCMPLogger;
 import edu.cmu.mat.lsd.ws.BeatMessage;
+import edu.cmu.mat.lsd.ws.BeatsMessage;
 import edu.cmu.mat.lsd.ws.DisplayServer;
 import edu.cmu.mat.scores.Arrangement;
 import edu.cmu.mat.scores.Barline;
@@ -274,7 +275,10 @@ public class DisplayPanel implements Panel, HcmpListener {
 			java.lang.System.err.println("Could not parse new arrangement!");
 			return false;
 		}
-
+		
+		DisplayServer.broadcast(new BeatsMessage(new_events));
+		Model.Instance.CurrentPlaybackEvents = new_events;
+		
 		_playback_events = new_events;
 		_blocks = _score.createBlockList(_playback_events, 0.5);
 		_current_block_index = 0;
@@ -396,7 +400,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 				PlaybackEvent nextPlaybackEvent = _playback_events.get(nextPlayBackEventIndex);
 				Barline nextBarline = (_events_index+1) < _playback_events.size() ?
 						nextPlaybackEvent.getStart() : nextPlaybackEvent.getEnd();
-				DisplayServer.broadcast(new BeatMessage(barline, nextBarline));
+				DisplayServer.broadcast(new BeatMessage(_events_index));
 				
 				
 				if (_events_index < _playback_events.size()) {

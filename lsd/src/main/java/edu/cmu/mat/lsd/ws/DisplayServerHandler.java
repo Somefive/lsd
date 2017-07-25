@@ -40,20 +40,29 @@ public class DisplayServerHandler {
 	@OnWebSocketMessage
 	public void onMessage(String pack) {
 		Message message = gson.fromJson(pack, Message.class);
-		if (message.type.equals("verbose")) {
-			VerboseMessage verboseMessage = gson.fromJson(pack, VerboseMessage.class);
-			HCMPLogger.info("[DisplayServer] Receive client message: " + verboseMessage.message);
-		} else if (message.type.equals("page")) {
-			try {
-				PageMessage pageMessage = gson.fromJson(pack, PageMessage.class);
-				Page page = Model.Instance.getCurrentScore().getPages().get(pageMessage.pageNumber);
-				DisplayServer.broadcast(new PageMessage(page));
-				HCMPLogger.info("[DisplayServer] Client request page: " + pageMessage.pageNumber);
-			} catch (IndexOutOfBoundsException e) {
-				DisplayServer.broadcast(new VerboseMessage("Invalid PageNumber."));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		switch (message.type) {
+			case "verbose":
+				VerboseMessage verboseMessage = gson.fromJson(pack, VerboseMessage.class);
+				HCMPLogger.info("[DisplayServer] Receive client message: " + verboseMessage.message);
+				break;
+			case "page":
+				try {
+					PageMessage pageMessage = gson.fromJson(pack, PageMessage.class);
+					Page page = Model.Instance.getCurrentScore().getPages().get(pageMessage.pageNumber);
+					DisplayServer.broadcast(new PageMessage(page));
+					HCMPLogger.info("[DisplayServer] Client request page: " + pageMessage.pageNumber);
+				} catch (IndexOutOfBoundsException e) {
+					DisplayServer.broadcast(new VerboseMessage("Invalid PageNumber."));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
+			case "beats":
+				if (Model.Instance.CurrentPlaybackEvents != null) {
+					DisplayServer.broadcast(new BeatsMessage(Model.Instance.CurrentPlaybackEvents));
+					HCMPLogger.info("[DisplayServer] Client request beats.");
+				}
+				break;
 		}
 	}
 	
