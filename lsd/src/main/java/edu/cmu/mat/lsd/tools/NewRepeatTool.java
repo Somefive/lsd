@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import edu.cmu.mat.lsd.Model;
+import edu.cmu.mat.lsd.logger.HCMPLogger;
 import edu.cmu.mat.scores.Barline;
 import edu.cmu.mat.scores.Page;
 import edu.cmu.mat.scores.System;
@@ -60,10 +61,10 @@ public class NewRepeatTool extends Tool {
 			String name = JOptionPane.showInputDialog("Repeat Name");
 		*/
 		//	if (name != null && !name.equals("")) {
-		java.lang.System.out.println("Eh!");
+		HCMPLogger.fine("[NewRepeatTool] Eh!");
 		
 		if (_start_barline != null) {
-			java.lang.System.out.println("Oh!");
+			HCMPLogger.fine("[NewRepeatTool] Oh!");
 			_model.addRepeat(name, _start_barline, _type);
 			_start_barline.setInactive();
 			_start_barline = null;

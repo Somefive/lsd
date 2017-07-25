@@ -277,7 +277,6 @@ public class Model implements DisplayMenuListener {
 		_imgCache = new ImageCache(_library);
 		_init_file = new File(_library.getAbsolutePath() + File.separator
 				+ "init.json");
-		java.lang.System.out.println(path.getPath());
 		load();
 		loadScores();
 
