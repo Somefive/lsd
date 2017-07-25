@@ -459,7 +459,7 @@ public class Score implements ScoreObject {
 			
 			tmpstr += " }";
 			
-			java.lang.System.out.println(tmpstr);
+//			java.lang.System.out.println(tmpstr);
 			
 			LexicalAnalyzer analyzer = new LexicalAnalyzer();
 			//analyzer.loadLexFile("/Users/AladeenSun/Desktop/Summer/lsd/SCompiler/wfnDefault.l");

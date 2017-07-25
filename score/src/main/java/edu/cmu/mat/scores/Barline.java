@@ -41,8 +41,6 @@ public class Barline implements ScoreObject, Comparable<Barline> {
 	}
 
 	public void addEvent(Event event) {
-		java.lang.System.out.println("Barline addEvent");
-		java.lang.System.out.println(String.valueOf(event == null));
 		_events.add(event);
 	}
 
