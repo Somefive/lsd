@@ -31,6 +31,9 @@ public class Block {
 	private int _jump_index = 0;
 
 	private boolean _is_flipped = false;
+	
+	public static int TOP_POS = 0;
+	public static int BOTTOM_POS = 1;
 
 	public Block(List<System> systems) {
 		_systems = systems;
@@ -77,7 +80,7 @@ public class Block {
 		return _is_flipped;
 	}
 
-	public double getYOffset(System current) {
+	public double getYOffset(System current, int pos) {
 		List<Page> pages = _start_system.getParent().getParent().getPages();
 		int startIndex = pages.indexOf(_start_system.getParent());
 		int endIndex = pages.indexOf(current.getParent());
@@ -99,7 +102,7 @@ public class Block {
 
 			for (int j = startSystemIndex; j <= endSystemIndex; j++) {
 				System system = systems.get(j);
-				position += (system.getBottom() - system.getTop());
+				if (pos == BOTTOM_POS || j != endSystemIndex) position += (system.getBottom() - system.getTop());
 			}
 		}
 

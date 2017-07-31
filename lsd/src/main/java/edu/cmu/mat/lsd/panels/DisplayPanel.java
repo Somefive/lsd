@@ -29,6 +29,7 @@ import javax.swing.Timer;
 
 import edu.cmu.mat.lsd.Model;
 import edu.cmu.mat.lsd.components.JArrow;
+import edu.cmu.mat.lsd.components.JLine;
 import edu.cmu.mat.lsd.components.JBlock;
 import edu.cmu.mat.lsd.components.JCursor;
 import edu.cmu.mat.lsd.hcmp.HcmpListener;
@@ -48,7 +49,7 @@ import edu.cmu.mat.scores.Section;
 import edu.cmu.mat.scores.System;
 
 public class DisplayPanel implements Panel, HcmpListener {
-	private static final int PAGE_LEFT = 8;
+	private static final int PAGE_LEFT = 20;
 
 	private Model _model;
 	private Score _score;
@@ -68,7 +69,10 @@ public class DisplayPanel implements Panel, HcmpListener {
 	private JBlock _lower_block;
 	private JCursor _cursor;
 	private JArrow _arrow;
+	private JLine _from_line;
+	private JLine _to_line;
 	private boolean _is_arrow_visible = false;
+	private boolean _is_line_visible = false;
 
 	private List<Block> _blocks;
 	private Barline _previous_jump_to = null;
@@ -80,6 +84,10 @@ public class DisplayPanel implements Panel, HcmpListener {
 	private List<PlaybackEvent> _playback_events = new ArrayList<PlaybackEvent>();
 	private int _events_index = 0;
 	private int _current_block_index = 0;
+	
+	public static int TO = 0;
+	public static int FROM = 1;
+	public static int LENGTH = 2;
 
 	public DisplayPanel(Model model) {
 		_model = model;
@@ -94,6 +102,16 @@ public class DisplayPanel implements Panel, HcmpListener {
 		_arrow.setOpaque(false);
 		_arrow.setVisible(_is_arrow_visible);
 		_layers.add(_arrow, 0);
+		
+		_from_line = new JLine(_panel);
+		_from_line.setOpaque(false);
+		_from_line.setVisible(_is_line_visible);
+		_layers.add(_from_line, 0);
+		
+		_to_line = new JLine(_panel);
+		_to_line.setOpaque(false);
+		_to_line.setVisible(_is_line_visible);
+		_layers.add(_to_line, 0);
 
 		_cursor = new JCursor(_panel);
 		_cursor.setOpaque(false);
@@ -283,6 +301,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 		_blocks = _score.createBlockList(_playback_events, 0.5);
 		_current_block_index = 0;
 		_is_arrow_visible = false;
+		_is_line_visible = false;
 
 		_panel.removeAll();
 
@@ -309,6 +328,10 @@ public class DisplayPanel implements Panel, HcmpListener {
 		moveCursor();
 		_arrow.setSize(_layers.getPreferredSize());
 		_arrow.setVisible(_is_arrow_visible);
+		_from_line.setSize(_layers.getPreferredSize());
+		_from_line.setVisible(_is_line_visible);
+		_to_line.setSize(_layers.getPreferredSize());
+		_to_line.setVisible(_is_line_visible);
 		redraw();
 
 		if (_play_timer != null) {
@@ -472,6 +495,19 @@ public class DisplayPanel implements Panel, HcmpListener {
 		}
 		return false;
 	}
+	
+	private int cal(Barline next_jump_to, System current_system, int from_y, int to_y, int type) {
+		
+		if (from_y < to_y) {
+			to_y -= next_jump_to.getParent().getInnerHeight();
+		} else if (from_y > to_y) {
+			from_y -= current_system.getInnerHeight();
+		}
+		
+		if (type == LENGTH) return java.lang.Math.abs(from_y - to_y);
+		if (type == FROM) return from_y;
+		return to_y;
+	}
 
 	private void drawArrow() {
 		if (_events_index < _playback_events.size()) {
@@ -484,6 +520,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 			if (_previous_jump_to != null
 					&& current_event.getStart() == _previous_jump_to) {
 				_is_arrow_visible = false;
+				_is_line_visible = false;
 			}
 
 			if (!_is_arrow_visible) {
@@ -495,6 +532,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 				if (next_jump_from != null && next_jump_to != null
 						&& isCloseTo(2, _events_index, next_jump_from)) {
 					_is_arrow_visible = true;
+					_is_line_visible = true;
 
 					int from_x = (int) (next_jump_from.getOffset() * getJBlock(
 							true).getImageWidth())
@@ -502,9 +540,12 @@ public class DisplayPanel implements Panel, HcmpListener {
 					
 					java.lang.System.out.println(String.valueOf(_blocks.size()));
 					
-					int from_y = (int) (current_block.getYOffset(next_jump_from
-							.getParent()) * _height) + getJBlock(true).getY();
-					int to_x, to_y;
+					int from_y_top = (int) (current_block.getYOffset(next_jump_from
+							.getParent(), Block.TOP_POS) * _height) + getJBlock(true).getY();
+					int from_y_bottom = (int) (current_block.getYOffset(next_jump_from
+							.getParent(), Block.BOTTOM_POS) * _height) + getJBlock(true).getY();
+					
+					int to_x, to_y_top, to_y_bottom;
 					if (_score.outOfBlock(current_block, next_jump_to)) {
 						Block next_block = _blocks
 								.get(_current_block_index + 1);
@@ -513,8 +554,11 @@ public class DisplayPanel implements Panel, HcmpListener {
 								false).getImageWidth())
 								+ getJBlock(false).getImageOffset() - PAGE_LEFT;
 						
-						to_y = (int) (next_block.getYOffset(next_jump_to
-								.getParent()) * _height)
+						to_y_top = (int) (next_block.getYOffset(next_jump_to
+								.getParent(), Block.TOP_POS) * _height)
+								+ getJBlock(false).getY();
+						to_y_bottom = (int) (next_block.getYOffset(next_jump_to
+								.getParent(), Block.BOTTOM_POS) * _height)
 								+ getJBlock(false).getY();
 					} else {
 						
@@ -522,23 +566,40 @@ public class DisplayPanel implements Panel, HcmpListener {
 								true).getImageWidth())
 								+ getJBlock(true).getImageOffset() - PAGE_LEFT;
 						
-						to_y = (int) (current_block.getYOffset(next_jump_to
-								.getParent()) * _height)
+						to_y_top = (int) (current_block.getYOffset(next_jump_to
+								.getParent(), Block.TOP_POS) * _height)
+								+ getJBlock(true).getY();
+						to_y_bottom = (int) (current_block.getYOffset(next_jump_to
+								.getParent(), Block.BOTTOM_POS) * _height)
 								+ getJBlock(true).getY();
 					}
 					// Current y values are referring to bottom of system
-
-					if (from_y < to_y) {
-						to_y -= next_jump_to.getParent().getInnerHeight();
-					} else if (from_y > to_y) {
-						from_y -= current_system.getInnerHeight();
+					
+					int from_y, to_y;
+					if (to_y_bottom == from_y_bottom) {
+						from_y = from_y_bottom;
+						to_y = to_y_bottom;
+					}
+					else { 
+						if (cal(next_jump_to, current_system, from_y_bottom, to_y_top, LENGTH) < cal(next_jump_to, current_system, from_y_top, to_y_bottom, LENGTH)) {
+							from_y = cal(next_jump_to, current_system, from_y_bottom, to_y_top, FROM);
+							to_y = cal(next_jump_to, current_system, from_y_bottom, to_y_top, TO);
+						}
+						else {
+							from_y = cal(next_jump_to, current_system, from_y_top, to_y_bottom, FROM);
+							to_y = cal(next_jump_to, current_system, from_y_top, to_y_bottom, TO);
+						}
 					}
 
 					_previous_jump_to = next_jump_to;
 					_arrow.setPosition(from_x, from_y, to_x, to_y);
+					_from_line.setPosition(from_x, from_y_top, from_x, from_y_bottom);
+					_to_line.setPosition(to_x, to_y_top, to_x, to_y_bottom);
 				}
 
 				_arrow.setVisible(_is_arrow_visible);
+				_from_line.setVisible(_is_line_visible);
+				_to_line.setVisible(_is_line_visible);
 			}
 
 			if (current_event.getEnd() == next_jump_from) {
@@ -579,7 +640,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 		Block block = _blocks.get(_current_block_index);
 		int x = (int) (barline.getOffset() * getJBlock(true)
 				.getImageWidth()) + getJBlock(true).getImageOffset();
-		int y = (int) (block.getYOffset(barline.getParent()) * _height)
+		int y = (int) (block.getYOffset(barline.getParent(), Block.BOTTOM_POS) * _height)
 				+ getJBlock(true).getY();
 		_cursor.setPosition(x, y - 5); // y-5: keep cursor inside block
 		redraw();

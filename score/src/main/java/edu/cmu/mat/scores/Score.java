@@ -576,7 +576,9 @@ public class Score implements ScoreObject {
 		System previous = null;
 		System current = first;
 		double current_height = first.getBottom() - first.getTop();
-
+		java.lang.System.out.println("Creat?");
+		java.lang.System.out.println(current_height);
+		java.lang.System.out.println(block_height);
 		while (current != null && current_height <= block_height) {
 
 			previous = current;
@@ -649,6 +651,7 @@ public class Score implements ScoreObject {
 		PlaybackEvent current_event = events.get(event_start_index);
 		System next_block_start = current_event.getStart().getParent();
 		while (next_block_start != null) {
+			java.lang.System.out.println("Start creating");
 			Block block = createCurrentBlock(next_block_start,
 					block_height);
 			blocks.add(block);
