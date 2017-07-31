@@ -57,19 +57,19 @@ public class JPage extends JPanel {
 
 	public static FontMetrics FONT_METRICS = null;
 
-	public JPage(Model model, Page page, int height) {
+	public JPage(Model model, Page page, int width) {
 		_model = model;
 		_jpage = this;
 		_page = page;
 
 		ImageCache cache = _model.getImgCache();
-		BufferedImage resized_image = cache.find(page, height);
+		BufferedImage resized_image = cache.find(page, width);
 
 		if (resized_image == null) {
 			Image image = page.getImage();
-			resized_image = Image.RESIZE(image.getImage(), height,
-					Image.DIMENSION_HEIGHT);
-			cache.save(page, resized_image, height);
+			resized_image = Image.RESIZE(image.getImage(), width,
+					Image.DIMENSION_WIDTH);
+			cache.save(page, resized_image, width);
 		}
 
 		_height = resized_image.getHeight();
