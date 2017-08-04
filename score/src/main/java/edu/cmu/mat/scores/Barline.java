@@ -110,4 +110,8 @@ public class Barline implements ScoreObject, Comparable<Barline> {
 		int loc = this.getParent().compareTo(o.getParent());
 		return loc == 0 ? Double.compare(this.getOffset(), o.getOffset()) : loc;
 	}
+	
+	public int getIndex() {
+		return this.getParent().getBarlines().indexOf(this);
+	}
 }

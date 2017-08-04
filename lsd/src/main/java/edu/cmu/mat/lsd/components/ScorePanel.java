@@ -86,6 +86,7 @@ public class ScorePanel extends JPanel {
 	
 	protected void paintBlock(Graphics g, boolean isLower, int paintIndex) {
 		HCMPLogger.fine("[ScorePanel] paintBlock - " + (isLower?"LOW":"UP") + " index:" + paintIndex);
+		if (paintIndex >= playBackEventSize()) return;
 		int blockHeight = getHeight() / 2;
 		System system = playBackEvent(paintIndex).getSystem();
 		BufferedImage image = playBackEvent(paintIndex).getImage();
@@ -106,7 +107,7 @@ public class ScorePanel extends JPanel {
 			canvasWidth = Math.max(canvasWidth, paintWidth);
 			do {
 				++index;
-			} while (index < playBackEvents.size() && playBackEvents.get(index).getSystem() == playBackEvents.get(index-1).getSystem());
+			} while (index < playBackEventSize() && playBackEvent(index).getSystem() == playBackEvent(index-1).getSystem());
 		}
 		if (isLower) {
 			_lowerBound.l = paintIndex;
@@ -168,8 +169,9 @@ public class ScorePanel extends JPanel {
 	
 	protected void paintLine(Graphics g) {
 		System system = playBackEvent(currentPlayBackIndex).getSystem();
-		int index = currentPlayBackIndex;
-		while (index < playBackEventSize() && playBackEvent(index).getSystem() == system) ++index;
+		int index = currentPlayBackIndex + 1;
+		while (index < playBackEventSize() && playBackEvent(index).getSystem() == system &&
+		playBackEvent(index).getStart() == playBackEvent(index-1).getEnd()) ++index;
 		if (index == playBackEventSize() || index == 0) return;
 		PaintBuffer from = findPaintBuffer(index - 1), to = findPaintBuffer(index);
 		Barline fromBarline = playBackEvent(index - 1).getEnd(), toBarline = playBackEvent(index).getStart();
@@ -179,7 +181,8 @@ public class ScorePanel extends JPanel {
 		((Graphics2D)g).setStroke(new BasicStroke(STROKE));
 		g.drawLine(fromX, from.dy1 + OFFSET, fromX, from.dy2 - OFFSET);
 		g.drawLine(toX, to.dy1 + OFFSET, toX, to.dy2 - OFFSET);
-		if (from.dy2 <= to.dy1) drawArrow((Graphics2D) g, fromX, from.dy2 - OFFSET, toX, to.dy1 + OFFSET);
+		if (from.dy1 < to.dy1) drawArrow((Graphics2D) g, fromX, from.dy2 - OFFSET, toX, to.dy1 + OFFSET);
+		else if (from.dy1 == to.dy1) drawArrow((Graphics2D) g, fromX, from.dy1 + OFFSET, toX, to.dy1 + OFFSET);
 		else drawArrow((Graphics2D) g, fromX, from.dy1 + OFFSET, toX, to.dy2 - OFFSET);
 	}
 	
