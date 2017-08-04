@@ -1,5 +1,7 @@
 package edu.cmu.mat.scores;
 
+import java.awt.image.BufferedImage;
+
 public class PlaybackEvent {
 	private Section _section;
 	private Barline _start;
@@ -34,5 +36,13 @@ public class PlaybackEvent {
 
 	public boolean isSectionStart() {
 		return _is_section_start;
+	}
+	
+	public BufferedImage getImage() {
+		return _start.getImage().getImage();
+	}
+	
+	public System getSystem() {
+		return _start.getParent();
 	}
 }

@@ -139,7 +139,7 @@ public class Score implements ScoreObject {
 
 	public Repeat getRepeatByName(String name) {
 		for (Repeat repeat : _repeats) {
-			java.lang.System.out.println(name+" "+repeat.getName()+" "+ repeat.getName().equals(name));
+//			java.lang.System.out.println(name+" "+repeat.getName()+" "+ repeat.getName().equals(name));
 			if (repeat.getName().equals(name)) {
 				return repeat;
 			}
@@ -476,12 +476,12 @@ public class Score implements ScoreObject {
 			else {
 				analyzer.printAll(tokens);
 			}
-			for (LexToken token : tokens) {
-				for (int a = 0; a < token.parameters.length; ++a) {
-					java.lang.System.out.println(token.parameters[a]);
-				}
-				
-			}
+//			for (LexToken token : tokens) {
+//				for (int a = 0; a < token.parameters.length; ++a) {
+//					java.lang.System.out.println(token.parameters[a]);
+//				}
+//
+//			}
 			
 			for (LexToken token : tokens) {
 				for (int a = 0; a < token.parameters.length; ++a) {
@@ -517,7 +517,7 @@ public class Score implements ScoreObject {
 			List<Barline> start_barlines = getStartBarlines();
 			List<Barline> end_barlines = getEndBarlines();
 
-			java.lang.System.out.println("Playback start");
+//			java.lang.System.out.println("Playback start");
 
 			if (arrangement_string.length == 0) {
 				for (Section section : _sections) {
@@ -576,9 +576,9 @@ public class Score implements ScoreObject {
 		System previous = null;
 		System current = first;
 		double current_height = first.getBottom() - first.getTop();
-		java.lang.System.out.println("Creat?");
-		java.lang.System.out.println(current_height);
-		java.lang.System.out.println(block_height);
+//		java.lang.System.out.println("Creat?");
+//		java.lang.System.out.println(current_height);
+//		java.lang.System.out.println(block_height);
 		while (current != null && current_height <= block_height) {
 
 			previous = current;
@@ -651,7 +651,6 @@ public class Score implements ScoreObject {
 		PlaybackEvent current_event = events.get(event_start_index);
 		System next_block_start = current_event.getStart().getParent();
 		while (next_block_start != null) {
-			java.lang.System.out.println("Start creating");
 			Block block = createCurrentBlock(next_block_start,
 					block_height);
 			blocks.add(block);

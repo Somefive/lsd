@@ -11,7 +11,7 @@ public class RepeatEvent extends Event {
 	private Type _type;
 
 	public RepeatEvent(Barline parent, Type type, Repeat repeat) {
-		java.lang.System.out.println("Repeat Event");
+//		java.lang.System.out.println("Repeat Event");
 		_parent = parent;
 		_type = type;
 		_repeat = repeat;

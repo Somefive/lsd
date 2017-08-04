@@ -42,6 +42,10 @@ public class System implements ScoreObject, Comparable<System> {
 			addBarline(new Barline(this, barline, score));
 		}
 	}
+	
+	public Image getImage() {
+		return getParent().getImage();
+	}
 
 	public void setTop(double top) {
 		_top = top;
@@ -131,6 +135,14 @@ public class System implements ScoreObject, Comparable<System> {
 
 	public double getInnerHeight() {
 		return _bottom - _top;
+	}
+	
+	public int getHeight() {
+		return (int)(getInnerHeight() * getImage().getImage().getHeight());
+	}
+	
+	public int getWidth() {
+		return getImage().getImage().getWidth();
 	}
 
 	public int getState() {

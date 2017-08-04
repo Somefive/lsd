@@ -27,6 +27,10 @@ public class Barline implements ScoreObject, Comparable<Barline> {
 		_offset = offset;
 		_events = events;
 	}
+	
+	public Image getImage() {
+		return getParent().getImage();
+	}
 
 	public Barline(System parent, Barline other, Score score) {
 		this(parent, other.getOffset());
