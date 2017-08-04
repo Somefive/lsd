@@ -17,6 +17,7 @@ import javax.swing.border.Border;
 
 import edu.cmu.mat.lsd.Model;
 import edu.cmu.mat.lsd.cache.ImageCache;
+import edu.cmu.mat.lsd.logger.HCMPLogger;
 import edu.cmu.mat.lsd.tools.Tool;
 import edu.cmu.mat.scores.Barline;
 import edu.cmu.mat.scores.Image;
@@ -49,29 +50,29 @@ public class JPage extends JPanel {
 	private static Color COLOR_EVENT = new Color(200, 200, 200, 250);
 
 	private Model _model;
-	private JPage _jpage;
 	private Page _page;
+	private JPanel _parent;
 
 	private int _width;
 	private int _height;
 
 	public static FontMetrics FONT_METRICS = null;
 
-	public JPage(Model model, Page page, int width) {
+	public JPage(Model model, Page page, JPanel parent) {
 		_model = model;
-		_jpage = this;
 		_page = page;
-
+		_parent = parent;
+		
 		ImageCache cache = _model.getImgCache();
-		BufferedImage resized_image = cache.find(page, width);
+		BufferedImage resized_image = cache.find(page, parent.getWidth());
 
 		if (resized_image == null) {
 			Image image = page.getImage();
-			resized_image = Image.RESIZE(image.getImage(), width,
+			resized_image = Image.RESIZE(image.getImage(), parent.getWidth(),
 					Image.DIMENSION_WIDTH);
-			cache.save(page, resized_image, width);
+			cache.save(page, resized_image, parent.getWidth());
 		}
-
+		
 		_height = resized_image.getHeight();
 		_width = resized_image.getWidth();
 
@@ -80,7 +81,7 @@ public class JPage extends JPanel {
 		JLabel imageLabel = new JLabel("", icon, JLabel.CENTER);
 		imageLabel.setBorder(PAGE_BORDER);
 		imageLabel.setVerticalAlignment(JLabel.TOP);
-
+		
 		addMouseListener(new PageMouseListener(page));
 		addMouseMotionListener(new PageMouseMotionListener(page));
 		add(imageLabel);
@@ -237,7 +238,7 @@ public class JPage extends JPanel {
 				return;
 			}
 			if (tool.mouseClicked(_page, event)) {
-				_jpage.repaint();
+				repaint();
 			}
 		}
 
@@ -247,7 +248,7 @@ public class JPage extends JPanel {
 				return;
 			}
 			if (tool.mouseEntered(_page, event)) {
-				_jpage.repaint();
+				repaint();
 			}
 		}
 
@@ -257,7 +258,7 @@ public class JPage extends JPanel {
 				return;
 			}
 			if (tool.mouseExited(_page, event)) {
-				_jpage.repaint();
+				repaint();
 			}
 		}
 
@@ -267,7 +268,7 @@ public class JPage extends JPanel {
 				return;
 			}
 			if (tool.mousePressed(_page, event)) {
-				_jpage.repaint();
+				repaint();
 			}
 		}
 
@@ -277,7 +278,7 @@ public class JPage extends JPanel {
 				return;
 			}
 			if (tool.mouseReleased(_page, event)) {
-				_jpage.repaint();
+				repaint();
 			}
 		}
 	}
@@ -295,7 +296,7 @@ public class JPage extends JPanel {
 				return;
 			}
 			if (tool.mouseDragged(_page, event)) {
-				_jpage.repaint();
+				repaint();
 			}
 		}
 
@@ -305,7 +306,7 @@ public class JPage extends JPanel {
 				return;
 			}
 			if (tool.mouseMoved(_page, event)) {
-				_jpage.repaint();
+				repaint();
 			}
 		}
 	}

@@ -130,7 +130,7 @@ public abstract class Tool {
 
 				for (Event barline_event : barline.getEvents()) {
 					String text = "";
-					java.lang.System.out.println("Tool");
+//					java.lang.System.out.println("Tool");
 					switch (barline_event.getType()) {
 					case SECTION_START:
 						Section section = ((SectionStartEvent) barline_event)

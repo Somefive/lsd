@@ -28,10 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
 import edu.cmu.mat.lsd.Model;
-import edu.cmu.mat.lsd.components.JArrow;
-import edu.cmu.mat.lsd.components.JLine;
-import edu.cmu.mat.lsd.components.JBlock;
-import edu.cmu.mat.lsd.components.JCursor;
+import edu.cmu.mat.lsd.components.*;
 import edu.cmu.mat.lsd.hcmp.HcmpListener;
 import edu.cmu.mat.lsd.hcmp.TimeMap;
 import edu.cmu.mat.lsd.hcmp.HcmpClient;
@@ -62,8 +59,10 @@ public class DisplayPanel implements Panel, HcmpListener {
 	private int _width;
 
 	private double _scale = 1.0;
+	public double getScale() { return _scale; }
+	public void setScale(double scale) { _scale = scale; }
 
-	private JPanel _panel = new JPanel();
+	private JPanel _panel = new ScorePanel(this);
 	private JLayeredPane _layers = new JLayeredPane();
 	private JBlock _upper_block;
 	private JBlock _lower_block;
@@ -84,6 +83,8 @@ public class DisplayPanel implements Panel, HcmpListener {
 	private List<PlaybackEvent> _playback_events = new ArrayList<PlaybackEvent>();
 	private int _events_index = 0;
 	private int _current_block_index = 0;
+	private int _event_index_to_be_drawn = 0;
+	public int getEventIndexToBeDrawn() { return _event_index_to_be_drawn; }
 	
 	public static int TO = 0;
 	public static int FROM = 1;
@@ -124,9 +125,10 @@ public class DisplayPanel implements Panel, HcmpListener {
 				Graphics2D g2 = (Graphics2D) g;
 				int w = this.getWidth();
 				int h = this.getHeight();
-				g2.translate(w / 2, h / 2);
-				g2.scale(_scale, _scale);
-				g2.translate(-w / 2, -h / 2);
+				//TODO
+//				g2.translate(w / 2, h / 2);
+//				g2.scale(_scale, _scale);
+//				g2.translate(-w / 2, -h / 2);
 				g2.setRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
 				super.paint(g2);
 			}
@@ -168,22 +170,16 @@ public class DisplayPanel implements Panel, HcmpListener {
 		
 		int offset = 0;
 		
-		java.lang.System.out.println("ConvertArrangement");
-		java.lang.System.out.println(String.valueOf(arrangement.size()));
-		
 		if (arrangement.size() == 0) {
 			_arrangement.addAll(score.getSections());
-			java.lang.System.out.println(String.valueOf(_arrangement.size()));
 			
-			Collections.sort(_arrangement, new Comparator<Section>() {
-				public int compare(Section sec1, Section sec2) {
-					Barline st1 = sec1.getStart(), st2 = sec2.getStart(),
-							ed1 = sec1.getEnd(), ed2 = sec2.getEnd();
-					int loc = st1.compareTo(st2);
-					if (loc == 0) return ed1.compareTo(ed2);
-					else return loc;
-				}
-			}); 
+			_arrangement.sort((sec1, sec2) -> {
+				Barline st1 = sec1.getStart(), st2 = sec2.getStart(),
+						ed1 = sec1.getEnd(), ed2 = sec2.getEnd();
+				int loc = st1.compareTo(st2);
+				if (loc == 0) return ed1.compareTo(ed2);
+				else return loc;
+			});
 
 		}
 		else {
@@ -198,8 +194,8 @@ public class DisplayPanel implements Panel, HcmpListener {
 			message_parts.add( name + "," + (start_beat + offset) + ","
 					+ duration /*+ '"'*/);
 		}
-		for (int i=0; i<arrangement.size();i++)
-			java.lang.System.out.println(message_parts.get(i));
+//		for (int i=0; i<arrangement.size();i++)
+//			java.lang.System.out.println(message_parts.get(i));
 		return(message_parts);
 	}
 	
@@ -207,9 +203,10 @@ public class DisplayPanel implements Panel, HcmpListener {
 	
 
 	public void onUpdateView() {
-		if (_model.getCurrentView() == Model.VIEW_DISPLAY 
+		if (_model.getCurrentView() == Model.VIEW_DISPLAY
 				||
 			_model.getCurrentView() == Model.VIEW_REPEAT) {
+			HCMPLogger.warning("Changing to DisplayPanel");
 			if (_scroller.getHeight() > 300) {
 				if (_model.getCurrentView() == Model.VIEW_DISPLAY) {
 					String boy = "";
@@ -217,13 +214,12 @@ public class DisplayPanel implements Panel, HcmpListener {
 					int i=0;
 					for (i=0; i<list.size()-1;i++)
 					{
-						boy = boy.concat(list.get(i).toString()+","+" ");
+						boy = boy.concat(list.get(i) +","+" ");
 					}
 					i=list.size()-1;
-					boy = boy.concat(list.get(i).toString()+" ");
-					java.lang.System.out.println(boy);
+					boy = boy.concat(list.get(i) +" ");
 					String[] c = boy.split(", ");
-//				java.lang.System.out.println(c.length);
+					HCMPLogger.info("[DisplayPanel] Generate Arrangement Length:" + c.length);
 					handleNewArrangement(c);
 				}
 				else handleNewRepeat();
@@ -231,7 +227,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 			}
 				_scroller.revalidate();
 				_scroller.repaint();
-			/*	
+			/*
 				java.lang.System.out.println("test");
 				
 				Set<Section> sections =  _score.getSections();
@@ -289,6 +285,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 	}
 
 	public Boolean handleWork(List<PlaybackEvent> new_events) {
+		HCMPLogger.warning("reach here");
 		if (new_events == null) {
 			java.lang.System.err.println("Could not parse new arrangement!");
 			return false;
@@ -299,6 +296,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 		
 		_playback_events = new_events;
 		_blocks = _score.createBlockList(_playback_events, 0.5);
+		
 		_current_block_index = 0;
 		_is_arrow_visible = false;
 		_is_line_visible = false;
@@ -314,12 +312,12 @@ public class DisplayPanel implements Panel, HcmpListener {
 		//JPanel margin = new JPanel();
 		//margin.setPreferredSize(new Dimension(width, height/3));
 		//margin.setBackground(Color.WHITE);
-
-		_panel.add(_upper_block);
-		//_panel.add(margin);
-		if (_blocks.size() > 1) {
-			_panel.add(_lower_block);
-		}
+//TODO
+//		_panel.add(_upper_block);
+//		//_panel.add(margin);
+//		if (_blocks.size() > 1) {
+//			_panel.add(_lower_block);
+//		}
 
 		_layers.setPreferredSize(new Dimension(width, height));
 		_panel.setSize(_layers.getPreferredSize());
@@ -340,7 +338,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 		return true;
 	}
 	
-	@Override 
+	@Override
 	public Boolean handleNewRepeat() {
 		List<PlaybackEvent> new_events = _score
 				.creatRepeatPlaybackEvents();
@@ -357,12 +355,12 @@ public class DisplayPanel implements Panel, HcmpListener {
 	}
 
 	public void zoomIn() {
-		_scale = Math.min(_scale * 1.1, 1.0);
+		_scale = Math.min(_scale + 0.1, 5.0);
 		redraw();
 	}
 
 	public void zoomOut() {
-		_scale = Math.max(_scale / 1.1, 0.4);
+		_scale = Math.max(_scale - 0.1, 0.1);
 		redraw();
 	}
 
@@ -411,10 +409,11 @@ public class DisplayPanel implements Panel, HcmpListener {
 		_play_timer = new Timer((int) delay, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (_events_index < _playback_events.size())
-					updateBlock();
-				drawArrow();
-				moveCursor();
+//				if (_events_index < _playback_events.size())
+//					updateBlock();
+				redraw();
+//				drawArrow();
+//				moveCursor();
 				
 				int playBackEventIndex = Math.min(_playback_events.size()-1, _events_index);
 				PlaybackEvent playbackEvent = _playback_events.get(playBackEventIndex);
@@ -424,7 +423,6 @@ public class DisplayPanel implements Panel, HcmpListener {
 				Barline nextBarline = (_events_index+1) < _playback_events.size() ?
 						nextPlaybackEvent.getStart() : nextPlaybackEvent.getEnd();
 				DisplayServer.broadcast(new BeatMessage(_events_index));
-				
 				
 				if (_events_index < _playback_events.size()) {
 					fireNextEvent(id);
@@ -580,7 +578,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 						from_y = from_y_bottom;
 						to_y = to_y_bottom;
 					}
-					else { 
+					else {
 						if (cal(next_jump_to, current_system, from_y_bottom, to_y_top, LENGTH) < cal(next_jump_to, current_system, from_y_top, to_y_bottom, LENGTH)) {
 							from_y = cal(next_jump_to, current_system, from_y_bottom, to_y_top, FROM);
 							to_y = cal(next_jump_to, current_system, from_y_bottom, to_y_top, TO);
@@ -665,6 +663,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 	}
 
 	private void redraw() {
+		_event_index_to_be_drawn = _events_index;
 		_panel.revalidate();
 		_panel.repaint();
 
