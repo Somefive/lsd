@@ -64,7 +64,9 @@ public class ScorePanel extends JPanel {
 			return this;
 		}
 		void paint(Graphics g) {
-			g.drawImage(_image, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null);
+//			g.drawImage(_image, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, null);
+			Image clip = _image.getSubimage(sx1, sy1, sx2-sx1, sy2-sy1).getScaledInstance(dx2-dx1, dy2-dy1, Image.SCALE_SMOOTH);
+			g.drawImage(clip, dx1, dy1, null);
 		}
 		int getImageWidth() {
 			return (int)(_image.getWidth() * _scale);
