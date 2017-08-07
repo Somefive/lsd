@@ -60,21 +60,25 @@ public class JPage extends JPanel {
 	private int _height;
 
 	public static FontMetrics FONT_METRICS = null;
-
+	
+	final int WIDTH_A4_300DPI = 2550;
+	
 	public JPage(Model model, Page page, JPanel parent, int type) {
 		_model = model;
 		_page = page;
 		_parent = parent;
 		_type = type;
 		
+		int targetWidth = Math.min(page.getImage().getImage().getWidth(), WIDTH_A4_300DPI);
+		
 		ImageCache cache = _model.getImgCache();
-		BufferedImage resized_image = cache.find(page, parent.getWidth());
+		BufferedImage resized_image = cache.find(page, targetWidth);
 
 		if (resized_image == null) {
 			Image image = page.getImage();
-			resized_image = Image.RESIZE(image.getImage(), parent.getWidth(),
+			resized_image = Image.RESIZE(image.getImage(), targetWidth,
 					Image.DIMENSION_WIDTH);
-			cache.save(page, resized_image, parent.getWidth());
+			cache.save(page, resized_image, targetWidth);
 		}
 		
 		_height = resized_image.getHeight();

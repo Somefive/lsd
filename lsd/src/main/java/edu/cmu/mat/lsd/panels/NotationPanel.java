@@ -107,10 +107,6 @@ public class NotationPanel implements Panel {
 			int height = _scroller.getHeight()
 					- _scroller.getHorizontalScrollBar().getHeight() - 50;
 			int width = _scroller.getWidth() - _scroller.getVerticalScrollBar().getWidth() - 500;
-//			java.lang.System.out.println("height -----");
-//			java.lang.System.out.println(height);
-//			java.lang.System.out.println("width -----");
-//			java.lang.System.out.println(width);
 			for (Page page : score.getPages()) {
 				_panel.add(new JPage(_model, page, _panel, edu.cmu.mat.lsd.components.JPage.MAIN));
 				_lpanel.add(new JPage(_model, page, _lpanel, edu.cmu.mat.lsd.components.JPage.NAVIGATION));
