@@ -20,6 +20,7 @@ public class NotationPanel implements Panel {
 	private JScrollPane _scroller;
 	private JPanel _panel = new JPanel();
 	private JPanel _lpanel = new JPanel();
+	private int _type;
 	
 	JScrollPane _panescroller = new JScrollPane(_panel);
 	JScrollPane _lpanescroller = new JScrollPane(_lpanel);
@@ -111,8 +112,8 @@ public class NotationPanel implements Panel {
 //			java.lang.System.out.println("width -----");
 //			java.lang.System.out.println(width);
 			for (Page page : score.getPages()) {
-				_panel.add(new JPage(_model, page, _panel));
-				_lpanel.add(new JPage(_model, page, _lpanel));
+				_panel.add(new JPage(_model, page, _panel, edu.cmu.mat.lsd.components.JPage.MAIN));
+				_lpanel.add(new JPage(_model, page, _lpanel, edu.cmu.mat.lsd.components.JPage.NAVIGATION));
 			}
 			_scroller.revalidate();
 			_scroller.repaint();

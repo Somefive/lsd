@@ -39,6 +39,8 @@ public class JPage extends JPanel {
 
 	private static int PAGE_LEFT = 8;
 	private static int PAGE_RIGHT = 15;
+	public static int NAVIGATION = 0;
+	public static int MAIN = 1;
 
 	private static Color COLOR_DARK = new Color(100, 10, 140, 100);
 	private static Color COLOR_LIGHT = new Color(100, 10, 255, 30);
@@ -53,15 +55,17 @@ public class JPage extends JPanel {
 	private Page _page;
 	private JPanel _parent;
 
+	private int _type;
 	private int _width;
 	private int _height;
 
 	public static FontMetrics FONT_METRICS = null;
 
-	public JPage(Model model, Page page, JPanel parent) {
+	public JPage(Model model, Page page, JPanel parent, int type) {
 		_model = model;
 		_page = page;
 		_parent = parent;
+		_type = type;
 		
 		ImageCache cache = _model.getImgCache();
 		BufferedImage resized_image = cache.find(page, parent.getWidth());
@@ -140,6 +144,7 @@ public class JPage extends JPanel {
 	}
 
 	private void drawSystem(Graphics graphics, System system) {
+		if (_type == NAVIGATION) return;
 		int top = getTop(system);
 		int bottom = getBottom(system);
 		int height = bottom - top;
@@ -169,6 +174,7 @@ public class JPage extends JPanel {
 
 	private void drawBarline(Graphics graphics, System system, Barline barline,
 			Barline next) {
+		if (_type == NAVIGATION) return;
 		int top = getTop(system);
 		int bottom = getBottom(system);
 		int height = bottom - top;
@@ -191,6 +197,7 @@ public class JPage extends JPanel {
 
 	private int drawEvent(Graphics graphics, System system, Barline barline,
 			String text, boolean isActive, int offset) {
+		if (_type == NAVIGATION) return 0;
 		int stringWidth = FONT_METRICS.stringWidth(text);
 		int stringHeight = FONT_METRICS.getHeight();
 		int width = stringWidth + 6;
