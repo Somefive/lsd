@@ -24,9 +24,16 @@ public class Image {
 	public BufferedImage getImage() {
 		return _image;
 	}
+	
+	public BufferedImage RESIZE(int size, int dimension, int hint) {
+		return RESIZE(_image, size, dimension, hint);
+	}
 
+	public static BufferedImage RESIZE(BufferedImage image, int size, int dimension) {
+		return RESIZE(image, size, BufferedImage.SCALE_SMOOTH);
+	}
 	public static BufferedImage RESIZE(BufferedImage image, int size,
-			int dimension) {
+			int dimension, int hint) {
 		int width;
 		int height;
 		double factor;
@@ -42,7 +49,7 @@ public class Image {
 		}
 
 		java.awt.Image resizedImage = image.getScaledInstance(width, height,
-				BufferedImage.SCALE_SMOOTH);
+				hint);
 		return COLOUR_IMAGE(resizedImage, width, height);
 	}
 
