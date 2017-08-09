@@ -15,7 +15,7 @@ import edu.cmu.mat.lsd.ControllerListener;
 import edu.cmu.mat.lsd.Model;
 import edu.cmu.mat.lsd.menus.DisplayMenuBar;
 import edu.cmu.mat.lsd.panels.DisplayPanel;
-import edu.cmu.mat.lsd.panels.NotationPanel;
+import edu.cmu.mat.lsd.panels.NewDisplayPanel;
 import edu.cmu.mat.lsd.panels.Panel;
 import edu.cmu.mat.lsd.toolbars.DisplayToolbar;
 import edu.cmu.mat.lsd.toolbars.NotationToolbar;
@@ -43,7 +43,7 @@ public class Window implements ControllerListener {
 		_controller.addListener(menu);
 		_frame.setJMenuBar(menu);
 
-		_notation = new NotationPanel(model);
+		_notation = new NewDisplayPanel(model);
 		_display = new DisplayPanel(model);
 		_repeat = new DisplayPanel(model);
 		_controller.addListener(_notation);

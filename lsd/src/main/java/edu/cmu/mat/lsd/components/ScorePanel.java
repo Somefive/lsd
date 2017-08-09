@@ -87,7 +87,6 @@ public class ScorePanel extends JPanel {
 	}
 	
 	protected void paintBlock(Graphics g, boolean isLower, int paintIndex) {
-		HCMPLogger.fine("[ScorePanel] paintBlock - " + (isLower?"LOW":"UP") + " index:" + paintIndex);
 		if (paintIndex >= playBackEventSize()) return;
 		int blockHeight = getHeight() / 2;
 		System system = playBackEvent(paintIndex).getSystem();
@@ -196,20 +195,15 @@ public class ScorePanel extends JPanel {
 			put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 		}});
 		super.paint(g);
-		HCMPLogger.info("[ScorePanel] Start Paint");
 		playBackEvents = Model.Instance.CurrentPlaybackEvents;
 		currentPlayBackIndex = Math.max(Math.min(_parent.getEventIndexToBeDrawn(), playBackEvents.size()-1),0);
-		HCMPLogger.fine("[ScorePanel] currentIndex:" + currentPlayBackIndex + " eventSize:" + playBackEventSize());
 		if (_upperBound.contains(currentPlayBackIndex)) {
-			HCMPLogger.fine("[ScorePanel] paint branch@1");
 			paintBlock(g, false, _upperBound.l);
 			paintBlock(g, true, _upperBound.r);
 		} else if (_lowerBound.contains(currentPlayBackIndex)) {
-			HCMPLogger.fine("[ScorePanel] paint branch@2");
 			paintBlock(g, true, _lowerBound.l);
 			paintBlock(g, false, _lowerBound.r);
 		} else {
-			HCMPLogger.fine("[ScorePanel] paint branch@3");
 			paintBlock(g, false, currentPlayBackIndex);
 			paintBlock(g, true, _upperBound.r);
 		}
