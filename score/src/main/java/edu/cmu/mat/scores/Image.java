@@ -30,7 +30,7 @@ public class Image {
 	}
 
 	public static BufferedImage RESIZE(BufferedImage image, int size, int dimension) {
-		return RESIZE(image, size, BufferedImage.SCALE_SMOOTH);
+		return RESIZE(image, size, BufferedImage.SCALE_SMOOTH, BufferedImage.SCALE_SMOOTH);
 	}
 	public static BufferedImage RESIZE(BufferedImage image, int size,
 			int dimension, int hint) {
