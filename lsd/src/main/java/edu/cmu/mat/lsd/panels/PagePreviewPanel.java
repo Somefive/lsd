@@ -18,7 +18,7 @@ public class PagePreviewPanel extends JScrollPane {
 	private Model _model;
 	private JPanel _panel;
 	private PageNotationEditPanel _editPanel;
-	private Score _score;
+	private Score _score = null;
 	private ArrayList<BufferedImage> imageBuffer = new ArrayList<>();
 	private int bufferedWidth = 0;
 	private PagePreviewPanel self;
@@ -47,8 +47,9 @@ public class PagePreviewPanel extends JScrollPane {
 	
 	void update() {
 		int width = getWidth()-scrollBarWidth;
-		if (bufferedWidth == width) return;
+		if (bufferedWidth == width && _model.getCurrentScore() == _score) return;
 		bufferedWidth = width;
+		if (bufferedWidth == 0) return;
 		imageBuffer.clear();
 		_score = _model.getCurrentScore();
 		_score.getPages().forEach(page -> imageBuffer.add(page.getImage().RESIZE(

@@ -1,6 +1,7 @@
 package edu.cmu.mat.lsd.panels;
 
 import edu.cmu.mat.lsd.Model;
+import edu.cmu.mat.lsd.logger.HCMPLogger;
 
 import javax.swing.*;
 
@@ -48,6 +49,8 @@ public class NewDisplayPanel implements Panel {
 	}
 	
 	private void update() {
+		_left.update();
+		_right.update();
 	}
 	
 	@Override
