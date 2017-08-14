@@ -189,12 +189,12 @@ public class ScorePanel extends JPanel {
 	
 	@Override
 	public void paint(Graphics g) {
+		super.paint(g);
 		((Graphics2D) g).setRenderingHints(new HashMap<RenderingHints.Key, Object>(){{
 			put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 			put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 		}});
-		super.paint(g);
 		playBackEvents = Model.Instance.CurrentPlaybackEvents;
 		currentPlayBackIndex = Math.max(Math.min(_parent.getEventIndexToBeDrawn(), playBackEvents.size()-1),0);
 		if (_upperBound.contains(currentPlayBackIndex)) {

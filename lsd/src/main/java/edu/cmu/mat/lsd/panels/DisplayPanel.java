@@ -206,7 +206,6 @@ public class DisplayPanel implements Panel, HcmpListener {
 		if (_model.getCurrentView() == Model.VIEW_DISPLAY
 				||
 			_model.getCurrentView() == Model.VIEW_REPEAT) {
-			HCMPLogger.warning("Changing to DisplayPanel");
 			if (_scroller.getHeight() > 300) {
 				if (_model.getCurrentView() == Model.VIEW_DISPLAY) {
 					String boy = "";
@@ -219,7 +218,6 @@ public class DisplayPanel implements Panel, HcmpListener {
 					i=list.size()-1;
 					boy = boy.concat(list.get(i) +" ");
 					String[] c = boy.split(", ");
-					HCMPLogger.info("[DisplayPanel] Generate Arrangement Length:" + c.length);
 					handleNewArrangement(c);
 				}
 				else handleNewRepeat();
@@ -285,7 +283,6 @@ public class DisplayPanel implements Panel, HcmpListener {
 	}
 
 	public Boolean handleWork(List<PlaybackEvent> new_events) {
-		HCMPLogger.warning("reach here");
 		if (new_events == null) {
 			java.lang.System.err.println("Could not parse new arrangement!");
 			return false;
