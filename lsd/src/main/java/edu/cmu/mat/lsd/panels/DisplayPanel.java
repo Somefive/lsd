@@ -62,7 +62,9 @@ public class DisplayPanel implements Panel, HcmpListener {
 	public double getScale() { return _scale; }
 	public void setScale(double scale) { _scale = scale; }
 
-	private JPanel _panel = new ScorePanel(this);
+	private ScoreLayeredPanel _panel = new ScoreLayeredPanel(this);
+	public ScoreLayeredPanel getPanel() { return _panel; }
+	
 	private JLayeredPane _layers = new JLayeredPane();
 	private JBlock _upper_block;
 	private JBlock _lower_block;
@@ -95,7 +97,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 		_model.getHcmp().setListener(this);
 		_score = _model.getCurrentScore();
 
-		_panel.setLayout(new BoxLayout(_panel, BoxLayout.Y_AXIS));
+//		_panel.setLayout(new BoxLayout(_panel, BoxLayout.Y_AXIS));
 		_layers.add(_panel, -1);
 		_panel.setLocation(0, 0);
 
@@ -298,7 +300,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 		_is_arrow_visible = false;
 		_is_line_visible = false;
 
-		_panel.removeAll();
+//		_panel.removeAll();
 
 		initializeBlocks(0);
 

@@ -9,9 +9,11 @@ import javax.swing.JButton;
 import javax.swing.JToolBar;
 
 import edu.cmu.mat.lsd.Model;
+import edu.cmu.mat.lsd.components.ScoreLayeredPanel;
 import edu.cmu.mat.lsd.hcmp.TimeMap;
 import edu.cmu.mat.lsd.logger.HCMPLogger;
 import edu.cmu.mat.lsd.panels.DisplayPanel;
+import edu.cmu.mat.lsd.panels.ScorePreviewPanel;
 
 public class DisplayToolbar implements Toolbar {
 	private DisplayPanel _display;
@@ -21,6 +23,8 @@ public class DisplayToolbar implements Toolbar {
 	private final JButton _stop_button = new JButton("Stop");
 	private final JButton _zoom_in_button = new JButton("+");
 	private final JButton _zoom_out_button = new JButton("-");
+	
+	private final JButton _preview_button = new JButton("Preview On");
 
 	public DisplayToolbar(Model model, DisplayPanel display) {
 		// This is a terrible pattern and a dedicated Local Playback Controller
@@ -67,6 +71,12 @@ public class DisplayToolbar implements Toolbar {
 		_toolbar.addSeparator();
 		_toolbar.add(_zoom_in_button);
 		_toolbar.add(_zoom_out_button);
+		
+		_preview_button.addActionListener((e) -> {
+			_display.getPanel().setFoldPreview(!_display.getPanel().getFoldPreview());
+			_preview_button.setText(_display.getPanel().getFoldPreview() ? "Preview Off" : "Preview On");
+		});
+		_toolbar.add(_preview_button);
 
 		_toolbar.setVisible(true);
 
