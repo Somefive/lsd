@@ -76,7 +76,7 @@ public class ScorePreviewPanel extends JLayeredPane {
 	
 	void movePreviewWindow(MouseEvent e) {
 		_previewWindow.setLocation(0, e.getY() - _scrollPane.getVerticalScrollBar().getValue() - _previewWindowSideSize/2);
-		java.awt.Image img = previewImage.getSubimage(0, e.getY()-previewImage.getWidth()/2, previewImage.getWidth(), previewImage.getWidth())
+		java.awt.Image img = previewImage.getSubimage(0, e.getY()*2-previewImage.getWidth()/2, previewImage.getWidth(), previewImage.getWidth())
 				.getScaledInstance(_previewWindowSideSize, _previewWindowSideSize, BufferedImage.SCALE_SMOOTH);
 		_previewWindow.setIcon(new ImageIcon(img));
 	}

@@ -101,24 +101,24 @@ public class DisplayPanel implements Panel, HcmpListener {
 		_layers.add(_panel, -1);
 		_panel.setLocation(0, 0);
 
-		_arrow = new JArrow(_panel);
-		_arrow.setOpaque(false);
-		_arrow.setVisible(_is_arrow_visible);
-		_layers.add(_arrow, 0);
-		
-		_from_line = new JLine(_panel);
-		_from_line.setOpaque(false);
-		_from_line.setVisible(_is_line_visible);
-		_layers.add(_from_line, 0);
-		
-		_to_line = new JLine(_panel);
-		_to_line.setOpaque(false);
-		_to_line.setVisible(_is_line_visible);
-		_layers.add(_to_line, 0);
-
-		_cursor = new JCursor(_panel);
-		_cursor.setOpaque(false);
-		_layers.add(_cursor, 0);
+//		_arrow = new JArrow(_panel);
+//		_arrow.setOpaque(false);
+//		_arrow.setVisible(_is_arrow_visible);
+//		_layers.add(_arrow, 0);
+//
+//		_from_line = new JLine(_panel);
+//		_from_line.setOpaque(false);
+//		_from_line.setVisible(_is_line_visible);
+//		_layers.add(_from_line, 0);
+//
+//		_to_line = new JLine(_panel);
+//		_to_line.setOpaque(false);
+//		_to_line.setVisible(_is_line_visible);
+//		_layers.add(_to_line, 0);
+//
+//		_cursor = new JCursor(_panel);
+//		_cursor.setOpaque(false);
+//		_layers.add(_cursor, 0);
 
 		JPanel centering = new JPanel() {
 			private static final long serialVersionUID = 1L;

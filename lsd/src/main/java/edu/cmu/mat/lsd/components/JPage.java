@@ -63,6 +63,8 @@ public class JPage extends JPanel {
 	
 	final int WIDTH_A4_300DPI = 2550;
 	
+	protected JLabel _imageLabel;
+	
 	public JPage(Model model, Page page, JPanel parent, int type) {
 		_model = model;
 		_page = page;
@@ -86,13 +88,13 @@ public class JPage extends JPanel {
 
 		ImageIcon icon = new ImageIcon(resized_image);
 
-		JLabel imageLabel = new JLabel("", icon, JLabel.CENTER);
-		imageLabel.setBorder(PAGE_BORDER);
-		imageLabel.setVerticalAlignment(JLabel.TOP);
+		_imageLabel = new JLabel("", icon, JLabel.CENTER);
+//		_imageLabel.setBorder(PAGE_BORDER);
+		_imageLabel.setVerticalAlignment(JLabel.TOP);
 		
 		addMouseListener(new PageMouseListener(page));
 		addMouseMotionListener(new PageMouseMotionListener(page));
-		add(imageLabel);
+		add(_imageLabel);
 	}
 
 	@Override
@@ -153,26 +155,30 @@ public class JPage extends JPanel {
 		int bottom = getBottom(system);
 		int height = bottom - top;
 
-		int page_width = getWidth() - PAGE_RIGHT;
-
+//		int page_width = getWidth() - PAGE_RIGHT;
+		int page_width = _imageLabel.getWidth();
 		if (system.getState() == System.ALL_ACTIVE) {
 			graphics.setColor(COLOR_LIGHT);
 		} else {
 			graphics.setColor(COLOR_LIGHTER);
 		}
 
-		graphics.fillRect(PAGE_LEFT, top, page_width, height);
+//		graphics.fillRect(PAGE_LEFT, top, page_width, height);
+		graphics.fillRect(_imageLabel.getX(), top, _imageLabel.getWidth(), height);
 		graphics.setColor(COLOR_DARK);
-		graphics.drawRect(PAGE_LEFT, top, page_width, height);
+		graphics.drawRect(_imageLabel.getX(), top, _imageLabel.getWidth(), height);
+//		graphics.drawRect(PAGE_LEFT, top, page_width, height);
 
 		if (system.getState() == System.TOP_ACTIVE) {
 			graphics.setColor(COLOR_ACTIVE);
-			graphics.fillRect(PAGE_LEFT, top - 3, page_width, 6);
+//			graphics.fillRect(PAGE_LEFT, top - 3, page_width, 6);
+			graphics.fillRect(_imageLabel.getX(), top-3, _imageLabel.getWidth(), 6);
 		}
 
 		if (system.getState() == System.BOTTOM_ACTIVE) {
 			graphics.setColor(COLOR_ACTIVE);
-			graphics.fillRect(PAGE_LEFT, bottom - 3, page_width, 6);
+//			graphics.fillRect(PAGE_LEFT, bottom - 3, page_width, 6);
+			graphics.fillRect(_imageLabel.getX(), bottom-3, _imageLabel.getWidth(), 6);
 		}
 	}
 
@@ -225,15 +231,16 @@ public class JPage extends JPanel {
 	}
 
 	private int getTop(System system) {
-		return (int) (system.getTop() * _height);
+		return (int) (system.getTop() * _height) + _imageLabel.getY();
 	}
 
 	private int getBottom(System system) {
-		return (int) (system.getBottom() * _height);
+		return (int) (system.getBottom() * _height) + _imageLabel.getY();
 	}
 
 	private int getOffset(Barline barline) {
-		return (int) (barline.getOffset() * _width) + PAGE_LEFT;
+//		return (int) (barline.getOffset() * _width) + PAGE_LEFT;
+		return (int) (barline.getOffset() * _width) + _imageLabel.getX();
 	}
 
 	private class PageMouseListener implements MouseListener {
