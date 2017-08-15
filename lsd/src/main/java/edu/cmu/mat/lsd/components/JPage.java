@@ -92,8 +92,8 @@ public class JPage extends JPanel {
 //		_imageLabel.setBorder(PAGE_BORDER);
 		_imageLabel.setVerticalAlignment(JLabel.TOP);
 		
-		addMouseListener(new PageMouseListener(page));
-		addMouseMotionListener(new PageMouseMotionListener(page));
+		_imageLabel.addMouseListener(new PageMouseListener(page));
+		_imageLabel.addMouseMotionListener(new PageMouseMotionListener(page));
 		add(_imageLabel);
 	}
 
