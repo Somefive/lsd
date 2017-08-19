@@ -1,4 +1,4 @@
-package edu.cmu.mat.lsd.components;
+package edu.cmu.mat.lsd.panels;
 
 import edu.cmu.mat.lsd.Model;
 import edu.cmu.mat.lsd.logger.HCMPLogger;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ScorePanel extends JPanel {
+public class DisplayMainPanel extends JPanel {
 	protected DisplayPanel _parent;
 	protected Bound _upperBound = new Bound(0, 0);
 	protected Bound _lowerBound = new Bound(0, 0);
@@ -33,7 +33,7 @@ public class ScorePanel extends JPanel {
 	static int ARROW_SIZE = 20;
 	static int ARROW_ANGLE = 45;
 	
-	public ScorePanel(DisplayPanel parent) {
+	public DisplayMainPanel(DisplayPanel parent) {
 		super();
 		_parent = parent;
 	}

@@ -9,11 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JToolBar;
 
 import edu.cmu.mat.lsd.Model;
-import edu.cmu.mat.lsd.components.ScoreLayeredPanel;
 import edu.cmu.mat.lsd.hcmp.TimeMap;
-import edu.cmu.mat.lsd.logger.HCMPLogger;
 import edu.cmu.mat.lsd.panels.DisplayPanel;
-import edu.cmu.mat.lsd.panels.ScorePreviewPanel;
 
 public class DisplayToolbar implements Toolbar {
 	private DisplayPanel _display;

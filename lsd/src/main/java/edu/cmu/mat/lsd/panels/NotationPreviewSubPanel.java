@@ -1,7 +1,6 @@
 package edu.cmu.mat.lsd.panels;
 
 import edu.cmu.mat.lsd.Model;
-import edu.cmu.mat.lsd.logger.HCMPLogger;
 import edu.cmu.mat.scores.Image;
 import edu.cmu.mat.scores.Score;
 
@@ -14,18 +13,18 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class PagePreviewPanel extends JScrollPane {
+public class NotationPreviewSubPanel extends JScrollPane {
 	private Model _model;
 	private JPanel _panel;
-	private PageNotationEditPanel _editPanel;
+	private NotationEditSubPanel _editPanel;
 	private Score _score = null;
 	private ArrayList<BufferedImage> imageBuffer = new ArrayList<>();
 	private int bufferedWidth = 0;
-	private PagePreviewPanel self;
+	private NotationPreviewSubPanel self;
 	private Thread _renderThread;
 	private int selectedPageIndex = 0;
 	private int scrollBarWidth;
-	PagePreviewPanel(Model model, PageNotationEditPanel editPanel) {
+	NotationPreviewSubPanel(Model model, NotationEditSubPanel editPanel) {
 		super();
 		self = this;
 		_model = model;

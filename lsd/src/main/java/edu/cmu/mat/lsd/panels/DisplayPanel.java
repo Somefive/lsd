@@ -1,6 +1,5 @@
 package edu.cmu.mat.lsd.panels;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -8,19 +7,11 @@ import java.awt.GridBagLayout;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.Arrays;
-import java.time.Instant;
 
 
-import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -31,14 +22,10 @@ import edu.cmu.mat.lsd.Model;
 import edu.cmu.mat.lsd.components.*;
 import edu.cmu.mat.lsd.hcmp.HcmpListener;
 import edu.cmu.mat.lsd.hcmp.TimeMap;
-import edu.cmu.mat.lsd.hcmp.HcmpClient;
-import edu.cmu.mat.lsd.logger.HCMPLogger;
 import edu.cmu.mat.lsd.ws.BeatMessage;
 import edu.cmu.mat.lsd.ws.BeatsMessage;
 import edu.cmu.mat.lsd.ws.DisplayServer;
-import edu.cmu.mat.scores.Arrangement;
 import edu.cmu.mat.scores.Barline;
-import edu.cmu.mat.scores.Page;
 import edu.cmu.mat.scores.Block;
 import edu.cmu.mat.scores.PlaybackEvent;
 import edu.cmu.mat.scores.Score;
@@ -62,8 +49,8 @@ public class DisplayPanel implements Panel, HcmpListener {
 	public double getScale() { return _scale; }
 	public void setScale(double scale) { _scale = scale; }
 
-	private ScoreLayeredPanel _panel = new ScoreLayeredPanel(this);
-	public ScoreLayeredPanel getPanel() { return _panel; }
+	private DisplayLayeredPanel _panel = new DisplayLayeredPanel(this);
+	public DisplayLayeredPanel getPanel() { return _panel; }
 	
 	private JLayeredPane _layers = new JLayeredPane();
 	private JBlock _upper_block;

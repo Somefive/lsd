@@ -1,7 +1,6 @@
 package edu.cmu.mat.lsd.panels;
 
 import edu.cmu.mat.lsd.Model;
-import edu.cmu.mat.lsd.logger.HCMPLogger;
 import edu.cmu.mat.scores.Image;
 import edu.cmu.mat.scores.Page;
 
@@ -16,17 +15,17 @@ import java.awt.image.BufferedImage;
 import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
 import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
 
-public class ScorePreviewPanel extends JLayeredPane {
+public class DisplayPreviewSubPanel extends JLayeredPane {
 	
 	protected JPanel _panel = new JPanel();
 	protected JScrollPane _scrollPane = new JScrollPane();
-	protected ScorePreviewPanel self = this;
+	protected DisplayPreviewSubPanel self = this;
 	protected BufferedImage previewImage;
 	protected Thread renderingThread;
 	protected int _previewWindowSideSize = 0;
 	protected JLabel _previewWindow = new JLabel();
 	
-	public ScorePreviewPanel() {
+	public DisplayPreviewSubPanel() {
 		_panel.setLayout(new BoxLayout(_panel, BoxLayout.Y_AXIS));
 		_panel.setBackground(Color.DARK_GRAY);
 		_panel.add(new JLabel());

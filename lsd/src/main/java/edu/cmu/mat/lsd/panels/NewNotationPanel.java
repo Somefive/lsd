@@ -1,22 +1,21 @@
 package edu.cmu.mat.lsd.panels;
 
 import edu.cmu.mat.lsd.Model;
-import edu.cmu.mat.lsd.logger.HCMPLogger;
 
 import javax.swing.*;
 
-public class NewDisplayPanel implements Panel {
+public class NewNotationPanel implements Panel {
 	
 	protected Model _model;
 	protected JSplitPane _splitPane;
-	protected PagePreviewPanel _left;
-	protected PageNotationEditPanel _right;
+	protected NotationPreviewSubPanel _left;
+	protected NotationEditSubPanel _right;
 	
-	public NewDisplayPanel(Model model) {
+	public NewNotationPanel(Model model) {
 		_model = model;
 		
-		_right = new PageNotationEditPanel(_model);
-		_left = new PagePreviewPanel(_model, _right);
+		_right = new NotationEditSubPanel(_model);
+		_left = new NotationPreviewSubPanel(_model, _right);
 		_splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		
 		_splitPane.setLeftComponent(_left);

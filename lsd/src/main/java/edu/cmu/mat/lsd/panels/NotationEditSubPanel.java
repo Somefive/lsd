@@ -2,23 +2,20 @@ package edu.cmu.mat.lsd.panels;
 
 import edu.cmu.mat.lsd.Model;
 import edu.cmu.mat.lsd.components.JPage;
-import edu.cmu.mat.lsd.logger.HCMPLogger;
 import edu.cmu.mat.scores.Page;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
-public class PageNotationEditPanel extends JScrollPane {
+public class NotationEditSubPanel extends JScrollPane {
 	private Model _model;
 	private JPanel _panel;
 	private int bufferedWidth = 0;
-	private PageNotationEditPanel self;
+	private NotationEditSubPanel self;
 	private Thread _renderThread;
 	private int selectedPageIndex = 0;
 	private int scrollBarWidth;
-	PageNotationEditPanel(Model model) {
+	NotationEditSubPanel(Model model) {
 		super();
 		self = this;
 		_model = model;
