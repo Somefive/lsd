@@ -528,25 +528,25 @@ public class Score implements ScoreObject {
 				}
 			}
 			else 
-			for (String section_string : arrangement_string) {
-				String[] parts = section_string.split(",");
-				String name = parts[0];
-
-				// TODO: This currently works with Section names. Instead, this
-				// should be using a proper flattened score mapping.
-
-				Section section = getSectionByName(name);
-				if (section == null) {
-					java.lang.System.err
-							.println("Could not find section with name: "
-									+ name);
-					continue;
+				for (String section_string : arrangement_string) {
+					String[] parts = section_string.split(",");
+					String name = parts[0];
+	
+					// TODO: This currently works with Section names. Instead, this
+					// should be using a proper flattened score mapping.
+	
+					Section section = getSectionByName(name);
+					if (section == null) {
+						java.lang.System.err
+								.println("Could not find section with name: "
+										+ name);
+						continue;
+					}
+					
+					List<PlaybackEvent> section_events = add(section, start_barlines, end_barlines);
+	
+					events.addAll(section_events);
 				}
-				
-				List<PlaybackEvent> section_events = add(section, start_barlines, end_barlines);
-
-				events.addAll(section_events);
-			}
 
 			return events;
 		} catch (Exception e) {

@@ -162,11 +162,13 @@ public class DisplayPreviewSubPanel extends JLayeredPane {
 			_concatImage = createImage(true, _parent.getPreviewWindowWidth());
 			previewImage = _concatImage._image;
 			((JLabel) _panel.getComponent(0)).setIcon(new ImageIcon(Image.RESIZE(previewImage, realWidth - _scrollPane.getVerticalScrollBar().getPreferredSize().width, Image.DIMENSION_WIDTH, BufferedImage.SCALE_SMOOTH)));
-			_scaleFactorOfPreviewImageToScroll = (previewImage.getHeight() + 0.0) / _panel.getHeight();
+			_scaleFactorOfPreviewImageToScroll = (previewImage.getWidth() + 0.0) / (_scrollPane.getWidth()-_scrollPane.getVerticalScrollBar().getWidth());
 			_scaleFactorOfPreviewImageToWindow = (previewImage.getWidth() + 0.0) / _parent.getPreviewWindowWidth();
 		});
 		renderingThread.start();
 	}
+	
+	void updateOnNewScore() { update(); }
 	
 	void updateOnNewBeat() {
 		updateHighlight();

@@ -2,7 +2,6 @@ package edu.cmu.mat.lsd.panels;
 
 import edu.cmu.mat.lsd.Model;
 import edu.cmu.mat.lsd.components.JPage;
-import edu.cmu.mat.lsd.logger.HCMPLogger;
 import edu.cmu.mat.scores.Page;
 
 import javax.swing.*;
@@ -11,14 +10,8 @@ import java.awt.*;
 public class NotationEditSubPanel extends JScrollPane {
 	private Model _model;
 	private JPanel _panel;
-	private int bufferedWidth = 0;
-	private NotationEditSubPanel self;
-	private Thread _renderThread;
-	private int selectedPageIndex = 0;
-	private int scrollBarWidth;
 	NotationEditSubPanel(Model model) {
 		super();
-		self = this;
 		_model = model;
 		_panel = new JPanel();
 		_panel.setLayout(new BoxLayout(_panel, BoxLayout.Y_AXIS));
@@ -58,13 +51,11 @@ public class NotationEditSubPanel extends JScrollPane {
 	final double MIN_SCALE = 0.1;
 	protected double _scale = 1;
 	protected Timer timer = new Timer(500, e -> {
-		HCMPLogger.warning("start processing");
 		for (Component component : _panel.getComponents()) {
 			((JPage) component).resizeImage(_scale);
 		}
 	});
 	public void increaseImageSize(double scaleIncrement) {
-		HCMPLogger.info("[NotationEditSubPanel] increaseImageSize"+scaleIncrement);
 		double newScale = Math.max(Math.min(_scale + scaleIncrement, MAX_SCALE), MIN_SCALE);
 		if (newScale == _scale) return;
 		_scale = newScale;

@@ -74,4 +74,7 @@ public class DisplayLayeredPanel extends JLayeredPane {
 		repaint();
 		_displayPreviewSubPanel.updateOnNewBeat();
 	}
+	public void updateOnNewScore() {
+		_displayPreviewSubPanel.updateOnNewScore();
+	}
 }

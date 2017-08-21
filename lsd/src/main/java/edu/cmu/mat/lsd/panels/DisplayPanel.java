@@ -55,10 +55,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 	private JLayeredPane _layers = new JLayeredPane();
 	private JBlock _upper_block;
 	private JBlock _lower_block;
-	private JCursor _cursor;
-	private JArrow _arrow;
-	private JLine _from_line;
-	private JLine _to_line;
+	
 	private boolean _is_arrow_visible = false;
 	private boolean _is_line_visible = false;
 
@@ -92,26 +89,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 //		_panel.setLayout(new BoxLayout(_panel, BoxLayout.Y_AXIS));
 		_layers.add(_panel, -1);
 		_panel.setLocation(0, 0);
-
-//		_arrow = new JArrow(_panel);
-//		_arrow.setOpaque(false);
-//		_arrow.setVisible(_is_arrow_visible);
-//		_layers.add(_arrow, 0);
-//
-//		_from_line = new JLine(_panel);
-//		_from_line.setOpaque(false);
-//		_from_line.setVisible(_is_line_visible);
-//		_layers.add(_from_line, 0);
-//
-//		_to_line = new JLine(_panel);
-//		_to_line.setOpaque(false);
-//		_to_line.setVisible(_is_line_visible);
-//		_layers.add(_to_line, 0);
-//
-//		_cursor = new JCursor(_panel);
-//		_cursor.setOpaque(false);
-//		_layers.add(_cursor, 0);
-
+		
 		JPanel centering = new JPanel() {
 			private static final long serialVersionUID = 1L;
 
@@ -150,6 +128,8 @@ public class DisplayPanel implements Panel, HcmpListener {
 	}
 
 	public void onUpdateScore() {
+		_score = _model.getCurrentScore();
+		_panel.updateOnNewScore();
 	}
 	
 	
@@ -298,29 +278,10 @@ public class DisplayPanel implements Panel, HcmpListener {
 
 		int width = _scroller.getWidth();
 		int height = _upper_block.getHeight() + _lower_block.getHeight() ;
-		
-		//int height = _scroller.getHeight();
-		//JPanel margin = new JPanel();
-		//margin.setPreferredSize(new Dimension(width, height/3));
-		//margin.setBackground(Color.WHITE);
-//TODO
-//		_panel.add(_upper_block);
-//		//_panel.add(margin);
-//		if (_blocks.size() > 1) {
-//			_panel.add(_lower_block);
-//		}
 
 		_layers.setPreferredSize(new Dimension(width, height));
 		_panel.setSize(_layers.getPreferredSize());
 
-		_cursor.setSize(_layers.getPreferredSize());
-		moveCursor();
-		_arrow.setSize(_layers.getPreferredSize());
-		_arrow.setVisible(_is_arrow_visible);
-		_from_line.setSize(_layers.getPreferredSize());
-		_from_line.setVisible(_is_line_visible);
-		_to_line.setSize(_layers.getPreferredSize());
-		_to_line.setVisible(_is_line_visible);
 		redraw();
 
 		if (_play_timer != null) {
@@ -581,14 +542,8 @@ public class DisplayPanel implements Panel, HcmpListener {
 					}
 
 					_previous_jump_to = next_jump_to;
-					_arrow.setPosition(from_x, from_y, to_x, to_y);
-					_from_line.setPosition(from_x, from_y_top, from_x, from_y_bottom);
-					_to_line.setPosition(to_x, to_y_top, to_x, to_y_bottom);
 				}
 
-				_arrow.setVisible(_is_arrow_visible);
-				_from_line.setVisible(_is_line_visible);
-				_to_line.setVisible(_is_line_visible);
 			}
 
 			if (current_event.getEnd() == next_jump_from) {
@@ -623,15 +578,15 @@ public class DisplayPanel implements Panel, HcmpListener {
 			resetTime();
 			return;
 		}
-		int playBackEventIndex = Math.min(_playback_events.size()-1, _events_index);
-		PlaybackEvent playbackEvent = _playback_events.get(playBackEventIndex);
-		Barline barline = _events_index < _playback_events.size() ? playbackEvent.getStart() : playbackEvent.getEnd();
-		Block block = _blocks.get(_current_block_index);
-		int x = (int) (barline.getOffset() * getJBlock(true)
-				.getImageWidth()) + getJBlock(true).getImageOffset();
-		int y = (int) (block.getYOffset(barline.getParent(), Block.BOTTOM_POS) * _height)
-				+ getJBlock(true).getY();
-		_cursor.setPosition(x, y - 5); // y-5: keep cursor inside block
+//		int playBackEventIndex = Math.min(_playback_events.size()-1, _events_index);
+//		PlaybackEvent playbackEvent = _playback_events.get(playBackEventIndex);
+//		Barline barline = _events_index < _playback_events.size() ? playbackEvent.getStart() : playbackEvent.getEnd();
+//		Block block = _blocks.get(_current_block_index);
+//		int x = (int) (barline.getOffset() * getJBlock(true)
+//				.getImageWidth()) + getJBlock(true).getImageOffset();
+//		int y = (int) (block.getYOffset(barline.getParent(), Block.BOTTOM_POS) * _height)
+//				+ getJBlock(true).getY();
+//		_cursor.setPosition(x, y - 5); // y-5: keep cursor inside block
 		redraw();
 	}
 
