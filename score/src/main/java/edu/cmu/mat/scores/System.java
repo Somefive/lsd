@@ -192,4 +192,8 @@ public class System implements ScoreObject, Comparable<System> {
 		int loc = this.getParent().compareTo(o.getParent());
 		return loc == 0 ? Double.compare(this.getTop(), o.getTop()) : loc;
 	}
+	
+	public int getIndex() {
+		return getParent().getSystems().indexOf(this);
+	}
 }

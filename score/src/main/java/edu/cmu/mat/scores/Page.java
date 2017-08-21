@@ -110,4 +110,8 @@ public class Page implements ScoreObject, Comparable<Page> {
 		List<Page> pages = getParent().getPages();
 		return Integer.compare(pages.indexOf(this), pages.indexOf(o));
 	}
+	
+	public int getIndex() {
+		return getParent().getPages().indexOf(this);
+	}
 }

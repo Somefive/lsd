@@ -74,6 +74,11 @@ public class DisplayPanel implements Panel, HcmpListener {
 	private int _current_block_index = 0;
 	private int _event_index_to_be_drawn = 0;
 	public int getEventIndexToBeDrawn() { return _event_index_to_be_drawn; }
+	public PlaybackEvent getCurrentPlaybackEventToBeDrawn() {
+		return (_event_index_to_be_drawn >= 0 && _event_index_to_be_drawn < _playback_events.size()) ?
+				_playback_events.get(_event_index_to_be_drawn) :
+				null;
+	}
 	
 	public static int TO = 0;
 	public static int FROM = 1;
@@ -650,8 +655,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 
 	private void redraw() {
 		_event_index_to_be_drawn = _events_index;
-		_panel.revalidate();
-		_panel.repaint();
+		_panel.updateOnNewBeat();
 
 		_layers.revalidate();
 		_layers.repaint();

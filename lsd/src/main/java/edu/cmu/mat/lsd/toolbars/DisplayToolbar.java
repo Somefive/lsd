@@ -74,7 +74,21 @@ public class DisplayToolbar implements Toolbar {
 			_preview_button.setText(_display.getPanel().getFoldPreview() ? "Preview Off" : "Preview On");
 		});
 		_toolbar.add(_preview_button);
-
+		
+		_toolbar.addSeparator();
+		JButton _previewZoomInButton = new JButton("Preview +");
+		JButton _previewZoomOutButton = new JButton("Preview -");
+		
+		_previewZoomInButton.addActionListener((e) -> {
+			_display.getPanel().resizePreview(20, 20, 20);
+		});
+		_previewZoomOutButton.addActionListener((e) -> {
+			_display.getPanel().resizePreview(-20, -20, -20);
+		});
+		
+		_toolbar.add(_previewZoomInButton);
+		_toolbar.add(_previewZoomOutButton);
+		
 		_toolbar.setVisible(true);
 
 	}
