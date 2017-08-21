@@ -24,7 +24,7 @@ import edu.cmu.mat.lsd.toolbars.Toolbar;
 public class Window implements ControllerListener {
 	private Model _model;
 	private Controller _controller;
-	private Panel _notation = null;
+	private NewNotationPanel _notation = null;
 	private Panel _display = null;
 	private Panel _repeat = null;
 	private Toolbar _toolbar = null;
@@ -92,7 +92,7 @@ public class Window implements ControllerListener {
 			}
 
 			if (view == Model.VIEW_NOTATION) {
-				_toolbar = new NotationToolbar(_model);
+				_toolbar = new NotationToolbar(_model, _notation);
 				_controller.addListener((NotationToolbar) _toolbar);
 				_frame.remove(_display.getContainer());
 				_frame.remove(_repeat.getContainer());

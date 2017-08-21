@@ -2,6 +2,7 @@ package edu.cmu.mat.lsd.panels;
 
 import edu.cmu.mat.lsd.Model;
 import edu.cmu.mat.lsd.components.JPage;
+import edu.cmu.mat.lsd.logger.HCMPLogger;
 import edu.cmu.mat.scores.Page;
 
 import javax.swing.*;
@@ -25,6 +26,8 @@ public class NotationEditSubPanel extends JScrollPane {
 		setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
 		setViewportView(_panel);
 		update();
+		
+		timer.setRepeats(false);
 	}
 	
 	void update() {
@@ -32,15 +35,39 @@ public class NotationEditSubPanel extends JScrollPane {
 		for (Page page : _model.getCurrentScore().getPages()) {
 			_panel.add(new JPage(_model, page, _panel, edu.cmu.mat.lsd.components.JPage.MAIN));
 		}
-		Dimension maxDimension = _model.getCurrentScore().getPages().stream().map(page -> page.getImage().getImage())
-				.map(image -> new Dimension(image.getWidth(), image.getHeight()))
-				.reduce((x, y) -> new Dimension(Math.max(x.width, y.width), x.height + y.height))
-				.orElse(new Dimension(getWidth(), getHeight()));
-		_panel.setPreferredSize(maxDimension);
+		updateSize();
+	}
+	
+	public void updateSize() {
+		int width = 0, height = 0;
+		for (Component component : _panel.getComponents()) {
+			width = Math.max(width, ((JPage)component).getCachedImageWidth());
+			height += ((JPage)component).getCachedImageHeight();
+		}
+		// I hate the magic number 200 which is simply a margin. But I do not know how to avoid the partial display of last page...
+		_panel.setPreferredSize(new Dimension(width, height+200));
+		_panel.revalidate();
 	}
 	
 	void scrollToPage(int index) {
 		int y = _panel.getComponent(index).getY();
 		this.verticalScrollBar.setValue(y);
+	}
+	
+	final double MAX_SCALE = 5.0;
+	final double MIN_SCALE = 0.1;
+	protected double _scale = 1;
+	protected Timer timer = new Timer(500, e -> {
+		HCMPLogger.warning("start processing");
+		for (Component component : _panel.getComponents()) {
+			((JPage) component).resizeImage(_scale);
+		}
+	});
+	public void increaseImageSize(double scaleIncrement) {
+		HCMPLogger.info("[NotationEditSubPanel] increaseImageSize"+scaleIncrement);
+		double newScale = Math.max(Math.min(_scale + scaleIncrement, MAX_SCALE), MIN_SCALE);
+		if (newScale == _scale) return;
+		_scale = newScale;
+		timer.restart();
 	}
 }

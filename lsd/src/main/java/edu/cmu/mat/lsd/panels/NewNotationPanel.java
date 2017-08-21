@@ -11,6 +11,10 @@ public class NewNotationPanel implements Panel {
 	protected NotationPreviewSubPanel _left;
 	protected NotationEditSubPanel _right;
 	
+	public NotationEditSubPanel getNotationEditSubPanel() {
+		return _right;
+	}
+	
 	public NewNotationPanel(Model model) {
 		_model = model;
 		

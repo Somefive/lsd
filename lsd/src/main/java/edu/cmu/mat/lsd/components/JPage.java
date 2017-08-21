@@ -1,8 +1,6 @@
 package edu.cmu.mat.lsd.components;
 
-import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -18,16 +16,14 @@ import javax.swing.border.Border;
 import edu.cmu.mat.lsd.Model;
 import edu.cmu.mat.lsd.cache.ImageCache;
 import edu.cmu.mat.lsd.logger.HCMPLogger;
+import edu.cmu.mat.lsd.panels.NotationEditSubPanel;
 import edu.cmu.mat.lsd.tools.Tool;
 import edu.cmu.mat.scores.Barline;
 import edu.cmu.mat.scores.Image;
 import edu.cmu.mat.scores.Page;
 import edu.cmu.mat.scores.System;
 import edu.cmu.mat.scores.events.Event;
-import edu.cmu.mat.scores.events.RepeatEndEvent;
 import edu.cmu.mat.scores.events.SectionStartEvent;
-import edu.cmu.mat.scores.events.RepeatStartEvent;
-import edu.cmu.mat.scores.events.RepeatEvent;
 import edu.cmu.mat.scores.events.SectionEndEvent;
 
 public class JPage extends JPanel {
@@ -50,15 +46,45 @@ public class JPage extends JPanel {
 	private static Color COLOR_BAR_ACTIVE = COLOR_LIGHT;
 	private static Color COLOR_BARLINE_ACTIVE = new Color(0, 0, 220, 80);
 	private static Color COLOR_EVENT = new Color(200, 200, 200, 250);
-
+	
 	private Model _model;
 	private Page _page;
 	private JPanel _parent;
+	private JPage self = this;
 
 	private int _type;
-	private int _width;
-	private int _height;
-
+	
+	protected BufferedImage _sourceImage;
+	protected BufferedImage _cachedImage;
+	public int getCachedImageHeight() {
+		return _cachedImage == null ? 0 : _cachedImage.getHeight();
+	}
+	public int getCachedImageWidth() {
+		return _cachedImage == null ? 0 : _cachedImage.getWidth();
+	}
+	protected ImageIcon _imageIcon = new ImageIcon();
+	protected double _baseScale = 0;
+	protected Thread _resizeThread;
+	public void resizeImage(double scale) {
+		int targetWidth = (int) (_sourceImage.getWidth() * _baseScale * scale);
+		if (_resizeThread != null && _resizeThread.isAlive()) _resizeThread.interrupt();
+		_resizeThread = new Thread(() -> {
+			_cachedImage = Image.RESIZE(_sourceImage, targetWidth, Image.DIMENSION_WIDTH, BufferedImage.SCALE_FAST);
+			_imageIcon.setImage(_cachedImage);
+			self.updateSize();
+			((NotationEditSubPanel) self._parent.getParent().getParent()).updateSize();
+			_cachedImage = Image.RESIZE(_sourceImage, targetWidth, Image.DIMENSION_WIDTH, BufferedImage.SCALE_SMOOTH);
+			_imageIcon.setImage(_cachedImage);
+			self.repaint();
+		});
+		_resizeThread.start();
+	}
+	public void updateSize() {
+		self.setSize(getCachedImageWidth(), getCachedImageHeight());
+		self.revalidate();
+		self.repaint();
+	}
+	
 	public static FontMetrics FONT_METRICS = null;
 	
 	final int WIDTH_A4_300DPI = 2550;
@@ -71,7 +97,9 @@ public class JPage extends JPanel {
 		_parent = parent;
 		_type = type;
 		
-		int targetWidth = Math.min(page.getImage().getImage().getWidth(), WIDTH_A4_300DPI);
+		_sourceImage = page.getImage().getImage();
+		int targetWidth = Math.min(_sourceImage.getWidth(), WIDTH_A4_300DPI);
+		_baseScale = (targetWidth+0.0) / _sourceImage.getWidth();
 		
 		ImageCache cache = _model.getImgCache();
 		BufferedImage resized_image = cache.find(page, targetWidth);
@@ -83,18 +111,18 @@ public class JPage extends JPanel {
 			cache.save(page, resized_image, targetWidth);
 		}
 		
-		_height = resized_image.getHeight();
-		_width = resized_image.getWidth();
+		_cachedImage = resized_image;
+		_imageIcon.setImage(_cachedImage);
 
-		ImageIcon icon = new ImageIcon(resized_image);
-
-		_imageLabel = new JLabel("", icon, JLabel.CENTER);
+		_imageLabel = new JLabel("", _imageIcon, JLabel.CENTER);
 //		_imageLabel.setBorder(PAGE_BORDER);
 		_imageLabel.setVerticalAlignment(JLabel.TOP);
 		
 		_imageLabel.addMouseListener(new PageMouseListener(page));
 		_imageLabel.addMouseMotionListener(new PageMouseMotionListener(page));
 		add(_imageLabel);
+		
+		updateSize();
 	}
 
 	@Override
@@ -156,7 +184,7 @@ public class JPage extends JPanel {
 		int height = bottom - top;
 
 //		int page_width = getWidth() - PAGE_RIGHT;
-		int page_width = _imageLabel.getWidth();
+//		int page_width = _imageLabel.getWidth();
 		if (system.getState() == System.ALL_ACTIVE) {
 			graphics.setColor(COLOR_LIGHT);
 		} else {
@@ -231,16 +259,16 @@ public class JPage extends JPanel {
 	}
 
 	private int getTop(System system) {
-		return (int) (system.getTop() * _height) + _imageLabel.getY();
+		return (int) (system.getTop() * getCachedImageHeight()) + _imageLabel.getY();
 	}
 
 	private int getBottom(System system) {
-		return (int) (system.getBottom() * _height) + _imageLabel.getY();
+		return (int) (system.getBottom() * getCachedImageHeight()) + _imageLabel.getY();
 	}
 
 	private int getOffset(Barline barline) {
 //		return (int) (barline.getOffset() * _width) + PAGE_LEFT;
-		return (int) (barline.getOffset() * _width) + _imageLabel.getX();
+		return (int) (barline.getOffset() * getCachedImageWidth()) + _imageLabel.getX();
 	}
 
 	private class PageMouseListener implements MouseListener {

@@ -24,6 +24,7 @@ import com.google.common.base.Joiner;
 
 import edu.cmu.mat.lsd.ControllerListener;
 import edu.cmu.mat.lsd.Model;
+import edu.cmu.mat.lsd.panels.NewNotationPanel;
 import edu.cmu.mat.scores.Repeat;
 import edu.cmu.mat.scores.Score;
 import edu.cmu.mat.scores.Section;
@@ -36,7 +37,7 @@ public class NotationToolbar implements Toolbar, ControllerListener {
 	JTextArea _arrangement;
     JTextArea _page;
 
-	public NotationToolbar(Model model) {
+	public NotationToolbar(Model model, NewNotationPanel newNotationPanel) {
 		_model = model;
 
 		_toolbar.setBackground(new Color(220, 220, 220));
@@ -84,6 +85,13 @@ public class NotationToolbar implements Toolbar, ControllerListener {
 		_toolbar.addSeparator(new Dimension(8, 0));
 		_toolbar.add(_repeats);
 
+		JButton zoomIn = new JButton("+");
+		JButton zoomOut = new JButton("-");
+		zoomIn.addActionListener(e -> newNotationPanel.getNotationEditSubPanel().increaseImageSize(0.1));
+		zoomOut.addActionListener(e -> newNotationPanel.getNotationEditSubPanel().increaseImageSize(-0.1));
+		_toolbar.add(zoomIn);
+		_toolbar.add(zoomOut);
+		
 		onUpdateScore();
 
 		final JPopupMenu newPopupMenu = new JPopupMenu();
