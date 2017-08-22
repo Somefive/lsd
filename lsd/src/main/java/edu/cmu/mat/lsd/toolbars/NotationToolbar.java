@@ -92,6 +92,14 @@ public class NotationToolbar implements Toolbar, ControllerListener {
 		_toolbar.add(zoomIn);
 		_toolbar.add(zoomOut);
 		
+		JButton clearBtn = new JButton("Clear");
+		clearBtn.addActionListener(e -> newNotationPanel.getNotationEditSubPanel().clearAllNotation());
+		_toolbar.add(clearBtn);
+		
+		JButton autoGenBtn = new JButton("AutoGen");
+		autoGenBtn.addActionListener(e -> newNotationPanel.getNotationEditSubPanel().autoGen());
+		_toolbar.add(autoGenBtn);
+		
 		onUpdateScore();
 
 		final JPopupMenu newPopupMenu = new JPopupMenu();

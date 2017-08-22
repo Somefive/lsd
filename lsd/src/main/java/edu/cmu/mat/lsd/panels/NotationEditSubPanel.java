@@ -1,6 +1,7 @@
 package edu.cmu.mat.lsd.panels;
 
 import edu.cmu.mat.lsd.Model;
+import edu.cmu.mat.lsd.PageAutoGenerator;
 import edu.cmu.mat.lsd.components.JPage;
 import edu.cmu.mat.scores.Page;
 
@@ -60,5 +61,26 @@ public class NotationEditSubPanel extends JScrollPane {
 		if (newScale == _scale) return;
 		_scale = newScale;
 		timer.restart();
+	}
+	
+	public void clearAllNotation() {
+		_model.getCurrentScore().getPages().forEach(page -> page.getSystems().clear());
+		revalidate();
+		repaint();
+	}
+	
+	protected Thread _autoGenThread;
+	public void autoGen() {
+		if (_autoGenThread != null && _autoGenThread.isAlive()) _autoGenThread.interrupt();
+		_autoGenThread = new Thread(() -> {
+			_model.getCurrentScore().getPages().forEach(this::autoGen);
+			revalidate();
+			repaint();
+		});
+		_autoGenThread.start();
+	}
+	
+	public void autoGen(Page page) {
+		new PageAutoGenerator(page);
 	}
 }

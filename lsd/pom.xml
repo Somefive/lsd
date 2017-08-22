@@ -40,6 +40,12 @@
 			<artifactId>websocket-server</artifactId>
 			<version>9.4.6.v20170531</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-math3</artifactId>
+			<version>3.2</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
