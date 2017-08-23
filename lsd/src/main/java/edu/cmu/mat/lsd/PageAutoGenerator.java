@@ -32,7 +32,6 @@ public class PageAutoGenerator {
 	public void setPage(Page p) {
 		page = p;
 		page.getSystems().clear();
-		HCMPLogger.info("Auto Generating Page "+p.getIndex());
 		initDataArray();
 		generate();
 	}

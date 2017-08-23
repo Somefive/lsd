@@ -1,6 +1,7 @@
 package edu.cmu.mat.lsd.panels;
 
 import edu.cmu.mat.lsd.Model;
+import edu.cmu.mat.lsd.logger.HCMPLogger;
 import edu.cmu.mat.scores.Image;
 import edu.cmu.mat.scores.Score;
 
@@ -18,6 +19,7 @@ public class NotationPreviewSubPanel extends JScrollPane {
 	private JPanel _panel;
 	private NotationEditSubPanel _editPanel;
 	private Score _score = null;
+	private int _scorePageSize = -1;
 	private ArrayList<BufferedImage> imageBuffer = new ArrayList<>();
 	private int bufferedWidth = 0;
 	private NotationPreviewSubPanel self;
@@ -46,7 +48,8 @@ public class NotationPreviewSubPanel extends JScrollPane {
 	
 	void update() {
 		int width = getWidth()-scrollBarWidth;
-		if (bufferedWidth == width && _model.getCurrentScore() == _score) return;
+		if (bufferedWidth == width && _model.getCurrentScore() == _score && _model.getCurrentScore().getPages().size() == _scorePageSize) return;
+		_scorePageSize = _model.getCurrentScore().getPages().size();
 		bufferedWidth = width;
 		if (bufferedWidth == 0) return;
 		imageBuffer.clear();
@@ -66,6 +69,8 @@ public class NotationPreviewSubPanel extends JScrollPane {
 				imageBuffer.set(index, _score.getPage(index).getImage().RESIZE(bufferedWidth, Image.DIMENSION_WIDTH, BufferedImage.SCALE_SMOOTH));
 				flushImageBuffer(index);
 			}
+			_panel.revalidate();
+			_panel.repaint();
 		});
 		_renderThread.start();
 	}
@@ -83,6 +88,8 @@ public class NotationPreviewSubPanel extends JScrollPane {
 			for (int index=0;index<size;++index)
 				flushImageBuffer(index);
 		}
+		_panel.revalidate();
+		_panel.repaint();
 	}
 	
 	protected void flushImageBuffer(int index) {
