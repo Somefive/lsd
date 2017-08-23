@@ -48,7 +48,7 @@ public class NotationPreviewSubPanel extends JScrollPane {
 	
 	void update() {
 		int width = getWidth()-scrollBarWidth;
-		if (bufferedWidth == width && _model.getCurrentScore() == _score && _model.getCurrentScore().getPages().size() == _scorePageSize) return;
+		if (bufferedWidth == width && _model.getCurrentScore() == _score && (_model.getCurrentScore() == null || _model.getCurrentScore().getPages().size() == _scorePageSize)) return;
 		_scorePageSize = _model.getCurrentScore().getPages().size();
 		bufferedWidth = width;
 		if (bufferedWidth == 0) return;
