@@ -26,8 +26,10 @@ public class NotationEditSubPanel extends JScrollPane {
 	
 	void update() {
 		_panel.removeAll();
-		for (Page page : _model.getCurrentScore().getPages()) {
-			_panel.add(new JPage(_model, page, _panel, edu.cmu.mat.lsd.components.JPage.MAIN));
+		if (_model.getCurrentScore() == null) {
+			for (Page page : _model.getCurrentScore().getPages()) {
+				_panel.add(new JPage(_model, page, _panel, edu.cmu.mat.lsd.components.JPage.MAIN));
+			}
 		}
 		updateSize();
 	}

@@ -23,7 +23,7 @@ public class PageAutoGenerator {
 	final int STAFFLINE_VARIANCE = 1;
 	final double MAIN_STAFFLINE_COLOR_DEPTH_THRESHOLD = 0.4;
 	final int BARLINE_INTERVAL_THRESHOLD = 20;
-	final double BARLINE_COLOR_DEPTH_THRESHOLD = 0.9;
+	final double BARLINE_COLOR_DEPTH_THRESHOLD = 0.95;
 	
 	public PageAutoGenerator(Page p) {
 		setPage(p);
