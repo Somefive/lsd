@@ -1,7 +1,6 @@
 package edu.cmu.mat.lsd.panels;
 
 import edu.cmu.mat.lsd.Model;
-import edu.cmu.mat.lsd.logger.HCMPLogger;
 import edu.cmu.mat.lsd.utils.PageAutoGenerator;
 import edu.cmu.mat.lsd.components.JPage;
 import edu.cmu.mat.scores.Page;
@@ -21,7 +20,7 @@ public class NotationEditSubPanel extends JScrollPane {
 		setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
 		setViewportView(_panel);
 		update();
-		timer.setRepeats(false);
+		_timer.setRepeats(false);
 	}
 	
 	void update() {
@@ -31,7 +30,7 @@ public class NotationEditSubPanel extends JScrollPane {
 				_panel.add(new JPage(_model, page, _panel, edu.cmu.mat.lsd.components.JPage.MAIN));
 			}
 		}
-		updateSize();
+		_timer.restart();
 	}
 	
 	public void updateSize() {
@@ -43,7 +42,6 @@ public class NotationEditSubPanel extends JScrollPane {
 		// I hate the magic number 200 which is simply a margin. But I do not know how to avoid the partial display of last page...
 		_panel.setPreferredSize(new Dimension(width, height+200));
 		_panel.revalidate();
-		timer.restart();
 	}
 	
 	void scrollToPage(int index) {
@@ -53,7 +51,7 @@ public class NotationEditSubPanel extends JScrollPane {
 	
 	final double MAX_SCALE = 5.0;
 	final double MIN_SCALE = 0.1;
-	protected Timer timer = new Timer(500, e -> {
+	protected Timer _timer = new Timer(500, e -> {
 		for (Component component : _panel.getComponents()) {
 			((JPage) component).resizeImage(_model.getCurrentScore().getScale());
 		}
@@ -62,7 +60,7 @@ public class NotationEditSubPanel extends JScrollPane {
 		double newScale = Math.max(Math.min(_model.getCurrentScore().getScale() + scaleIncrement, MAX_SCALE), MIN_SCALE);
 		if (newScale == _model.getCurrentScore().getScale()) return;
 		_model.getCurrentScore().setScale(newScale);
-		timer.restart();
+		_timer.restart();
 	}
 	
 	public void clearAllNotation() {
