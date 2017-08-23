@@ -25,7 +25,7 @@ public class NewNotationPanel implements Panel {
 		_splitPane.setLeftComponent(_left);
 		_splitPane.setRightComponent(_right);
 		
-		_splitPane.setDividerLocation(0.15);
+		_splitPane.setResizeWeight(0.2);
 	}
 	
 	public void onUpdateModel() {
