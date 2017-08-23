@@ -1,4 +1,4 @@
-package edu.cmu.mat.lsd;
+package edu.cmu.mat.lsd.utils;
 
 import edu.cmu.mat.lsd.logger.HCMPLogger;
 import edu.cmu.mat.scores.Barline;

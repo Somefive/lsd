@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.time.Instant;
 import java.util.*;
 
 import javax.imageio.ImageIO;
@@ -24,8 +23,6 @@ import edu.cmu.mat.parsers.exceptions.CompilerException;
 import edu.cmu.mat.scores.events.Event;
 import edu.cmu.mat.scores.events.Event.Type;
 import edu.cmu.mat.scores.events.EventTypeAdapter;
-import edu.cmu.mat.scores.events.SectionEndEvent;
-import edu.cmu.mat.scores.events.SectionStartEvent;
 
 public class Score implements ScoreObject {
 	private static JsonParser PARSER = new JsonParser();
@@ -46,6 +43,16 @@ public class Score implements ScoreObject {
 	private List<Page> _pages;
 	@Expose
 	private Arrangement _arrangement = new Arrangement(this);
+	
+	@Expose
+	private Double _scale;
+	public double getScale() {
+		if (_scale == null) _scale = 1.0;
+		return _scale;
+	}
+	public void setScale(double scale) {
+		_scale = scale;
+	}
 
 	public Score(File root, String name, Set<Section> sections, Set<Repeat> repeats, List<Page> pages) {
 		_root = root;
@@ -66,6 +73,7 @@ public class Score implements ScoreObject {
 		}
 	}
 
+	// Stupid Overload!!!!
 	public Score(File root, Score other, List<Image> images) {
 		this(root, other.getName());
 		for (int i = 0; i < other._pages.size(); i++) {
@@ -85,6 +93,8 @@ public class Score implements ScoreObject {
 		// Initializing arrangements has to come after initializing the pages
 		// and sections since arrangements relies on them to already exist.
 		_arrangement = new Arrangement(this, other._arrangement);
+		
+		_scale = other._scale;
 	}
 
 	public void setRoot(File root) {
