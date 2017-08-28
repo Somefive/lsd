@@ -25,6 +25,7 @@ import com.google.common.base.Joiner;
 import edu.cmu.mat.lsd.ControllerListener;
 import edu.cmu.mat.lsd.Model;
 import edu.cmu.mat.lsd.panels.NewNotationPanel;
+import edu.cmu.mat.lsd.utils.PageAutoGenerator;
 import edu.cmu.mat.scores.Repeat;
 import edu.cmu.mat.scores.Score;
 import edu.cmu.mat.scores.Section;
@@ -96,9 +97,53 @@ public class NotationToolbar implements Toolbar, ControllerListener {
 		clearBtn.addActionListener(e -> newNotationPanel.getNotationEditSubPanel().clearAllNotation());
 		_toolbar.add(clearBtn);
 		
-		JButton autoGenBtn = new JButton("AutoGen");
-		autoGenBtn.addActionListener(e -> newNotationPanel.getNotationEditSubPanel().autoGen());
-		_toolbar.add(autoGenBtn);
+		JMenuItem autoGenBtn = new JMenuItem(new AbstractAction("AutoGen") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				newNotationPanel.getNotationEditSubPanel().autoGen();
+			}
+		});
+		
+		final JPopupMenu generatorMenu = new JPopupMenu();
+		final JLabel BARLINE_COLOR_DEPTH_THRESHOLD_ITEM = new JLabel("Barline Main Staffline Color Depth Threshold: " + PageAutoGenerator.BARLINE_COLOR_DEPTH_THRESHOLD);
+		generatorMenu.add(BARLINE_COLOR_DEPTH_THRESHOLD_ITEM);
+		generatorMenu.add(new JMenuItem(new AbstractAction("Increase 0.01") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PageAutoGenerator.BARLINE_COLOR_DEPTH_THRESHOLD = Math.min(1.0, PageAutoGenerator.BARLINE_COLOR_DEPTH_THRESHOLD+0.01);
+				BARLINE_COLOR_DEPTH_THRESHOLD_ITEM.setText("Barline Main Staffline Color Depth Threshold: " + PageAutoGenerator.BARLINE_COLOR_DEPTH_THRESHOLD);
+			}
+		}));
+		generatorMenu.add(new JMenuItem(new AbstractAction("Decrease 0.01") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PageAutoGenerator.BARLINE_COLOR_DEPTH_THRESHOLD = Math.max(0.5, PageAutoGenerator.BARLINE_COLOR_DEPTH_THRESHOLD-0.01);
+				BARLINE_COLOR_DEPTH_THRESHOLD_ITEM.setText("Barline Main Staffline Color Depth Threshold: " + PageAutoGenerator.BARLINE_COLOR_DEPTH_THRESHOLD);
+			}
+		}));
+		generatorMenu.addSeparator();
+		final JLabel MAIN_STAFFLINE_COLOR_DEPTH_THRESHOLD_ITEM = new JLabel("Main Staffline Color Depth Threshold: " + PageAutoGenerator.MAIN_STAFFLINE_COLOR_DEPTH_THRESHOLD);
+		generatorMenu.add(MAIN_STAFFLINE_COLOR_DEPTH_THRESHOLD_ITEM);
+		generatorMenu.add(new JMenuItem(new AbstractAction("Increase 0.02") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PageAutoGenerator.MAIN_STAFFLINE_COLOR_DEPTH_THRESHOLD = Math.min(1.0, PageAutoGenerator.MAIN_STAFFLINE_COLOR_DEPTH_THRESHOLD+0.02);
+				MAIN_STAFFLINE_COLOR_DEPTH_THRESHOLD_ITEM.setText("Main Staffline Color Depth Threshold: " + PageAutoGenerator.MAIN_STAFFLINE_COLOR_DEPTH_THRESHOLD);
+			}
+		}));
+		generatorMenu.add(new JMenuItem(new AbstractAction("Decrease 0.02") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				PageAutoGenerator.MAIN_STAFFLINE_COLOR_DEPTH_THRESHOLD = Math.max(0.1, PageAutoGenerator.MAIN_STAFFLINE_COLOR_DEPTH_THRESHOLD-0.02);
+				MAIN_STAFFLINE_COLOR_DEPTH_THRESHOLD_ITEM.setText("Main Staffline Color Depth Threshold: " + PageAutoGenerator.MAIN_STAFFLINE_COLOR_DEPTH_THRESHOLD);
+			}
+		}));
+		generatorMenu.addSeparator();
+		generatorMenu.add(autoGenBtn);
+		
+		JButton generatorBtn = new JButton("Generator");
+		generatorBtn.addActionListener(e -> generatorMenu.show(generatorBtn, 0, generatorBtn.getHeight()));
+		_toolbar.add(generatorBtn);
 		
 		onUpdateScore();
 

@@ -20,10 +20,10 @@ public class PageAutoGenerator {
 	private ArrayList<ArrayList<Integer>> staffLineGroups = new ArrayList<>();
 	protected ArrayList<SystemPack> systemPacks = new ArrayList<>();
 	
-	final int STAFFLINE_VARIANCE = 1;
-	final double MAIN_STAFFLINE_COLOR_DEPTH_THRESHOLD = 0.4;
-	final int BARLINE_INTERVAL_THRESHOLD = 20;
-	final double BARLINE_COLOR_DEPTH_THRESHOLD = 0.95;
+	public static int STAFFLINE_VARIANCE = 1;
+	public static double MAIN_STAFFLINE_COLOR_DEPTH_THRESHOLD = 0.4;
+	public static int BARLINE_INTERVAL_THRESHOLD = 20;
+	public static double BARLINE_COLOR_DEPTH_THRESHOLD = 0.95;
 	
 	public PageAutoGenerator(Page p) {
 		setPage(p);
