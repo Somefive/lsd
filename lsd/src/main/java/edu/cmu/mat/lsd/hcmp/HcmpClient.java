@@ -28,8 +28,8 @@ public class HcmpClient implements HcmpMessenger {
 	private long start_time = -1;
 
 	private ZMQ.Context context = ZMQ.context(1);
-	private ZMQ.Socket pull = null;
-	private ZMQ.Socket publish = null;
+	private ZMQ.Socket push = null;
+	private ZMQ.Socket subscribe = null;
 
 	private Timer timer = null;
 
@@ -55,7 +55,7 @@ public class HcmpClient implements HcmpMessenger {
 
 		timer = new Timer(interval, new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				byte[] byte_message = pull.recv(ZMQ.DONTWAIT);
+				byte[] byte_message = push.recv(ZMQ.DONTWAIT);
 
 				if (byte_message != null) {
 					String message = new String(byte_message);
@@ -201,21 +201,23 @@ public class HcmpClient implements HcmpMessenger {
 		disconnect();
 		String address = "tcp://" + ip_address + ":";
 
-		pull = context.socket(ZMQ.PULL);
-		pull.connect(address + port_pull);
-		publish = context.socket(ZMQ.PUB);
-		publish.connect(address + port_publish);
+		push = context.socket(ZMQ.PUSH);
+		push.connect(address + port_publish);
+		subscribe = context.socket(ZMQ.SUB);
+		subscribe.connect(address + port_pull);
+		if (!subscribe.subscribe("hcmp"))
+			HCMPLogger.warning("[HCMPClient] SUBSCRIBE FAILED.");
 	}
 
 	private void disconnect() {
-		if (pull != null) {
-			pull.close();
-			pull = null;
+		if (push != null) {
+			push.close();
+			push = null;
 		}
 
-		if (publish != null) {
-			publish.close();
-			publish = null;
+		if (subscribe != null) {
+			subscribe.close();
+			subscribe = null;
 		}
 	}
 
@@ -250,7 +252,7 @@ public class HcmpClient implements HcmpMessenger {
 			int initial_end = end_beat;
 
 			message_parts.add("(" + name + "," + (start_beat + offset) + ","
-					+ duration + ")");
+					g+ duration + ")");
 
 			if (initial_end > end_beat) {
 				message_parts.add("(" + name + "," + (end_beat + offset) + ","
@@ -262,9 +264,11 @@ public class HcmpClient implements HcmpMessenger {
 	}
 
 	private void sendMessage(String message) {
-//		HCMPLogger.info("[HCMPClient] sending message: " + message);
+		HCMPLogger.info("[HCMPClient] sending message: " + message);
 		// XXX: This uses the platform's default charset. UTF-8?
-		publish.send(message.getBytes(), 0);
+		push.send(message.getBytes(), 0);
+		String msg = subscribe.recvStr();
+		HCMPLogger.info("[HCMPClient] recv back "+msg);
 	}
 
 	private double calculateOffset(long start, long end, double received) {
