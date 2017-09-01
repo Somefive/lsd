@@ -18,10 +18,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import edu.cmu.mat.lsd.Model;
 import edu.cmu.mat.lsd.components.*;
 import edu.cmu.mat.lsd.hcmp.HcmpListener;
 import edu.cmu.mat.lsd.hcmp.TimeMap;
+import edu.cmu.mat.lsd.logger.HCMPLogger;
 import edu.cmu.mat.lsd.ws.BeatMessage;
 import edu.cmu.mat.lsd.ws.BeatsMessage;
 import edu.cmu.mat.lsd.ws.DisplayServer;
@@ -207,6 +209,7 @@ public class DisplayPanel implements Panel, HcmpListener {
 	@Override
 	public Boolean handleNewTime(TimeMap time_map) {
 		_time_map = time_map;
+		TimeMap.setTimeMap(1, 0, 4);
 		if (_play_timer != null) {
 			restart();
 		}
@@ -273,7 +276,6 @@ public class DisplayPanel implements Panel, HcmpListener {
 	public Boolean handleNewArrangement(String[] arrangement_string) {
 		List<PlaybackEvent> new_events = _score
 				.createPlaybackEvents(arrangement_string);
-
 		return handleWork(new_events);
 	}
 
@@ -313,19 +315,23 @@ public class DisplayPanel implements Panel, HcmpListener {
 	}
 
 	private void fireNextEvent(final int id) {
+//		HCMPLogger.severe("[fireNextEvent] id:"+id+" _playback_id:"+_playback_id);
 		if (id != _playback_id) {
 			return;
 		}
 
-		long delay = 0;
-		long time = new Date().getTime();
-		for (;; _events_index++) {
-			delay = (long) (_time_map.from(_events_index * 4) - time);
-			if (delay >= 0) {
-				break;
-			}
-		}
-
+//		long delay = 0;
+//		long time = new Date().getTime();
+//		for (;_events_index < _playback_events.size(); _events_index++) {
+//			delay = (long) (_time_map.from(_events_index * 4) - time);
+//			if (delay >= 0) {
+//				break;
+//			}
+//		}
+		_events_index = Math.max(Math.min(TimeMap.getCurrentBeatIndex() / 4, Model.Instance.CurrentPlaybackEvents.size()-1),0);
+		HCMPLogger.severe("[event index]"+_events_index+" [current beat index]"+TimeMap.getCurrentBeatIndex());
+		long delay = TimeMap.getNextEventDelay();
+		HCMPLogger.severe("[delay] "+delay);
 		delay = Math.max(delay, 0);
 		_play_timer = new Timer((int) delay, arg0 -> {
 			redraw();

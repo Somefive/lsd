@@ -1,5 +1,9 @@
 package edu.cmu.mat.lsd.hcmp;
 
+import edu.cmu.mat.lsd.logger.HCMPLogger;
+
+import java.util.Date;
+
 public class TimeMap {
 	private double _m;
 	private double _b;
@@ -31,5 +35,22 @@ public class TimeMap {
 
 	public double from(double y) {
 		return (y - _b) / _m;
+	}
+	
+	public static double tempo = -1;
+	public static double offset = 0;
+	public static double bias = 0;
+	public static int getCurrentBeatIndex() {
+		return (int) Math.round((new Date().getTime() / 1000.0 + offset) * tempo + bias);
+	}
+	public static long getNextEventDelay() {
+		int currentEvent = (getCurrentBeatIndex()+1)/4;
+		int nextBeat = (currentEvent+1)*4;
+		return (long)(((nextBeat - bias)/tempo - offset)*1000) - new Date().getTime();
+	}
+	public static void setTimeMap(double real, double virtual, double tempo) {
+		TimeMap.tempo = tempo;
+		TimeMap.bias = virtual - real * TimeMap.tempo;
+		TimeMap.offset = - TimeMap.bias / TimeMap.tempo - new Date().getTime() / 1000.0;
 	}
 }

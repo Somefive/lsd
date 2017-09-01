@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.Timer;
 
+import edu.cmu.mat.lsd.Model;
 import edu.cmu.mat.lsd.logger.HCMPLogger;
 import org.zeromq.ZMQ;
 
@@ -34,7 +35,13 @@ public class HcmpClient implements HcmpMessenger {
 	private Timer timer = null;
 
 	public void setListener(HcmpListener listener) {
-		this.listener = listener;
+		// This is a trick to blind repeat panel. The listener pattern is stupid and causing a
+		// lot of trouble and I hate it really. Students who work on this has two possible solution to that, one is
+		// to change the listener to listeners using a list and another choice is to abandon all the stupid listeners
+		// and just use simple function call which I prefer. But this is going to be the last week of my summer intern
+		// so I do not have time to solve this problem which was created by the former summer intern students.
+		if (this.listener == null)
+			this.listener = listener;
 	}
 
 	public void unsetListener(HcmpListener listener) {
@@ -55,21 +62,18 @@ public class HcmpClient implements HcmpMessenger {
 
 		timer = new Timer(interval, new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				byte[] byte_message = push.recv(ZMQ.DONTWAIT);
-
+				byte[] byte_message = subscribe.recv(ZMQ.DONTWAIT);
 				if (byte_message != null) {
 					String message = new String(byte_message);
 
-					HCMPLogger.fine("[ZMQ] message received: " + message
-							+ ", counter = " + counter.get());
-
+//					HCMPLogger.fine("[ZMQ] message received: " + message + ", counter = " + counter.get());
+					
 					try {
 						String[] tokens = message.split(" ");
 						switch (tokens[0]) {
 						case "hcmp":
 							handleHcmpMessage(tokens);
 							break;
-
 						default:
 							String[] parts = tokens[0].split("\\.");
 							int id = Integer.parseInt(parts[1]);
@@ -80,6 +84,7 @@ public class HcmpClient implements HcmpMessenger {
 										current_time, clock);
 								start_time = current_time
 										- (long) (offset + clock * 1000);
+								TimeMap.offset = clock - (current_time+last_sync_clock)/2000.0;
 							}
 							break;
 						}
@@ -87,7 +92,6 @@ public class HcmpClient implements HcmpMessenger {
 						e.printStackTrace();
 					}
 				}
-
 				int current = counter.incrementAndGet();
 				if (sync_interval / interval == current) {
 					counter.set(0);
@@ -138,15 +142,18 @@ public class HcmpClient implements HcmpMessenger {
 
 			private Boolean handleTmMessage(String[] tokens) {
 				if (listener != null) {
-					// double real = new Date().getTime() - offset;
-					double real = start_time
-							+ (Double.parseDouble(tokens[2]) * 1000);
-					double virtual = Double.parseDouble(tokens[3]);
-					double tempo = Double.parseDouble(tokens[4]) / 1000;
-					// boolean jump = Boolean.parseBoolean(tokens[5]);
-					System.out.println("" + virtual + "," + tempo + "," + real);
-					return listener.handleNewTime(TimeMap.Create(real, virtual,
-							tempo));
+//					// double real = new Date().getTime() - offset;
+//					double real = start_time
+//							+ (Double.parseDouble(tokens[2]) * 1000);
+//					double virtual = Double.parseDouble(tokens[3]);
+//					double tempo = Double.parseDouble(tokens[4]) / 1000;
+//					// boolean jump = Boolean.parseBoolean(tokens[5]);
+//					HCMPLogger.severe("[Time Condt] " + new Date((long)real).toString());
+//					HCMPLogger.severe("[Time Local] " + new Date().toString());
+//					return listener.handleNewTime(TimeMap.Create(real, virtual,
+//							tempo));
+					TimeMap.setTimeMap(Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]), Double.parseDouble(tokens[4]));
+					return true;
 				}
 				return false;
 			}
@@ -205,7 +212,7 @@ public class HcmpClient implements HcmpMessenger {
 		push.connect(address + port_publish);
 		subscribe = context.socket(ZMQ.SUB);
 		subscribe.connect(address + port_pull);
-		if (!subscribe.subscribe("hcmp"))
+		if (!subscribe.subscribe(""))
 			HCMPLogger.warning("[HCMPClient] SUBSCRIBE FAILED.");
 	}
 
@@ -252,7 +259,7 @@ public class HcmpClient implements HcmpMessenger {
 			int initial_end = end_beat;
 
 			message_parts.add("(" + name + "," + (start_beat + offset) + ","
-					g+ duration + ")");
+					+ duration + ")");
 
 			if (initial_end > end_beat) {
 				message_parts.add("(" + name + "," + (end_beat + offset) + ","
@@ -264,11 +271,8 @@ public class HcmpClient implements HcmpMessenger {
 	}
 
 	private void sendMessage(String message) {
-		HCMPLogger.info("[HCMPClient] sending message: " + message);
-		// XXX: This uses the platform's default charset. UTF-8?
+//		HCMPLogger.info("[HCMPClient] sending message: " + message);
 		push.send(message.getBytes(), 0);
-		String msg = subscribe.recvStr();
-		HCMPLogger.info("[HCMPClient] recv back "+msg);
 	}
 
 	private double calculateOffset(long start, long end, double received) {
