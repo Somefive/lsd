@@ -105,7 +105,7 @@ public class NotationToolbar implements Toolbar, ControllerListener {
 		});
 		
 		final JPopupMenu generatorMenu = new JPopupMenu();
-		final JLabel BARLINE_COLOR_DEPTH_THRESHOLD_ITEM = new JLabel("Barline Main Staffline Color Depth Threshold: " + PageAutoGenerator.BARLINE_COLOR_DEPTH_THRESHOLD);
+		final JLabel BARLINE_COLOR_DEPTH_THRESHOLD_ITEM = new JLabel("Barline Color Depth Threshold: " + PageAutoGenerator.BARLINE_COLOR_DEPTH_THRESHOLD);
 		generatorMenu.add(BARLINE_COLOR_DEPTH_THRESHOLD_ITEM);
 		generatorMenu.add(new JMenuItem(new AbstractAction("Increase 0.01") {
 			@Override
