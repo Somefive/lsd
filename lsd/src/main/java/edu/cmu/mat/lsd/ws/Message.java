@@ -4,6 +4,9 @@ import com.google.gson.Gson;
 
 import java.util.Date;
 
+/**
+ * This is the base model of message that is transferred between PC version and Web version.
+ */
 @SuppressWarnings("ALL")
 public class Message {
 	private static Gson gson = new Gson();

@@ -8,6 +8,9 @@ import edu.cmu.mat.scores.Page;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This is the right edit panel for notation view.
+ */
 public class NotationEditSubPanel extends JScrollPane {
 	private Model _model;
 	private JPanel _panel;
@@ -23,6 +26,10 @@ public class NotationEditSubPanel extends JScrollPane {
 		_timer.setRepeats(false);
 	}
 	
+	/**
+	 * update will remove all the pages and add them again which means it is time-consuming.
+	 * Call it carefully. I think only score pages change will need to call it. (Both the change of score and the change of pages. Exclude the change inside page.)
+	 */
 	void update() {
 		_panel.removeAll();
 		if (_model.getCurrentScore() != null) {
@@ -33,6 +40,10 @@ public class NotationEditSubPanel extends JScrollPane {
 		_timer.restart();
 	}
 	
+	/**
+	 * updateSize will recalculate the displayed page size and resize itself which will trigger the resize of its child components and cause some resize of images.
+	 * As a result, it is indirect but still time-consuming.
+	 */
 	public void updateSize() {
 		int width = 0, height = 0;
 		for (Component component : _panel.getComponents()) {
@@ -69,6 +80,9 @@ public class NotationEditSubPanel extends JScrollPane {
 		repaint();
 	}
 	
+	/**
+	 * This is used for generating systems and measures automatically by using Auto-Generator.
+	 */
 	protected Thread _autoGenThread;
 	public void autoGen() {
 		if (_autoGenThread != null && _autoGenThread.isAlive()) _autoGenThread.interrupt();

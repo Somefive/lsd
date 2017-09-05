@@ -5,6 +5,9 @@ import edu.cmu.mat.scores.Page;
 import edu.cmu.mat.scores.Score;
 import edu.cmu.mat.scores.System;
 
+/**
+ * This is the base model of one single beat.
+ */
 @SuppressWarnings("ALL")
 public class Beat {
 	

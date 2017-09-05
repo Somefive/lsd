@@ -10,6 +10,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+/**
+ * This is a class for generating page information including systems and measures.
+ */
 public class PageAutoGenerator {
 	
 	private Page page;
@@ -240,6 +243,10 @@ public class PageAutoGenerator {
 		}
 	}
 	
+	/**
+	 * This is a internal class that is used to test.
+	 * Simply using `new Chart(someDoubleArray)`, you can see the chart of the array's value variation.
+	 */
 	protected class Chart extends JFrame {
 		double[] pts;
 		double max, min, size;

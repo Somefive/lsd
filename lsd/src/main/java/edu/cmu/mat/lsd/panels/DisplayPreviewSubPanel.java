@@ -16,6 +16,9 @@ import java.util.stream.Collectors;
 import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
 import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
 
+/**
+ * This is the preview panel for display mode.
+ */
 public class DisplayPreviewSubPanel extends JLayeredPane {
 	
 	protected JPanel _panel = new JPanel();
@@ -152,6 +155,10 @@ public class DisplayPreviewSubPanel extends JLayeredPane {
 				.collect(Collectors.toList()), targetWidth, highQuality ? BufferedImage.SCALE_SMOOTH : BufferedImage.SCALE_FAST);
 	}
 	
+	/**
+	 * The update function will cause the image resize which will be time-consuming. Call it carefully only if resizing or
+	 * image buffer is not valid.
+	 */
 	void update() {
 		if (renderingThread != null) renderingThread.interrupt();
 		renderingThread = new Thread(() -> {
@@ -174,6 +181,9 @@ public class DisplayPreviewSubPanel extends JLayeredPane {
 		updateHighlight();
 	}
 	
+	/**
+	 * When new beat comes, there is no need for rendering all the image again. Only the move of highlight indicator is necessary.
+	 */
 	void updateHighlight() {
 		PlaybackEvent playbackEvent = _parent._parent.getCurrentPlaybackEventToBeDrawn();
 		if (playbackEvent == null || _concatImage == null) return;

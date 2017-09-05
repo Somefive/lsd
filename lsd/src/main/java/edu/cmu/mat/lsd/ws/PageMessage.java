@@ -10,6 +10,9 @@ import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This is a kind of message that transfer one page information includes the images and the systems it includes.
+ */
 @SuppressWarnings("ALL")
 public class PageMessage extends Message {
 	

@@ -14,6 +14,9 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+/**
+ * This is the left preview panel for notation view.
+ */
 public class NotationPreviewSubPanel extends JScrollPane {
 	private Model _model;
 	private JPanel _panel;
@@ -46,8 +49,13 @@ public class NotationPreviewSubPanel extends JScrollPane {
 		update();
 	}
 	
+	/**
+	 * This function will check the necessarily of updating and if it is necessary to update then it will cost some time and some computation resource to do it.
+	 * If it runs, it will be time consuming. However, since there is some check mechanism inside, you can call it easily.
+	 */
 	void update() {
 		int width = getWidth()-scrollBarWidth;
+		// Here is the check mechanism
 		if (bufferedWidth == width && _model.getCurrentScore() == _score && (_model.getCurrentScore() == null || _model.getCurrentScore().getPages().size() == _scorePageSize)) return;
 		_scorePageSize = _model.getCurrentScore().getPages().size();
 		bufferedWidth = width;
@@ -61,6 +69,10 @@ public class NotationPreviewSubPanel extends JScrollPane {
 		renderWithHighQuality();
 	}
 	
+	/**
+	 * Rendering in high quality is really time-costing. There is a thread that set up for doing it.
+	 * This function will resize all the page images with smooth scale. So the quality is good but it responses slow.
+	 */
 	protected void renderWithHighQuality() {
 		if (_renderThread != null && _renderThread.isAlive()) _renderThread.interrupt();
 		_renderThread = new Thread(() -> {
@@ -75,6 +87,9 @@ public class NotationPreviewSubPanel extends JScrollPane {
 		_renderThread.start();
 	}
 	
+	/**
+	 * When the image buffer is prepared, you can call this function to flush the buffer to screen components.
+	 */
 	protected void flushImageBuffer() {
 		int size = imageBuffer.size();
 		if (_panel.getComponentCount() != size) {
@@ -92,6 +107,10 @@ public class NotationPreviewSubPanel extends JScrollPane {
 		_panel.repaint();
 	}
 	
+	/**
+	 * Only flush one specified image.
+	 * @param index The index of page that buffer should be flushed.
+	 */
 	protected void flushImageBuffer(int index) {
 		((PageIcon)_panel.getComponent(index)).setImage(imageBuffer.get(index));
 	}
@@ -103,6 +122,11 @@ public class NotationPreviewSubPanel extends JScrollPane {
 		update();
 	}
 	
+	/**
+	 * There is a select border for the selected image.
+	 * This is used for changing render options for image icon.
+	 * @param index The index of current selected page.
+	 */
 	public void select(int index) {
 		PageIcon oldSelected = (PageIcon) _panel.getComponent(selectedPageIndex),
 				 newSelected = (PageIcon) _panel.getComponent(index);
@@ -111,6 +135,9 @@ public class NotationPreviewSubPanel extends JScrollPane {
 		selectedPageIndex = index;
 	}
 	
+	/**
+	 * This is a sub-component contained in the panel. One pageIcon includes one page. If this page is selected, then the additional border will be printed.
+	 */
 	public class PageIcon extends JPanel {
 		public final float HOVER_OPACITY = 0.55f;
 		public final int SELECTED_STROKE_WIDTH = 3;

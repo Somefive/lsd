@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * This is the main panel for displaying music system images, beat indicator, jumping indicator.
+ */
 public class DisplayMainPanel extends JPanel {
 	protected DisplayPanel _parent;
 	protected Bound _upperBound = new Bound(0, 0);
@@ -38,6 +41,9 @@ public class DisplayMainPanel extends JPanel {
 		_parent = parent;
 	}
 	
+	/**
+	 * The paint buffer saved a system paint information including its scaling and offset.
+	 */
 	protected class PaintBuffer {
 		
 		BufferedImage _image;
@@ -77,6 +83,10 @@ public class DisplayMainPanel extends JPanel {
 			return (int) (barline.getOffset() * _image.getWidth() * _scale + dx1);
 		}
 	}
+	
+	/**
+	 * The bound will record the start and end index of beats that each block contains.
+	 */
 	protected class Bound {
 		int l, r;
 		Bound(int left, int right) {
@@ -88,6 +98,12 @@ public class DisplayMainPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * This will paint one divided block. (upper or lower)
+	 * @param g the graphics
+	 * @param isLower if the painted block is lower block or upper block
+	 * @param paintIndex the start index of beats that should be painted first in this paint job
+	 */
 	protected void paintBlock(Graphics g, boolean isLower, int paintIndex) {
 		if (paintIndex >= playBackEventSize()) return;
 		int blockHeight = getHeight() / 2;
@@ -143,6 +159,10 @@ public class DisplayMainPanel extends JPanel {
 		return null;
 	}
 	
+	/**
+	 * Paint the beat indicator.
+	 * @param g graphics
+	 */
 	protected void paintDot(Graphics g) {
 		Barline target = playBackEvent(currentPlayBackIndex).getStart();
 		PaintBuffer paintBuffer = findPaintBuffer(currentPlayBackIndex);
@@ -154,6 +174,14 @@ public class DisplayMainPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Paint the arrow of jumping indicator
+	 * @param g graphics
+	 * @param fromX fromX
+	 * @param fromY fromY
+	 * @param toX toX
+	 * @param toY toY
+	 */
 	protected void drawArrow(Graphics2D g, int fromX, int fromY, int toX, int toY) {
 		double _head_angle = Math.toRadians(ARROW_ANGLE);
 		double theta = Math.atan2(toY - fromY, toX - fromX);
@@ -170,6 +198,10 @@ public class DisplayMainPanel extends JPanel {
 		g.fillPolygon(p);
 	}
 	
+	/**
+	 * Paint the jumping indicator
+	 * @param g graphics
+	 */
 	protected void paintLine(Graphics g) {
 		System system = playBackEvent(currentPlayBackIndex).getSystem();
 		int index = currentPlayBackIndex + 1;
@@ -189,6 +221,10 @@ public class DisplayMainPanel extends JPanel {
 		else drawArrow((Graphics2D) g, fromX, from.dy1 + OFFSET, toX, to.dy2 - OFFSET);
 	}
 	
+	/**
+	 * The whole paint job.
+	 * @param g graphics
+	 */
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);

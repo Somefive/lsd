@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is the server handler that is used to deal with the communication with web version.
+ */
 @WebSocket(maxIdleTime = -1)
 public class DisplayServerHandler {
 	private static Gson gson = new Gson();

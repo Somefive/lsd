@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+/**
+ * Beats Message includes a list of beats that includes the current music's beat sequence.
+ */
 public class BeatsMessage extends Message {
 	public List<Beat> beats;
 	public BeatsMessage(List<PlaybackEvent> playbackEvents) {

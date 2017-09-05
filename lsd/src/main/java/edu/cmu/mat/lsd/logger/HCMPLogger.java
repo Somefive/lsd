@@ -3,6 +3,10 @@ package edu.cmu.mat.lsd.logger;
 import java.util.Date;
 import java.util.logging.*;
 
+/**
+ * This is a logger which can be used as `HCMPLogger::fine(someMessage)`. The thread and time will be printed as well.
+ * Different level of message can be printed in different color.
+ */
 @SuppressWarnings("ALL")
 public class HCMPLogger {
 	
@@ -48,7 +52,7 @@ public class HCMPLogger {
 	
 	public static void setup() {
 		logger = Logger.getLogger("HCMP");
-		logger.setLevel(Level.FINEST);
+		logger.setLevel(Level.FINEST); //If you would like to change the level threshold, you can modify here.
 		logger.setUseParentHandlers(false);
 		handler = new HCMPHandler();
 		handler.setFormatter(formatter);

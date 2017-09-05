@@ -5,6 +5,9 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.websocket.server.WebSocketHandler;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
+/**
+ * This is the server that is used to communicate with web version.
+ */
 public class DisplayServer extends Server {
 	
 	private static DisplayServer server;

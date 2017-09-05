@@ -4,6 +4,9 @@ import edu.cmu.mat.lsd.Model;
 
 import javax.swing.*;
 
+/**
+ * This is simple and used to replace the old notation panel. It dispatches tasks to its child components instead of doing itself.
+ */
 public class NewNotationPanel implements Panel {
 	
 	protected Model _model;

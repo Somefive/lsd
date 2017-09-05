@@ -15,6 +15,7 @@ import edu.cmu.mat.lsd.components.JPage;
 import edu.cmu.mat.scores.Page;
 import edu.cmu.mat.scores.Score;
 
+@Deprecated
 public class NotationPanel implements Panel {
 	private Model _model;
 	private JScrollPane _scroller;

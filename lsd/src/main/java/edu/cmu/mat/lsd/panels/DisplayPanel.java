@@ -34,6 +34,11 @@ import edu.cmu.mat.scores.Score;
 import edu.cmu.mat.scores.Section;
 import edu.cmu.mat.scores.System;
 
+/**
+ * This display panel is such a chaos. It includes lots of login which should not be done in a view component.
+ * I tried hard to dispatch most of the rendering tasks to DisplayLayeredPanel. Other matters inside is just some legacy
+ * code that should be split out but I have no time.
+ */
 public class DisplayPanel implements Panel, HcmpListener {
 	
 	private Model _model;
